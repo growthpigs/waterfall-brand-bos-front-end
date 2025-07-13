@@ -224,7 +224,7 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
       <SidebarNavigation onNavigate={onNavigate} activePageId="content" />
       
       {/* Professional Services 24px Standard Gap */}
-      <div className="hidden md:block flex-shrink-0" style={{ width: "24px" }} />
+      <div className="flex-shrink-0" style={{ width: "24px" }} />
       
       {/* Main Content Area */}
       <main className="flex-1 flex relative min-h-screen">

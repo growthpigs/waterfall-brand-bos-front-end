@@ -1,0 +1,128 @@
+/**
+ * Professional Services Design System
+ * Brand BOS - Authority Platform CSS Variables
+ */
+
+:root {
+  /* Professional Spacing System */
+  --spacing-gap-mobile: 16px;
+  --spacing-gap-tablet: 24px;
+  --spacing-gap-desktop: 24px;
+  
+  /* Sidebar Dimensions */
+  --sidebar-width-expanded: 320px;
+  --sidebar-width-collapsed: 80px;
+  --sidebar-header-height: 185px;
+  --sidebar-nav-height: 690px;
+  
+  /* Content Spacing */
+  --content-padding-mobile: 16px;
+  --content-padding-tablet: 16px;
+  --content-padding-desktop-left: 0px;
+  --content-padding-desktop-right: 24px;
+  --content-padding-large-right: 32px;
+  
+  /* Professional Z-Index Scale */
+  --z-background: -10;
+  --z-content: 0;
+  --z-sidebar-trigger: 30;
+  --z-mobile-overlay: 40;
+  --z-sidebar: 50;
+  --z-modal: 60;
+  
+  /* Glassmorphic Effects */
+  --glass-bg-light: rgba(255, 255, 255, 0.05);
+  --glass-bg-medium: rgba(255, 255, 255, 0.1);
+  --glass-bg-heavy: rgba(255, 255, 255, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-blur: 12px;
+  
+  /* Professional Transitions */
+  --transition-fast: 200ms ease-in-out;
+  --transition-normal: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+  
+  /* Authority Colors */
+  --authority-trust: oklch(0.558 0.288 302.321); /* Purple */
+  --authority-growth: oklch(0.656 0.241 354.308); /* Pink */
+  --authority-success: oklch(0.7 0.15 145); /* Green */
+  --authority-intelligence: oklch(0.6 0.2 220); /* Blue */
+}
+
+/* Responsive Gap System */
+.professional-gap {
+  width: var(--spacing-gap-mobile);
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .professional-gap {
+    width: var(--spacing-gap-tablet);
+  }
+}
+
+@media (min-width: 768px) {
+  .professional-gap {
+    width: var(--spacing-gap-desktop);
+  }
+}
+
+/* Professional Glassmorphic Components */
+.glass-sidebar {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(var(--glass-blur));
+  border-right: 1px solid var(--glass-border);
+}
+
+.glass-card {
+  background: var(--glass-bg-medium);
+  backdrop-filter: blur(calc(var(--glass-blur) / 2));
+  border: 1px solid var(--glass-border);
+}
+
+.glass-button {
+  background: var(--glass-bg-heavy);
+  transition: background-color var(--transition-fast);
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Professional Content Spacing */
+.professional-content {
+  padding-left: var(--content-padding-mobile);
+  padding-right: var(--content-padding-mobile);
+}
+
+@media (min-width: 768px) {
+  .professional-content {
+    padding-left: var(--content-padding-desktop-left);
+    padding-right: var(--content-padding-desktop-right);
+  }
+}
+
+@media (min-width: 1024px) {
+  .professional-content {
+    padding-right: var(--content-padding-large-right);
+  }
+}
+
+/* Authority Platform Animations */
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-slide-in {
+  animation: slideInLeft var(--transition-normal);
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-slow);
+}

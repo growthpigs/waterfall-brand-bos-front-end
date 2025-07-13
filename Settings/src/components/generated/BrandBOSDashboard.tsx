@@ -23,8 +23,8 @@ const BrandBOSDashboard: React.FC = () => {
       {/* Left Sidebar - transparent/glassmorphic on top of gradient */}
       <SidebarNavigation />
       
-      {/* Fixed 30px gap */}
-      <div className="w-[30px] flex-shrink-0" />
+      {/* Professional Services 24px Standard Gap */}
+      <div className="flex-shrink-0" style={{ width: "24px" }} />
       
       {/* Main Content Area - no background, sits on gradient */}
       <main className="flex-1 flex flex-col relative min-h-screen">

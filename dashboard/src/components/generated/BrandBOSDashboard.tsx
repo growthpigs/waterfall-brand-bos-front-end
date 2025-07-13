@@ -228,7 +228,7 @@ const BrandBOSDashboard: React.FC<BrandBOSDashboardProps> = ({ onNavigate }) => 
       <SidebarNavigation onNavigate={onNavigate} activePageId="dashboard" />
       
       {/* Professional Services 24px Standard Gap */}
-      <div className="hidden md:block flex-shrink-0" style={{ width: "24px" }} />
+      <div className="flex-shrink-0" style={{ width: "24px" }} />
       
       {/* Main Content */}
       <main className="flex-1 flex flex-col relative min-h-screen">
