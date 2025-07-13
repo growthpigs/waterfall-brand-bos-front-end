@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Diagnostic</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background: #d4edda; }
+        .error { background: #f8d7da; }
+        .info { background: #d1ecf1; }
+    </style>
+</head>
+<body>
+    <h1>Network Diagnostic Tool</h1>
+    <div id="results"></div>
+    
+    <script>
+        const results = document.getElementById('results');
+        
+        function addResult(text, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `test ${type}`;
+            div.textContent = text;
+            results.appendChild(div);
+        }
+        
+        // Test 1: Check JavaScript execution
+        addResult('✓ JavaScript is working', 'success');
+        
+        // Test 2: Check current location
+        addResult(`Current URL: ${window.location.href}`, 'info');
+        addResult(`Protocol: ${window.location.protocol}`, 'info');
+        addResult(`Hostname: ${window.location.hostname}`, 'info');
+        addResult(`Port: ${window.location.port || 'default'}`, 'info');
+        
+        // Test 3: Try to fetch from various endpoints
+        const endpoints = [
+            'http://127.0.0.1:5173/',
+            'http://localhost:5173/',
+            'http://127.0.0.1:8080/test-server.html',
+            'http://localhost:8080/test-server.html'
+        ];
+        
+        async function testEndpoint(url) {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                
+                const response = await fetch(url, { 
+                    signal: controller.signal,
+                    mode: 'no-cors' 
+                });
+                clearTimeout(timeoutId);
+                
+                addResult(`✓ ${url} - Fetch succeeded (no-cors mode)`, 'success');
+            } catch (error) {
+                addResult(`✗ ${url} - ${error.message}`, 'error');
+            }
+        }
+        
+        // Test 4: Check localStorage/cookies
+        try {
+            localStorage.setItem('test', 'value');
+            addResult('✓ localStorage is working', 'success');
+            localStorage.removeItem('test');
+        } catch (e) {
+            addResult(`✗ localStorage error: ${e.message}`, 'error');
+        }
+        
+        // Test 5: Check Service Workers
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                addResult(`Service Workers registered: ${registrations.length}`, 'info');
+                if (registrations.length > 0) {
+                    registrations.forEach(reg => {
+                        addResult(`SW Scope: ${reg.scope}`, 'info');
+                    });
+                }
+            });
+        }
+        
+        // Test 6: Check browser restrictions
+        addResult(`User Agent: ${navigator.userAgent}`, 'info');
+        addResult(`Cookies enabled: ${navigator.cookieEnabled}`, 'info');
+        
+        // Run endpoint tests
+        addResult('Testing endpoints...', 'info');
+        endpoints.forEach(testEndpoint);
+        
+        // Test 7: Try XMLHttpRequest as fallback
+        setTimeout(() => {
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200 || xhr.status === 0) {
+                        addResult(`✓ XMLHttpRequest to 127.0.0.1:5173 succeeded`, 'success');
+                    } else {
+                        addResult(`✗ XMLHttpRequest to 127.0.0.1:5173 failed: ${xhr.status}`, 'error');
+                    }
+                }
+            };
+            xhr.open('GET', 'http://127.0.0.1:5173/', true);
+            try {
+                xhr.send();
+            } catch (e) {
+                addResult(`✗ XMLHttpRequest error: ${e.message}`, 'error');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
