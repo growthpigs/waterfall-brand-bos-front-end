@@ -15,10 +15,6 @@ const navigationItems: NavItem[] = [{
   icon: Home,
   active: false
 }, {
-  id: 'intelligence',
-  label: 'Brand Intelligence',
-  icon: Target
-}, {
   id: 'cia',
   label: 'CIA Analysis',
   icon: Shield,
@@ -44,17 +40,23 @@ const navigationItems: NavItem[] = [{
   label: 'Settings',
   icon: Settings
 }];
-const SidebarNavigation: React.FC = () => {
-  const [activeItem, setActiveItem] = useState('cia');
+interface SidebarNavigationProps {
+  onNavigate?: (pageId: string) => void;
+  activePageId?: string;
+}
+
+const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ onNavigate, activePageId = 'dashboard' }) => {
+  const [activeItem, setActiveItem] = useState(activePageId);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  
   return <aside className={`${isCollapsed ? 'w-20' : 'w-80'} flex flex-col relative transition-all duration-300 ease-in-out`}>
-      {/* Blue glassmorphic overlay for CIA module */}
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-600/30 via-blue-700/40 to-blue-800/50 backdrop-blur-md border-r border-blue-400/20" />
+      {/* Translucent glassmorphic overlay for sidebar */}
+      <div className="absolute inset-0 bg-white/5 backdrop-blur-md border-r border-white/20" />
       
       {/* Content on top of glassmorphic background */}
       <div className="relative z-10 flex flex-col h-full">
         {/* Header with collapse toggle */}
-        <div className="p-6 border-b border-blue-400/20" style={{
+        <div className="p-6 border-b border-white/20" style={{
         height: "185px",
         borderWidth: "0px 0px 1.11111px",
         borderStyle: "none",
@@ -70,6 +72,14 @@ const SidebarNavigation: React.FC = () => {
                 </>}
             </button>
           </div>
+          {!isCollapsed && <div className="mt-4">
+              <h2 className="text-xl font-bold text-white" style={{
+            display: "none"
+          }}>Brand BOS</h2>
+              <p className="text-sm text-white/70 mt-1" style={{
+            display: "none"
+          }}>Operating System</p>
+            </div>}
         </div>
 
         {/* Navigation Items */}
@@ -92,7 +102,10 @@ const SidebarNavigation: React.FC = () => {
             const Icon = item.icon;
             const isActive = activeItem === item.id;
             return <li key={item.id}>
-                  <motion.button onClick={() => setActiveItem(item.id)} className={`w-full flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-4'} py-3 rounded-xl text-left transition-all duration-200 ${isActive ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' : 'text-white/70 hover:text-white hover:bg-white/10'}`} whileHover={{
+                  <motion.button onClick={() => {
+                    setActiveItem(item.id);
+                    onNavigate?.(item.id);
+                  }} className={`w-full flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-4 justify-start'} py-3 rounded-xl text-left transition-all duration-200 ${isActive ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' : 'text-white/70 hover:text-white hover:bg-white/10'} overflow-hidden`} whileHover={{
                 scale: 1.02
               }} whileTap={{
                 scale: 0.98
@@ -100,11 +113,12 @@ const SidebarNavigation: React.FC = () => {
                 paddingBottom: "22px"
               }} title={isCollapsed ? item.label : undefined}>
                     <Icon className={`w-5 h-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
-                    {!isCollapsed && <span className="font-medium sidebar-menu-item-ellipsis" style={{
+                    {!isCollapsed && <span className="font-medium sidebar-menu-item-ellipsis flex-1" style={{
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       display: 'block',
+                      minWidth: 0,
                       maxWidth: '100%'
                     }}>
                         {item.label}
@@ -117,7 +131,7 @@ const SidebarNavigation: React.FC = () => {
 
         {/* Bottom Action Button */}
         <div className="p-6">
-          <motion.button className={`${isCollapsed ? 'w-12 h-12' : 'w-16 h-16'} bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full flex items-center justify-center text-white font-bold ${isCollapsed ? 'text-sm' : 'text-lg'} shadow-2xl mx-auto transition-all duration-300`} whileHover={{
+          <motion.button className={`${isCollapsed ? 'w-12 h-12' : 'w-16 h-16'} bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold ${isCollapsed ? 'text-sm' : 'text-lg'} shadow-2xl mx-auto transition-all duration-300`} whileHover={{
           scale: 1.05
         }} whileTap={{
           scale: 0.95

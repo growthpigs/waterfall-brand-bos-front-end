@@ -105,7 +105,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ onNavigate, activ
                   <motion.button onClick={() => {
                     setActiveItem(item.id);
                     onNavigate?.(item.id);
-                  }} className={`w-full flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-4'} py-3 rounded-xl text-left transition-all duration-200 ${isActive ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' : 'text-white/70 hover:text-white hover:bg-white/10'}`} whileHover={{
+                  }} className={`w-full flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-4 justify-start'} py-3 rounded-xl text-left transition-all duration-200 ${isActive ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' : 'text-white/70 hover:text-white hover:bg-white/10'} overflow-hidden`} whileHover={{
                 scale: 1.02
               }} whileTap={{
                 scale: 0.98
@@ -113,11 +113,12 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ onNavigate, activ
                 paddingBottom: "22px"
               }} title={isCollapsed ? item.label : undefined}>
                     <Icon className={`w-5 h-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
-                    {!isCollapsed && <span className="font-medium sidebar-menu-item-ellipsis" style={{
+                    {!isCollapsed && <span className="font-medium sidebar-menu-item-ellipsis flex-1" style={{
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       display: 'block',
+                      minWidth: 0,
                       maxWidth: '100%'
                     }}>
                         {item.label}

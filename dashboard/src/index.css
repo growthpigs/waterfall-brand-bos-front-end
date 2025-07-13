@@ -141,3 +141,13 @@ body {
     padding: 0;
   }
 }
+
+/* Global sidebar menu item styles - prevent text wrapping */
+.sidebar-menu-item-ellipsis {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: block !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
