@@ -47,9 +47,46 @@ interface SidebarNavigationProps {
 
 const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ onNavigate, activePageId = 'dashboard' }) => {
   const [activeItem, setActiveItem] = useState(activePageId);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    // Persist sidebar state in localStorage
+    const saved = localStorage.getItem('sidebar-collapsed');
+    return saved ? JSON.parse(saved) : false;
+  });
   
-  return <aside className={`${isCollapsed ? 'w-20' : 'w-80'} flex flex-col relative transition-all duration-300 ease-in-out`}>
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // Close mobile menu when screen becomes desktop size
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Save state to localStorage whenever it changes
+  React.useEffect(() => {
+    localStorage.setItem('sidebar-collapsed', JSON.stringify(isCollapsed));
+  }, [isCollapsed]);
+  
+  return <>
+    {/* Mobile overlay */}
+    {isMobileMenuOpen && (
+      <div 
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+    )}
+    
+    <aside className={`
+      ${isCollapsed ? 'w-20' : 'w-80'} 
+      flex flex-col relative transition-all duration-300 ease-in-out
+      md:relative md:translate-x-0
+      ${isMobileMenuOpen ? 'fixed left-0 top-0 z-50 translate-x-0' : 'fixed left-0 top-0 z-50 -translate-x-full md:translate-x-0'}
+      h-full md:h-auto
+    `}>
       {/* Translucent glassmorphic overlay for sidebar */}
       <div className="absolute inset-0 bg-white/5 backdrop-blur-md border-r border-white/20" />
       
@@ -64,8 +101,21 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ onNavigate, activ
         borderRadius: "0px",
         background: "rgb(255 255 255 / 0)"
       }}>
-          <div className="flex items-center justify-between">
-            <button onClick={() => setIsCollapsed(!isCollapsed)} className="flex items-center text-white/80 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10">
+          <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
+            {/* Mobile menu button (only show on mobile) */}
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden flex items-center text-white/80 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+            >
+              <Menu className="w-5 h-5" />
+              <span className="text-sm font-medium ml-2">Menu</span>
+            </button>
+            
+            {/* Desktop collapse button */}
+            <button 
+              onClick={() => setIsCollapsed(!isCollapsed)} 
+              className={`hidden md:flex items-center text-white/80 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10 ${isCollapsed ? 'mx-auto' : ''}`}
+            >
               {isCollapsed ? <Menu className="w-5 h-5" /> : <>
                   <X className="w-5 h-5 mr-2" />
                   <span className="text-sm font-medium">Collapse</span>
@@ -83,7 +133,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ onNavigate, activ
         </div>
 
         {/* Navigation Items */}
-        <nav className="flex-1 p-6" style={{
+        <nav className={`flex-1 ${isCollapsed ? 'px-2 py-6' : 'p-6'}`} style={{
         color: "oklch(14.48% 0 none)",
         background: "rgba(255, 255, 255, 0)",
         borderWidth: "0px",
@@ -105,12 +155,15 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ onNavigate, activ
                   <motion.button onClick={() => {
                     setActiveItem(item.id);
                     onNavigate?.(item.id);
-                  }} className={`w-full flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-4 justify-start'} py-3 rounded-xl text-left transition-all duration-200 ${isActive ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' : 'text-white/70 hover:text-white hover:bg-white/10'} overflow-hidden`} whileHover={{
+                    // Close mobile menu on navigation
+                    setIsMobileMenuOpen(false);
+                  }} className={isCollapsed ? 
+                    `w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 mx-auto ${isActive ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' : 'text-white/70 hover:text-white hover:bg-white/10'}` :
+                    `w-full h-12 flex items-center px-4 justify-start rounded-xl text-left transition-all duration-200 ${isActive ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm' : 'text-white/70 hover:text-white hover:bg-white/10'} overflow-hidden`
+                  } whileHover={{
                 scale: 1.02
               }} whileTap={{
                 scale: 0.98
-              }} style={{
-                paddingBottom: "22px"
               }} title={isCollapsed ? item.label : undefined}>
                     <Icon className={`w-5 h-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
                     {!isCollapsed && <span className="font-medium sidebar-menu-item-ellipsis flex-1" style={{
@@ -131,7 +184,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ onNavigate, activ
 
         {/* Bottom Action Button */}
         <div className="p-6">
-          <motion.button className={`${isCollapsed ? 'w-12 h-12' : 'w-16 h-16'} bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold ${isCollapsed ? 'text-sm' : 'text-lg'} shadow-2xl mx-auto transition-all duration-300`} whileHover={{
+          <motion.button className={`${isCollapsed ? 'w-12 h-12' : 'w-20 h-16'} bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold ${isCollapsed ? 'text-sm' : 'text-lg'} shadow-2xl mx-auto transition-all duration-300`} whileHover={{
           scale: 1.05
         }} whileTap={{
           scale: 0.95
@@ -143,6 +196,15 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ onNavigate, activ
           </motion.button>
         </div>
       </div>
-    </aside>;
+    </aside>
+    
+    {/* Mobile menu trigger button - positioned outside sidebar */}
+    <button 
+      onClick={() => setIsMobileMenuOpen(true)}
+      className="md:hidden fixed top-4 left-4 z-30 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-2 text-white/80 hover:text-white transition-colors"
+    >
+      <Menu className="w-5 h-5" />
+    </button>
+  </>;
 };
 export default SidebarNavigation;

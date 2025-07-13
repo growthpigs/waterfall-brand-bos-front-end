@@ -215,9 +215,14 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
     }
   };
   return <div className="flex h-screen w-full overflow-hidden">
+      {/* Full-screen gradient background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-green-500 via-green-600 to-emerald-800 -z-10" />
       
       {/* Left Sidebar */}
       <SidebarNavigation />
+      
+      {/* Professional Services 24px Standard Gap */}
+      <div className="hidden md:block flex-shrink-0" style={{ width: "24px" }} />
       
       {/* Main Content Area */}
       <main className="flex-1 flex relative min-h-screen">

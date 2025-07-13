@@ -177,24 +177,30 @@ const CampaignCenterPage: React.FC = () => {
         return <BarChart3 className="w-8 h-8 text-white" />;
     }
   };
-  return <div className="flex h-screen w-full overflow-hidden">
+  return <div className="min-h-screen w-full flex bg-gradient-to-br from-pink-600 via-pink-700 to-pink-800">
+      {/* Pink gradient background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-pink-600 via-pink-700 to-pink-800 -z-10" />
       
       {/* Left Sidebar */}
       <SidebarNavigation />
       
+      {/* Professional Services 24px Standard Gap */}
+      <div className="hidden md:block flex-shrink-0" style={{ width: "24px" }} />
+      
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col relative min-h-screen">
         {/* Main Content Container */}
-        <div className="flex-1 px-8 pt-8 overflow-auto">
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.6
-        }} className="max-w-7xl mx-auto">
+        <div className="flex-1 pl-4 pr-4 md:pl-0 md:pr-6 lg:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8 overflow-auto">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-0">
+            <motion.div initial={{
+            opacity: 0,
+            y: 20
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.6
+          }}>
             {/* Header */}
             <header className="mb-6">
               <h1 className="text-3xl font-bold text-white mb-1 drop-shadow-lg pl-6 leading-tight">Campaign Center</h1>
@@ -631,7 +637,8 @@ const CampaignCenterPage: React.FC = () => {
             <div className="mt-6 pb-6">
               <PersistentChatBar onSendMessage={handleSendMessage} placeholder="Ask Campaign Assistant about Brand BOS strategies…" />
             </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </main>
     </div>;

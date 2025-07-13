@@ -186,8 +186,8 @@ const CampaignCenterPage: React.FC<CampaignCenterPageProps> = ({ onNavigate }) =
       {/* Left Sidebar */}
       <SidebarNavigation onNavigate={onNavigate} activePageId="campaigns" />
       
-      {/* Fixed 30px gap */}
-      <div className="w-[30px] flex-shrink-0" />
+      {/* Professional Services 24px Standard Gap */}
+      <div className="hidden md:block flex-shrink-0" style={{ width: "24px" }} />
       
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col relative min-h-screen">

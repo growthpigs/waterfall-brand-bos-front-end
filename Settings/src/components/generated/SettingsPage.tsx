@@ -209,21 +209,22 @@ const SettingsPage: React.FC = () => {
       {/* Left Sidebar */}
       <SidebarNavigation />
       
-      {/* Fixed 30px gap */}
-      <div className="w-[30px] flex-shrink-0" />
+      {/* Professional Services 24px Standard Gap */}
+      <div className="hidden md:block flex-shrink-0" style={{ width: "24px" }} />
       
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col relative min-h-screen">
-        <div className="flex-1 px-8 pt-8 overflow-auto">
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.6
-        }} className="max-w-7xl mx-auto">
+        <div className="flex-1 pl-4 pr-4 md:pl-0 md:pr-6 lg:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8 overflow-auto">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-0">
+            <motion.div initial={{
+            opacity: 0,
+            y: 20
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.6
+          }}>
             <header className="mb-8">
               <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg flex items-center">
                 <SettingsIcon className="w-8 h-8 mr-3" />
@@ -504,7 +505,8 @@ const SettingsPage: React.FC = () => {
             <div className="mt-8 pb-8">
               <PersistentChatBar onSendMessage={handleSendMessage} />
             </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </main>
     </div>;

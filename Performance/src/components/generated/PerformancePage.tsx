@@ -241,18 +241,21 @@ const PerformancePage: React.FC = () => {
         return 'text-gray-400';
     }
   };
-  return <div className="flex h-screen w-full overflow-hidden">
+  return <div className="min-h-screen w-full flex bg-gradient-to-br from-cyan-600 via-cyan-700 to-blue-800">
+      {/* Cyan gradient background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-cyan-600 via-cyan-700 to-blue-800 -z-10" />
       
       {/* Left Sidebar */}
       <SidebarNavigation />
       
-      {/* Fixed 45px gap */}
-      <div className="w-[45px] flex-shrink-0" />
+      {/* Professional Services 24px Standard Gap */}
+      <div className="hidden md:block flex-shrink-0" style={{ width: "24px" }} />
       
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col relative min-h-screen">
         {/* Main Content Container */}
-        <div className="flex-1 px-8 pt-8 overflow-auto">
+        <div className="flex-1 pl-4 pr-4 md:pl-0 md:pr-6 lg:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8 overflow-auto">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-0">
           <motion.div initial={{
           opacity: 0,
           y: 20
@@ -261,7 +264,7 @@ const PerformancePage: React.FC = () => {
           y: 0
         }} transition={{
           duration: 0.6
-        }} className="max-w-7xl pb-8">
+        }} className="pb-8">
             {/* Header */}
             <div className="mb-8 flex items-center justify-between">
               <div>
@@ -609,6 +612,7 @@ const PerformancePage: React.FC = () => {
               <PersistentChatBar onSendMessage={handleSendMessage} />
             </div>
           </motion.div>
+          </div>
         </div>
       </main>
     </div>;

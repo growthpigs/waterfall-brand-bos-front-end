@@ -248,8 +248,8 @@ const ContentEngineWorkspace: React.FC<ContentEngineWorkspaceProps> = ({ onNavig
       
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col relative min-h-screen">
-        {/* Fixed 30px gap */}
-        <div className="w-[30px] flex-shrink-0" />
+        {/* Professional Services 24px Standard Gap */}
+        <div className="hidden md:block flex-shrink-0" style={{ width: "24px" }} />
         <div className="flex-1 pl-0 pr-8 pt-12 pb-8 overflow-auto">
           <motion.div initial={{
           opacity: 0,

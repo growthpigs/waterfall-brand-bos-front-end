@@ -227,12 +227,13 @@ const BrandBOSDashboard: React.FC<BrandBOSDashboardProps> = ({ onNavigate }) => 
       {/* Sidebar Navigation */}
       <SidebarNavigation onNavigate={onNavigate} activePageId="dashboard" />
       
-      {/* Fixed 45px gap */}
-      <div className="w-[45px] flex-shrink-0" />
+      {/* Professional Services 24px Standard Gap */}
+      <div className="hidden md:block flex-shrink-0" style={{ width: "24px" }} />
       
       {/* Main Content */}
       <main className="flex-1 flex flex-col relative min-h-screen">
-        <div className="flex-1 pl-0 pr-8 pt-8 pb-8 overflow-auto">
+        <div className="flex-1 pl-4 pr-4 md:pl-0 md:pr-6 lg:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8 overflow-auto">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-0">
           {/* Header */}
           <motion.div initial={{
           opacity: 0,
@@ -261,6 +262,7 @@ const BrandBOSDashboard: React.FC<BrandBOSDashboardProps> = ({ onNavigate }) => 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <ContentCreationHub />
             <IntelligenceDashboard />
+          </div>
           </div>
         </div>
       </main>
