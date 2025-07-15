@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&family=Arial&family=Helvetica&family=Times+New+Roman&family=Georgia&family=Roboto&display=swap');
+@import '../../shared/styles/theme-variables.css';
 @import 'tailwindcss';
 
 @plugin "tailwindcss-animate";
@@ -14,6 +15,21 @@ body {
   min-height: 100vh;
   box-sizing: border-box;
   overflow: auto;
+}
+
+/* Adding CSS variables for glass effect */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-bg-hover: rgba(255, 255, 255, 0.15);
+  --glass-border-color: rgba(255, 255, 255, 0.2);
+  --glass-border-color-light: rgba(255, 255, 255, 0.1);
+  --glass-blur: 24px;
+  --glass-blur-small: 12px;
+  --glass-radius: 20px;
+  --glass-radius-small: 12px;
+  --glass-padding: 28px;
+  --glass-padding-small: 16px;
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
 }
 
 @theme inline {
@@ -150,4 +166,64 @@ body {
   display: block !important;
   min-width: 0 !important;
   max-width: 100% !important;
+}
+
+/* Professional Services Glassmorphism System */
+@layer components {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 18px;
+    padding: var(--glass-padding);
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.1),
+      0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+  }
+
+  .glass-card:hover {
+    background: var(--glass-bg-hover);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.12),
+      0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .glass-small {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur-small));
+    -webkit-backdrop-filter: blur(var(--glass-blur-small));
+    border: 1px solid var(--glass-border-color-light);
+    border-radius: var(--glass-radius-small);
+    padding: var(--glass-padding-small);
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.06),
+      0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  .glass-small:hover {
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.1),
+      0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* Professional Services Shadow System */
+.shadow-professional {
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-professional-lg {
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-professional-xl {
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.15),
+    0 6px 24px rgba(0, 0, 0, 0.1);
 }

@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Calendar, ChevronLeft, ChevronRight, Settings, Play, CheckCircle, Clock, AlertCircle, MessageSquare, Send, X, Minimize2, Maximize2, Instagram, Twitter, Linkedin, Facebook, Youtube, Mic, Mail, Video, BookOpen, Download, Target, Zap, BarChart3 } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../../dashboard/src/components/professional/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../professional/ProfessionalSidebarNavigation';
 interface ContentFormat {
   id: string;
   title: string;
@@ -214,18 +215,12 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
       setChatMessage('');
     }
   };
-  return <div className="flex h-screen w-full overflow-hidden">
-      {/* Full-screen gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-green-500 via-green-600 to-emerald-800 -z-10" />
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation />
-      
-      {/* Professional Services 24px Standard Gap */}
-      <div className="flex-shrink-0" style={{ width: "24px" }} />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 flex relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="green"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={() => {}} activePageId="content-engine" />}
+    >
+
         {/* Main Content */}
         <div className="flex-1 px-8 pt-8 overflow-auto pr-96">
           <motion.div initial={{
@@ -498,7 +493,8 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                 </>}
             </motion.div>}
         </div>
-      </main>
-    </div>;
+      
+    </ProfessionalLayout>
+  );
 };
 export default ContentEnginePage;

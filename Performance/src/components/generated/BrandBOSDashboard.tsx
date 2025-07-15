@@ -2,12 +2,17 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../../dashboard/src/components/professional/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../professional/ProfessionalSidebarNavigation';
 import DashboardCardGrid from './DashboardCardGrid';
 import NotificationBubbles from './NotificationBubbles';
 import PersistentChatBar from './PersistentChatBar';
 import BrandLogo from './BrandLogo';
-const BrandBOSDashboard: React.FC = () => {
+interface BrandBOSDashboardProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const BrandBOSDashboard: React.FC<BrandBOSDashboardProps> = ({ onNavigate }) => {
   const handleSendMessage = (message: string) => {
     console.log('Message sent:', message);
     // Handle message sending logic here
@@ -16,20 +21,11 @@ const BrandBOSDashboard: React.FC = () => {
     console.log('Logo clicked - navigate to home');
     // Handle navigation to home/dashboard
   };
-  return <div className="flex h-screen w-full overflow-hidden">
-      {/* Full-screen gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-pink-500 via-pink-600 to-pink-800 -z-10" style={{
-      background: 'linear-gradient(to bottom, #EC4899, #BE185D)'
-    }} />
-      
-      {/* Left Sidebar - transparent/glassmorphic on top of gradient */}
-      <SidebarNavigation />
-      
-      {/* Fixed 30px gap */}
-      <div className="w-[30px] flex-shrink-0" />
-      
-      {/* Main Content Area - no background, sits on gradient */}
-      <main className="flex-1 flex flex-col relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="green"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={onNavigate} activePageId="dashboard" />}
+    >
         {/* Header with Logo and Notifications */}
         <header className="relative h-16 flex items-center justify-between px-8 bg-white/10 backdrop-blur-sm border-b border-white/20" style={{
         display: "none"
@@ -69,7 +65,7 @@ const BrandBOSDashboard: React.FC = () => {
             </div>
           </motion.div>
         </div>
-      </main>
-    </div>;
+    </ProfessionalLayout>
+  );
 };
 export default BrandBOSDashboard;

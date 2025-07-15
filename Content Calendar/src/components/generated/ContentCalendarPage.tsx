@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, ChevronLeft, ChevronRight, Clock, CheckCircle, Edit3, Instagram, Twitter, Linkedin, Facebook, Youtube, MessageSquare, Send, X, Minimize2, Maximize2, BarChart3, Target, Zap, Settings, ArrowRight, TrendingUp, Users, Eye, Brain, Layers, Sparkles } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../../dashboard/src/components/professional/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../professional/ProfessionalSidebarNavigation';
 interface ContentCard {
   id: string;
   platform: 'instagram' | 'twitter' | 'linkedin' | 'facebook' | 'youtube';
@@ -158,7 +159,11 @@ const generateWeekData = (): DayColumn[] => {
     };
   });
 };
-const ContentCalendarPage: React.FC = () => {
+interface ContentCalendarPageProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const ContentCalendarPage: React.FC<ContentCalendarPageProps> = ({ onNavigate }) => {
   const [currentView, setCurrentView] = useState<'month' | 'week' | 'day'>('week');
   const [weekData] = useState<DayColumn[]>(generateWeekData());
   const [chatOpen, setChatOpen] = useState(false);
@@ -205,7 +210,7 @@ const ContentCalendarPage: React.FC = () => {
       case 'purple':
         return 'border-purple-400/50 bg-purple-500/20';
       case 'orange':
-        return 'border-[#d2691e]/50 bg-[#a05a2c]/20';
+        return 'border-orange-400/50 bg-orange-500/20';
       default:
         return 'border-cyan-400/50 bg-cyan-500/20';
     }
@@ -228,18 +233,11 @@ const ContentCalendarPage: React.FC = () => {
       setChatMessage('');
     }
   };
-  return <div className="min-h-screen w-full flex bg-gradient-to-br from-[#a05a2c] via-[#d2691e] to-[#7c3f14]">
-      {/* Burnt orange gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-[#a05a2c] via-[#d2691e] to-[#7c3f14] -z-10" />
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation />
-      
-      {/* Professional Services 24px Standard Gap */}
-      <div className="flex-shrink-0" style={{ width: "24px" }} />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="orange"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={() => {}} activePageId="content-calendar" />}
+    >
         {/* Main Content */}
         <div className="flex-1 pl-4 pr-4 md:pl-0 md:pr-6 lg:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8 overflow-auto">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-0">
@@ -687,7 +685,7 @@ const ContentCalendarPage: React.FC = () => {
                 </>}
             </motion.div>}
         </div>
-      </main>
-    </div>;
+    </ProfessionalLayout>
+  );
 };
 export default ContentCalendarPage;

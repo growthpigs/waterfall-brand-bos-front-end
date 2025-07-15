@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&family=Arial&family=Helvetica&family=Times+New+Roman&family=Georgia&family=Roboto&display=swap');
+@import '../../shared/styles/theme-variables.css';
 @import 'tailwindcss';
 
 @plugin "tailwindcss-animate";
@@ -139,5 +140,6 @@ body {
     width: 100%;
     margin: 0;
     padding: 0;
+    background: linear-gradient(to bottom right, rgb(234, 88, 12), rgb(194, 65, 12), rgb(124, 45, 18));
   }
 }

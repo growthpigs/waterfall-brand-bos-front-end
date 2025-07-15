@@ -1,9 +1,38 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Calendar, ChevronLeft, ChevronRight, Settings, Play, CheckCircle, Clock, AlertCircle, MessageSquare, Send, X, Minimize2, Maximize2, Instagram, Twitter, Linkedin, Facebook, Youtube, Mic, Mail, Video, BookOpen, Download, Target, Zap, BarChart3 } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import {
+  FileText,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Settings,
+  Play,
+  CheckCircle,
+  Clock,
+  AlertCircle,
+  MessageSquare,
+  Send,
+  X,
+  Minimize2,
+  Maximize2,
+  Instagram,
+  Twitter,
+  Linkedin,
+  Facebook,
+  Youtube,
+  Mic,
+  Mail,
+  Video,
+  BookOpen,
+  Download,
+  Target,
+  Zap,
+  BarChart3,
+} from 'lucide-react';
+import ProfessionalLayout from '../shared/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../professional/ProfessionalSidebarNavigation';
 interface ContentFormat {
   id: string;
   title: string;
@@ -25,140 +54,153 @@ interface ContentEnginePageProps {
   onClusterChange?: (clusterId: string) => void;
 }
 const contentFormats: ContentFormat[] = [
-// Blog Content (Blue)
-{
-  id: 'ai-search-blog',
-  title: 'AI Search Blog',
-  category: 'blog',
-  status: 'ready',
-  icon: Target,
-  enabled: true,
-  description: 'SEO-optimized long-form content'
-}, {
-  id: 'epic-pillar',
-  title: 'Epic Pillar',
-  category: 'blog',
-  status: 'in-progress',
-  icon: BookOpen,
-  enabled: true,
-  description: 'Comprehensive authority piece'
-}, {
-  id: 'supporting-posts',
-  title: 'Supporting Posts',
-  category: 'blog',
-  status: 'scheduled',
-  icon: FileText,
-  enabled: true,
-  description: '3-5 supporting articles'
-}, {
-  id: 'advertorial',
-  title: 'Advertorial',
-  category: 'blog',
-  status: 'ready',
-  icon: Zap,
-  enabled: false,
-  description: 'Promotional content piece'
-},
-// Social Content (Green)
-{
-  id: 'instagram',
-  title: 'Instagram',
-  category: 'social',
-  status: 'ready',
-  icon: Instagram,
-  enabled: true,
-  description: 'Stories & feed posts'
-}, {
-  id: 'twitter',
-  title: 'X/Twitter',
-  category: 'social',
-  status: 'published',
-  icon: Twitter,
-  enabled: true,
-  description: 'Thread & single posts'
-}, {
-  id: 'linkedin',
-  title: 'LinkedIn',
-  category: 'social',
-  status: 'in-progress',
-  icon: Linkedin,
-  enabled: true,
-  description: 'Professional content'
-}, {
-  id: 'facebook',
-  title: 'Facebook',
-  category: 'social',
-  status: 'scheduled',
-  icon: Facebook,
-  enabled: false,
-  description: 'Community posts'
-}, {
-  id: 'tiktok',
-  title: 'TikTok',
-  category: 'social',
-  status: 'ready',
-  icon: Video,
-  enabled: true,
-  description: 'Short-form videos'
-}, {
-  id: 'youtube-shorts',
-  title: 'YouTube Shorts',
-  category: 'social',
-  status: 'ready',
-  icon: Youtube,
-  enabled: true,
-  description: 'Vertical video content'
-},
-// Audio/Video Content (Orange)
-{
-  id: 'pillar-podcast',
-  title: 'Pillar Podcast',
-  category: 'audio-video',
-  status: 'in-progress',
-  icon: Mic,
-  enabled: true,
-  description: 'Long-form audio content'
-}, {
-  id: 'email-series',
-  title: 'Email Series',
-  category: 'audio-video',
-  status: 'ready',
-  icon: Mail,
-  enabled: true,
-  description: '5-part email sequence'
-}, {
-  id: 'webinar',
-  title: 'Webinar',
-  category: 'audio-video',
-  status: 'scheduled',
-  icon: Video,
-  enabled: false,
-  description: 'Live presentation'
-}, {
-  id: 'case-study',
-  title: 'Case Study',
-  category: 'audio-video',
-  status: 'ready',
-  icon: BarChart3,
-  enabled: true,
-  description: 'Success story analysis'
-}, {
-  id: 'lead-magnet',
-  title: 'Lead Magnet',
-  category: 'audio-video',
-  status: 'published',
-  icon: Download,
-  enabled: true,
-  description: 'Free resource offer'
-}];
+  // Blog Content (Blue)
+  {
+    id: 'ai-search-blog',
+    title: 'AI Search Blog',
+    category: 'blog',
+    status: 'ready',
+    icon: Target,
+    enabled: true,
+    description: 'SEO-optimized long-form content',
+  },
+  {
+    id: 'epic-pillar',
+    title: 'Epic Pillar',
+    category: 'blog',
+    status: 'in-progress',
+    icon: BookOpen,
+    enabled: true,
+    description: 'Comprehensive authority piece',
+  },
+  {
+    id: 'supporting-posts',
+    title: 'Supporting Posts',
+    category: 'blog',
+    status: 'scheduled',
+    icon: FileText,
+    enabled: true,
+    description: '3-5 supporting articles',
+  },
+  {
+    id: 'advertorial',
+    title: 'Advertorial',
+    category: 'blog',
+    status: 'ready',
+    icon: Zap,
+    enabled: false,
+    description: 'Promotional content piece',
+  },
+  // Social Content (Green)
+  {
+    id: 'instagram',
+    title: 'Instagram',
+    category: 'social',
+    status: 'ready',
+    icon: Instagram,
+    enabled: true,
+    description: 'Stories & feed posts',
+  },
+  {
+    id: 'twitter',
+    title: 'X/Twitter',
+    category: 'social',
+    status: 'published',
+    icon: Twitter,
+    enabled: true,
+    description: 'Thread & single posts',
+  },
+  {
+    id: 'linkedin',
+    title: 'LinkedIn',
+    category: 'social',
+    status: 'in-progress',
+    icon: Linkedin,
+    enabled: true,
+    description: 'Professional content',
+  },
+  {
+    id: 'facebook',
+    title: 'Facebook',
+    category: 'social',
+    status: 'scheduled',
+    icon: Facebook,
+    enabled: false,
+    description: 'Community posts',
+  },
+  {
+    id: 'tiktok',
+    title: 'TikTok',
+    category: 'social',
+    status: 'ready',
+    icon: Video,
+    enabled: true,
+    description: 'Short-form videos',
+  },
+  {
+    id: 'youtube-shorts',
+    title: 'YouTube Shorts',
+    category: 'social',
+    status: 'ready',
+    icon: Youtube,
+    enabled: true,
+    description: 'Vertical video content',
+  },
+  // Audio/Video Content (Orange)
+  {
+    id: 'pillar-podcast',
+    title: 'Pillar Podcast',
+    category: 'audio-video',
+    status: 'in-progress',
+    icon: Mic,
+    enabled: true,
+    description: 'Long-form audio content',
+  },
+  {
+    id: 'email-series',
+    title: 'Email Series',
+    category: 'audio-video',
+    status: 'ready',
+    icon: Mail,
+    enabled: true,
+    description: '5-part email sequence',
+  },
+  {
+    id: 'webinar',
+    title: 'Webinar',
+    category: 'audio-video',
+    status: 'scheduled',
+    icon: Video,
+    enabled: false,
+    description: 'Live presentation',
+  },
+  {
+    id: 'case-study',
+    title: 'Case Study',
+    category: 'audio-video',
+    status: 'ready',
+    icon: BarChart3,
+    enabled: true,
+    description: 'Success story analysis',
+  },
+  {
+    id: 'lead-magnet',
+    title: 'Lead Magnet',
+    category: 'audio-video',
+    status: 'published',
+    icon: Download,
+    enabled: true,
+    description: 'Free resource offer',
+  },
+];
 const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
   onNavigate,
-  selectedCluster = "AI Productivity Hacks",
+  selectedCluster = 'AI Productivity Hacks',
   weekOffset = 0,
   enabledFormats = [],
   onFormatToggle,
   onPublishContent,
-  onClusterChange
+  onClusterChange,
 }) => {
   const [currentWeek, setCurrentWeek] = useState(weekOffset);
   const [chatOpen, setChatOpen] = useState(false);
@@ -216,35 +258,38 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
       setChatMessage('');
     }
   };
-  return <div className="flex h-screen w-full overflow-hidden">
-      {/* Full-screen gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 -z-10" />
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation onNavigate={onNavigate} activePageId="content" />
-      
-      {/* Professional Services 24px Standard Gap */}
-      <div className="flex-shrink-0" style={{ width: "24px" }} />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 flex relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="blue"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={onNavigate} activePageId="content" />}
+    >
+      <main className="flex-1 flex flex-col relative min-h-screen">
         {/* Main Content */}
-        <div className="flex-1 pl-0 pr-8 pt-8 overflow-auto pr-96" style={{
-        width: "1500px",
-        maxWidth: "1500px"
-      }}>
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.6
-        }} className="max-w-6xl pb-8" style={{
-          width: "1400px",
-          maxWidth: "1400px"
-        }}>
+        <div
+          className="flex-1 pl-0 pr-8 pt-8 overflow-auto pr-96"
+          style={{
+            width: '1500px',
+            maxWidth: '1500px',
+          }}
+        >
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 20,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.6,
+            }}
+            className="max-w-6xl pb-8"
+            style={{
+              width: '1400px',
+              maxWidth: '1400px',
+            }}
+          >
             {/* Page Header */}
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg flex items-center">
@@ -257,17 +302,22 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
             </div>
 
             {/* Top Section: Content Cluster Overview */}
-            <motion.div initial={{
-            opacity: 0,
-            y: 20
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.6,
-            delay: 0.1
-          }} className="mb-8">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 shadow-xl">
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 20,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.6,
+                delay: 0.1,
+              }}
+              className="mb-8"
+            >
+              <div className="glass-card">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center">
                     <div className="w-3 h-3 bg-purple-400 rounded-full mr-3"></div>
@@ -276,13 +326,24 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                     </h2>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <button onClick={() => setCurrentWeek(currentWeek - 1)} className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors">
+                    <button
+                      onClick={() => setCurrentWeek(currentWeek - 1)}
+                      className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+                    >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <span className="text-white font-medium px-4">
-                      Week {currentWeek === 0 ? 'Current' : currentWeek > 0 ? `+${currentWeek}` : currentWeek}
+                      Week{' '}
+                      {currentWeek === 0
+                        ? 'Current'
+                        : currentWeek > 0
+                          ? `+${currentWeek}`
+                          : currentWeek}
                     </span>
-                    <button onClick={() => setCurrentWeek(currentWeek + 1)} className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors">
+                    <button
+                      onClick={() => setCurrentWeek(currentWeek + 1)}
+                      className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+                    >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -298,7 +359,9 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                       </div>
                       <div className="flex items-center">
                         <div className="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
-                        <span className="text-white/80 text-sm">Sources: Grok Trending + Reddit Marketing</span>
+                        <span className="text-white/80 text-sm">
+                          Sources: Grok Trending + Reddit Marketing
+                        </span>
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -309,20 +372,21 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                     </div>
                   </div>
                   <div className="text-white/60 text-sm">
-                    High viral opportunity detected through convergence analysis. Customer psychology integration active.
+                    High viral opportunity detected through convergence analysis. Customer
+                    psychology integration active.
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                  <div className="bg-white/5 rounded-lg p-4">
+                  <div className="glass-small">
                     <div className="text-white/70 text-sm mb-1">Total Formats</div>
                     <div className="text-2xl font-bold text-white">15</div>
                   </div>
-                  <div className="bg-white/5 rounded-lg p-4">
+                  <div className="glass-small">
                     <div className="text-white/70 text-sm mb-1">Ready to Publish</div>
                     <div className="text-2xl font-bold text-green-400">8</div>
                   </div>
-                  <div className="bg-white/5 rounded-lg p-4">
+                  <div className="glass-small">
                     <div className="text-white/70 text-sm mb-1">In Progress</div>
                     <div className="text-2xl font-bold text-yellow-400">4</div>
                   </div>
@@ -338,62 +402,72 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                       Cluster Performance History
                     </button>
                   </div>
-                  <div className="text-white/60 text-sm">
-                    Viral momentum: ↗️ Trending upward
-                  </div>
+                  <div className="text-white/60 text-sm">Viral momentum: ↗️ Trending upward</div>
                 </div>
               </div>
             </motion.div>
 
             {/* Main Grid: 4x4 Content Format Cards */}
-            <motion.div initial={{
-            opacity: 0,
-            y: 20
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.6,
-            delay: 0.2
-          }} className="mb-8">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 shadow-xl">
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 20,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.6,
+                delay: 0.2,
+              }}
+              className="mb-8"
+            >
+              <div className="glass-card">
                 <h3 className="text-xl font-bold text-white mb-6 flex items-center">
                   <Settings className="w-5 h-5 mr-2" />
                   Content Format Grid
                 </h3>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   {contentFormats.map(format => {
-                  const Icon = format.icon;
-                  const categoryColor = getCategoryColor(format.category);
-                  return <motion.div key={format.id} whileHover={{
-                    scale: 1.02
-                  }} whileTap={{
-                    scale: 0.98
-                  }} className={`relative p-4 rounded-xl border transition-all cursor-pointer ${format.enabled ? `bg-${categoryColor}-500/20 border-${categoryColor}-400/50 hover:bg-${categoryColor}-500/30` : 'bg-white/5 border-white/20 hover:bg-white/10'}`}>
+                    const Icon = format.icon;
+                    const categoryColor = getCategoryColor(format.category);
+                    return (
+                      <motion.div
+                        key={format.id}
+                        whileHover={{
+                          scale: 1.02,
+                        }}
+                        whileTap={{
+                          scale: 0.98,
+                        }}
+                        className={`glass-small relative transition-all cursor-pointer ${format.enabled ? `bg-${categoryColor}-500/20 border-${categoryColor}-400/50 hover:bg-${categoryColor}-500/30` : 'bg-white/5 border-white/20 hover:bg-white/10'}`}
+                      >
                         {/* Category Color Indicator */}
-                        <div className={`absolute top-2 right-2 w-3 h-3 rounded-full ${categoryColor === 'blue' ? 'bg-blue-400' : categoryColor === 'green' ? 'bg-green-400' : categoryColor === 'orange' ? 'bg-orange-400' : 'bg-gray-400'}`} />
-                        
+                        <div
+                          className={`absolute top-2 right-2 w-3 h-3 rounded-full ${categoryColor === 'blue' ? 'bg-blue-400' : categoryColor === 'green' ? 'bg-green-400' : categoryColor === 'orange' ? 'bg-orange-400' : 'bg-gray-400'}`}
+                        />
+
                         {/* CIA Intelligence Badge */}
                         <div className="absolute top-2 left-2 flex items-center space-x-1">
                           <span className="px-1.5 py-0.5 bg-purple-500/30 text-purple-200 text-xs rounded border border-purple-400/50">
                             CIA
                           </span>
-                          <div className="w-1.5 h-1.5 bg-green-400 rounded-full" title="High intelligence integration"></div>
+                          <div
+                            className="w-1.5 h-1.5 bg-green-400 rounded-full"
+                            title="High intelligence integration"
+                          ></div>
                         </div>
-                        
+
                         {/* Content */}
                         <div className="mb-3 mt-6">
                           <div className="flex items-center mb-2">
                             <Icon className="w-5 h-5 text-white mr-2" />
-                            <h4 className="text-white font-semibold text-sm">
-                              {format.title}
-                            </h4>
+                            <h4 className="text-white font-semibold text-sm">{format.title}</h4>
                           </div>
-                          <p className="text-white/70 text-xs mb-3">
-                            {format.description}
-                          </p>
-                          
+                          <p className="text-white/70 text-xs mb-3">{format.description}</p>
+
                           {/* Intelligence Indicators */}
                           <div className="space-y-1 mb-3">
                             <div className="flex items-center justify-between">
@@ -411,7 +485,7 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                             </div>
                           </div>
                         </div>
-                        
+
                         {/* Status */}
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center">
@@ -421,42 +495,57 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                             </span>
                           </div>
                         </div>
-                        
+
                         {/* Toggle Switch */}
                         <div className="flex items-center justify-between">
-                          <button onClick={() => handleFormatToggle(format.id, !format.enabled)} className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${format.enabled ? 'bg-green-500' : 'bg-gray-600'}`}>
-                            <span className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${format.enabled ? 'translate-x-5' : 'translate-x-1'}`} />
+                          <button
+                            onClick={() => handleFormatToggle(format.id, !format.enabled)}
+                            className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${format.enabled ? 'bg-green-500' : 'bg-gray-600'}`}
+                          >
+                            <span
+                              className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${format.enabled ? 'translate-x-5' : 'translate-x-1'}`}
+                            />
                           </button>
-                          
-                          {format.status === 'ready' && format.enabled && <button onClick={() => handlePublishContent(format.id, format.title)} className="px-2 py-1 bg-green-500 hover:bg-green-600 text-white text-xs rounded transition-colors">
+
+                          {format.status === 'ready' && format.enabled && (
+                            <button
+                              onClick={() => handlePublishContent(format.id, format.title)}
+                              className="px-2 py-1 bg-green-500 hover:bg-green-600 text-white text-xs rounded transition-colors"
+                            >
                               <Play className="w-3 h-3" />
-                            </button>}
+                            </button>
+                          )}
                         </div>
-                      </motion.div>;
-                })}
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
 
             {/* Bottom Controls: Publishing Pipeline */}
-            <motion.div initial={{
-            opacity: 0,
-            y: 20
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.6,
-            delay: 0.3
-          }}>
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 shadow-xl">
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 20,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.6,
+                delay: 0.3,
+              }}
+            >
+              <div className="glass-card">
                 <h3 className="text-xl font-bold text-white mb-4 flex items-center">
                   <Zap className="w-5 h-5 mr-2" />
                   Publishing Pipeline
                 </h3>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <div className="bg-blue-500/20 rounded-lg p-4 border border-blue-400/30">
+                  <div className="glass-small bg-blue-500/20 border border-blue-400/30">
                     <h4 className="text-white font-semibold mb-2 flex items-center">
                       <BookOpen className="w-4 h-4 mr-2 text-blue-400" />
                       Blog Content
@@ -470,8 +559,8 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="bg-green-500/20 rounded-lg p-4 border border-green-400/30">
+
+                  <div className="glass-small bg-green-500/20 border border-green-400/30">
                     <h4 className="text-white font-semibold mb-2 flex items-center">
                       <Instagram className="w-4 h-4 mr-2 text-green-400" />
                       Social Content
@@ -485,8 +574,8 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="bg-orange-500/20 rounded-lg p-4 border border-orange-400/30">
+
+                  <div className="glass-small bg-orange-500/20 border border-orange-400/30">
                     <h4 className="text-white font-semibold mb-2 flex items-center">
                       <Mic className="w-4 h-4 mr-2 text-orange-400" />
                       Audio/Video
@@ -496,12 +585,14 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                       <div>• 2 ready to publish</div>
                       <div>• 1 scheduled</div>
                       <div className="pt-2 border-t border-orange-400/20">
-                        <span className="text-orange-300 text-xs">Cross-Platform Timing: Optimized</span>
+                        <span className="text-orange-300 text-xs">
+                          Cross-Platform Timing: Optimized
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <button className="px-6 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors">
@@ -514,10 +605,8 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                       Export All
                     </button>
                   </div>
-                  
-                  <div className="text-white/70 text-sm">
-                    Last updated: 2 minutes ago
-                  </div>
+
+                  <div className="text-white/70 text-sm">Last updated: 2 minutes ago</div>
                 </div>
               </div>
             </motion.div>
@@ -526,19 +615,31 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
 
         {/* Fixed Right Chat Widget */}
         <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-50">
-          {!chatOpen ? <motion.button onClick={() => setChatOpen(true)} className="w-14 h-14 bg-gradient-to-r from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center text-white shadow-2xl" whileHover={{
-          scale: 1.05
-        }} whileTap={{
-          scale: 0.95
-        }}>
+          {!chatOpen ? (
+            <motion.button
+              onClick={() => setChatOpen(true)}
+              className="w-14 h-14 bg-gradient-to-r from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center text-white shadow-professional-lg"
+              whileHover={{
+                scale: 1.05,
+              }}
+              whileTap={{
+                scale: 0.95,
+              }}
+            >
               <MessageSquare className="w-6 h-6" />
-            </motion.button> : <motion.div initial={{
-          opacity: 0,
-          x: 20
-        }} animate={{
-          opacity: 1,
-          x: 0
-        }} className={`bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl ${chatMinimized ? 'w-80 h-12' : 'w-80 h-96'} transition-all duration-300`}>
+            </motion.button>
+          ) : (
+            <motion.div
+              initial={{
+                opacity: 0,
+                x: 20,
+              }}
+              animate={{
+                opacity: 1,
+                x: 0,
+              }}
+              className={`glass-card ${chatMinimized ? 'w-80 h-12' : 'w-80 h-96'} transition-all duration-300`}
+            >
               {/* Chat Header */}
               <div className="flex items-center justify-between p-4 border-b border-white/20">
                 <h4 className="text-white font-semibold flex items-center">
@@ -546,21 +647,34 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                   Content Assistant
                 </h4>
                 <div className="flex items-center space-x-2">
-                  <button onClick={() => setChatMinimized(!chatMinimized)} className="p-1 text-white/70 hover:text-white transition-colors">
-                    {chatMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
+                  <button
+                    onClick={() => setChatMinimized(!chatMinimized)}
+                    className="p-1 text-white/70 hover:text-white transition-colors"
+                  >
+                    {chatMinimized ? (
+                      <Maximize2 className="w-4 h-4" />
+                    ) : (
+                      <Minimize2 className="w-4 h-4" />
+                    )}
                   </button>
-                  <button onClick={() => setChatOpen(false)} className="p-1 text-white/70 hover:text-white transition-colors">
+                  <button
+                    onClick={() => setChatOpen(false)}
+                    className="p-1 text-white/70 hover:text-white transition-colors"
+                  >
                     <X className="w-4 h-4" />
                   </button>
                 </div>
               </div>
 
-              {!chatMinimized && <>
+              {!chatMinimized && (
+                <>
                   {/* Chat Messages */}
                   <div className="flex-1 p-4 space-y-3 overflow-y-auto h-64">
                     <div className="bg-white/5 rounded-lg p-3">
                       <div className="text-white/80 text-sm">
-                        <strong>Assistant:</strong> I can help you optimize your content formats, suggest publishing schedules, or answer questions about your content strategy. What would you like to know?
+                        <strong>Assistant:</strong> I can help you optimize your content formats,
+                        suggest publishing schedules, or answer questions about your content
+                        strategy. What would you like to know?
                       </div>
                     </div>
                   </div>
@@ -568,16 +682,29 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                   {/* Chat Input */}
                   <div className="p-4 border-t border-white/20">
                     <div className="flex items-center space-x-2">
-                      <input type="text" value={chatMessage} onChange={e => setChatMessage(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleSendMessage()} placeholder="Ask about content strategy..." className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400" />
-                      <button onClick={handleSendMessage} className="p-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors">
+                      <input
+                        type="text"
+                        value={chatMessage}
+                        onChange={e => setChatMessage(e.target.value)}
+                        onKeyPress={e => e.key === 'Enter' && handleSendMessage()}
+                        placeholder="Ask about content strategy..."
+                        className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                      />
+                      <button
+                        onClick={handleSendMessage}
+                        className="p-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors"
+                      >
                         <Send className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
-                </>}
-            </motion.div>}
+                </>
+              )}
+            </motion.div>
+          )}
         </div>
       </main>
-    </div>;
+    </ProfessionalLayout>
+  );
 };
 export default ContentEnginePage;

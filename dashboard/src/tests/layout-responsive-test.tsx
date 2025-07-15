@@ -24,7 +24,7 @@ const createMatchMedia = (width: number) => {
 const VIEWPORTS = {
   mobile: { width: 375, height: 667, name: 'iPhone SE' },
   tablet: { width: 768, height: 1024, name: 'iPad' },
-  desktop: { width: 1440, height: 900, name: 'Desktop' }
+  desktop: { width: 1440, height: 900, name: 'Desktop' },
 };
 
 // Pages to test
@@ -35,7 +35,7 @@ const TEST_PAGES = [
   { name: 'Content Calendar', path: 'ContentCalendarPage' },
   { name: 'Campaign Center', path: 'CampaignCenterPage' },
   { name: 'Performance', path: 'PerformancePage' },
-  { name: 'Settings', path: 'SettingsPage' }
+  { name: 'Settings', path: 'SettingsPage' },
 ];
 
 describe('Professional Services 24px Layout Tests', () => {
@@ -43,7 +43,9 @@ describe('Professional Services 24px Layout Tests', () => {
   Object.entries(VIEWPORTS).forEach(([device, config]) => {
     describe(`${device.toUpperCase()} Layout (${config.width}px)`, () => {
       beforeEach(() => {
-        window.matchMedia = createMatchMedia(config.width) as any;
+        window.matchMedia = createMatchMedia(config.width) as unknown as (
+          query: string
+        ) => MediaQueryList;
         Object.defineProperty(window, 'innerWidth', {
           writable: true,
           configurable: true,
@@ -56,27 +58,29 @@ describe('Professional Services 24px Layout Tests', () => {
         gapElement.className = 'flex-shrink-0';
         gapElement.style.width = '24px';
         gapElement.setAttribute('data-gap', '24px-standard');
-        
+
         document.body.appendChild(gapElement);
-        
+
         const computedStyle = window.getComputedStyle(gapElement);
         expect(computedStyle.width).toBe('24px');
         expect(computedStyle.display).not.toBe('none');
-        
+
         // Verify no hidden classes
         expect(gapElement.className).not.toContain('hidden');
         expect(gapElement.className).not.toContain('md:block');
-        
+
         document.body.removeChild(gapElement);
       });
 
       it(`should have visible sidebar on ${device}`, () => {
         const sidebar = document.createElement('aside');
-        sidebar.className = device === 'mobile' ? 'fixed -translate-x-full' : 'relative translate-x-0';
-        
-        const isVisible = !sidebar.className.includes('-translate-x-full') || 
-                         sidebar.className.includes('translate-x-0');
-        
+        sidebar.className =
+          device === 'mobile' ? 'fixed -translate-x-full' : 'relative translate-x-0';
+
+        const isVisible =
+          !sidebar.className.includes('-translate-x-full') ||
+          sidebar.className.includes('translate-x-0');
+
         if (device === 'desktop') {
           expect(isVisible).toBe(true);
         }
@@ -98,7 +102,7 @@ describe('Professional Services 24px Layout Tests', () => {
       const content = `
         <div className="flex-shrink-0" style={{ width: "24px" }} />
       `;
-      
+
       expect(content).not.toContain('hidden');
       expect(content).not.toContain('md:block');
       expect(content).not.toContain('lg:block');
@@ -111,27 +115,23 @@ describe('Professional Services 24px Layout Tests', () => {
       const PROFESSIONAL_GAP = 24;
       const SIDEBAR_EXPANDED = 320;
       const SIDEBAR_COLLAPSED = 80;
-      
+
       // Verify constants
       expect(PROFESSIONAL_GAP).toBe(24);
       expect(SIDEBAR_EXPANDED).toBe(320);
       expect(SIDEBAR_COLLAPSED).toBe(80);
-      
+
       // Verify total width calculations
       const expandedTotal = SIDEBAR_EXPANDED + PROFESSIONAL_GAP;
       const collapsedTotal = SIDEBAR_COLLAPSED + PROFESSIONAL_GAP;
-      
+
       expect(expandedTotal).toBe(344); // Leaves 31px on 375px mobile
       expect(collapsedTotal).toBe(104); // Leaves 271px on 375px mobile
     });
 
     it('should use glassmorphic design tokens', () => {
-      const glassmorphicClasses = [
-        'bg-white/5',
-        'backdrop-blur-md',
-        'border-white/20'
-      ];
-      
+      const glassmorphicClasses = ['bg-white/5', 'backdrop-blur-md', 'border-white/20'];
+
       glassmorphicClasses.forEach(className => {
         expect(className).toMatch(/^(bg-white|backdrop-blur|border-white)/);
       });
@@ -148,15 +148,15 @@ export const captureLayoutEvidence = (viewport: keyof typeof VIEWPORTS) => {
     measurements: {
       gap: '24px',
       sidebarWidth: viewport === 'mobile' ? '100%' : '320px',
-      contentWidth: 'calc(100% - 344px)'
+      contentWidth: 'calc(100% - 344px)',
     },
     compliance: {
       spacing: true,
       responsive: true,
-      professional: true
-    }
+      professional: true,
+    },
   };
-  
+
   return evidence;
 };
 
@@ -172,9 +172,9 @@ export const generateTestReport = () => {
     evidence: {
       mobile: captureLayoutEvidence('mobile'),
       tablet: captureLayoutEvidence('tablet'),
-      desktop: captureLayoutEvidence('desktop')
-    }
+      desktop: captureLayoutEvidence('desktop'),
+    },
   };
-  
+
   return results;
 };

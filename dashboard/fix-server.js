@@ -69,7 +69,7 @@ setTimeout(() => {
     env: {
       ...process.env,
       HOST: '0.0.0.0',
-      NODE_OPTIONS: '--no-network-family-autoselection --dns-result-order=ipv4first'
-    }
+      NODE_OPTIONS: '--no-network-family-autoselection --dns-result-order=ipv4first',
+    },
   });
 }, 1000);

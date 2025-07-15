@@ -26,7 +26,7 @@ const PersistentChatBar: React.FC<PersistentChatBarProps> = ({
         boxShadow: isFocused ? '0 0 0 2px rgb(255 255 255 / 0.3), 0 8px 32px rgb(0 0 0 / 0.2)' : '0 4px 16px rgb(0 0 0 / 0.1)'
       }} transition={{
         duration: 0.2
-      }} className="flex items-center bg-white/20 backdrop-blur-md border border-white/30 rounded-3xl overflow-hidden shadow-xl" style={{
+      }} className="flex items-center glass-card overflow-hidden" style={{
         flexWrap: "nowrap",
         rowGap: "0px",
         alignItems: "center",

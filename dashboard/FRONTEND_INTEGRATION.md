@@ -1,11 +1,13 @@
 # Frontend Integration Guide for Brand BOS
 
 ## Overview
+
 This document outlines the frontend structure and integration points for connecting with the V1 Waterfall backend.
 
 ## Current Frontend Structure
 
 ### Pages and Routes
+
 The frontend is organized as a single-page application with the following main sections:
 
 1. **Dashboard** (`/`) - Main overview page
@@ -18,6 +20,7 @@ The frontend is organized as a single-page application with the following main s
 8. **Settings** (`/settings`) - User and system configuration
 
 ### Navigation System
+
 - Collapsible sidebar with icon/text modes
 - Consistent navigation across all pages
 - Active page highlighting
@@ -28,6 +31,7 @@ The frontend is organized as a single-page application with the following main s
 ### 1. CIA System Integration
 
 #### API Endpoints Needed:
+
 ```typescript
 // CIA Session Management
 POST   /api/cia/sessions - Create new CIA analysis session
@@ -41,6 +45,7 @@ GET    /api/cia/sessions/:id/pending-inputs - Check for required inputs
 ```
 
 #### Frontend Components:
+
 - `CIAAnalysisPage` - Main interface for CIA operations
 - Phase progress tracking UI
 - Human input forms for manual data entry
@@ -49,6 +54,7 @@ GET    /api/cia/sessions/:id/pending-inputs - Check for required inputs
 ### 2. Content Engine Integration
 
 #### API Endpoints Needed:
+
 ```typescript
 // Convergence Detection
 GET    /api/content/convergence/weekly - Get weekly viral opportunities
@@ -67,6 +73,7 @@ GET    /api/content/publish/status/:id - Check publishing status
 ```
 
 #### Frontend Components:
+
 - `ContentEnginePage` - Format grid and publishing controls
 - Content format toggle system
 - Publishing pipeline visualization
@@ -75,6 +82,7 @@ GET    /api/content/publish/status/:id - Check publishing status
 ### 3. Brand Intelligence Integration
 
 #### API Endpoints Needed:
+
 ```typescript
 // Quick Intelligence (On-Demand)
 POST   /api/intelligence/analyze - Start new analysis
@@ -92,6 +100,7 @@ POST   /api/intelligence/monthly/trigger - Trigger monthly analysis
 ### 4. Authentication & Multi-Tenancy
 
 #### API Endpoints Needed:
+
 ```typescript
 // Auth
 POST   /api/auth/login - User login
@@ -104,6 +113,7 @@ POST   /api/clients/switch - Switch active client context
 ```
 
 #### Frontend Requirements:
+
 - JWT token storage and management
 - Client context switcher UI
 - Role-based access control
@@ -112,6 +122,7 @@ POST   /api/clients/switch - Switch active client context
 ### 5. Real-Time Updates
 
 #### WebSocket Events:
+
 ```typescript
 // CIA Progress Updates
 cia:phase:started
@@ -133,6 +144,7 @@ notification:email:sent
 ### 6. Configuration Management
 
 #### API Endpoints Needed:
+
 ```typescript
 // Client Configuration
 GET    /api/config/client - Get client-specific settings
@@ -148,12 +160,14 @@ PUT    /api/config/notifications - Update notification settings
 ## State Management Recommendations
 
 ### Global State Needs:
+
 1. **User/Client Context** - Current user and active client
 2. **CIA Session State** - Active analysis sessions and progress
 3. **Content Pipeline State** - Current clusters and generation status
 4. **Notification Queue** - System notifications and alerts
 
 ### Suggested Implementation:
+
 - React Context for global state
 - Custom hooks for API interactions
 - Optimistic UI updates with rollback

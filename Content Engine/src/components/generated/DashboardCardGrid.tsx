@@ -79,7 +79,7 @@ const DashboardCardGrid: React.FC = () => {
         transition: {
           duration: 0.2
         }
-      }} className="bg-white/20 backdrop-blur-md rounded-3xl shadow-xl border border-white/30 overflow-hidden hover:shadow-2xl hover:bg-white/25 transition-all duration-300">
+      }} className="glass-card overflow-hidden hover:shadow-2xl transition-all duration-300">
             {/* Card Header with Gradient */}
             <div className={`h-32 bg-gradient-to-br ${card.gradient} relative overflow-hidden`}>
               <div className="absolute inset-0 bg-black/10" />

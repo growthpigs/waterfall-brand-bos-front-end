@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Globe, Play, CheckCircle, Clock, AlertTriangle, Download, Send, Archive, ChevronDown, ChevronUp, Target, Users, Shield, MapPin, TrendingUp, FileText } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../shared/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../../../../dashboard/src/components/professional/ProfessionalSidebarNavigation';
 import PersistentChatBar from './PersistentChatBar';
 interface PhaseData {
   id: string;
@@ -23,7 +24,11 @@ interface AnalysisResult {
     className?: string;
   }>;
 }
-const CIAAnalysisPage: React.FC = () => {
+interface CIAAnalysisPageProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const CIAAnalysisPage: React.FC<CIAAnalysisPageProps> = ({ onNavigate }) => {
   const [url, setUrl] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [country, setCountry] = useState('United States');
@@ -147,18 +152,12 @@ const CIAAnalysisPage: React.FC = () => {
         return Clock;
     }
   };
-  return <div className="min-h-screen w-full flex bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800">
-      {/* Blue gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 -z-10" />
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation />
-      
-      {/* Professional Services 24px Standard Gap */}
-      <div className="flex-shrink-0" style={{ width: "24px" }} />
-      
+  return (
+    <ProfessionalLayout
+      theme="blue"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={onNavigate} activePageId="cia" />}
+    >
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col relative min-h-screen">
         <div className="flex-1 pl-4 pr-4 md:pl-0 md:pr-6 lg:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8 overflow-auto">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-0">
             <motion.div initial={{
@@ -463,7 +462,7 @@ const CIAAnalysisPage: React.FC = () => {
           </motion.div>
           </div>
         </div>
-      </main>
-    </div>;
+    </ProfessionalLayout>
+  );
 };
 export default CIAAnalysisPage;

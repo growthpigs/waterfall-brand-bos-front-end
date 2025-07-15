@@ -1,128 +1,130 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
+  <head>
     <title>Opening Brand BOS...</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      .container {
+        text-align: center;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+      .loader {
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top: 3px solid white;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
-        .container {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        100% {
+          transform: rotate(360deg);
         }
-        .loader {
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top: 3px solid white;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        a {
-            color: white;
-            text-decoration: underline;
-        }
-        .urls {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 10px;
-        }
-        .url-option {
-            margin: 10px 0;
-            padding: 10px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .url-option:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateX(5px);
-        }
+      }
+      a {
+        color: white;
+        text-decoration: underline;
+      }
+      .urls {
+        margin-top: 20px;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+      }
+      .url-option {
+        margin: 10px 0;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .url-option:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateX(5px);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>🚀 Opening Brand BOS Dashboard</h1>
-        <div class="loader"></div>
-        <p>Trying to connect to your development server...</p>
-        
-        <div class="urls">
-            <h3>If automatic redirect fails, try these URLs:</h3>
-            <div class="url-option" onclick="tryUrl('http://192.168.1.253:5173/')">
-                http://192.168.1.253:5173/
-            </div>
-            <div class="url-option" onclick="tryUrl('http://127.0.0.1:5173/')">
-                http://127.0.0.1:5173/
-            </div>
-            <div class="url-option" onclick="tryUrl('http://localhost:5173/')">
-                http://localhost:5173/
-            </div>
-            <div class="url-option" onclick="tryUrl('http://0.0.0.0:5173/')">
-                http://0.0.0.0:5173/
-            </div>
+      <h1>🚀 Opening Brand BOS Dashboard</h1>
+      <div class="loader"></div>
+      <p>Trying to connect to your development server...</p>
+
+      <div class="urls">
+        <h3>If automatic redirect fails, try these URLs:</h3>
+        <div class="url-option" onclick="tryUrl('http://192.168.1.253:5173/')">
+          http://192.168.1.253:5173/
         </div>
-        
-        <p style="margin-top: 30px; font-size: 14px; opacity: 0.8;">
-            If none of these work, the server might need to be restarted.
-        </p>
+        <div class="url-option" onclick="tryUrl('http://127.0.0.1:5173/')">
+          http://127.0.0.1:5173/
+        </div>
+        <div class="url-option" onclick="tryUrl('http://localhost:5173/')">
+          http://localhost:5173/
+        </div>
+        <div class="url-option" onclick="tryUrl('http://0.0.0.0:5173/')">http://0.0.0.0:5173/</div>
+      </div>
+
+      <p style="margin-top: 30px; font-size: 14px; opacity: 0.8">
+        If none of these work, the server might need to be restarted.
+      </p>
     </div>
-    
+
     <script>
-        const urls = [
-            'http://192.168.1.253:5173/',
-            'http://127.0.0.1:5173/',
-            'http://localhost:5173/',
-            'http://0.0.0.0:5173/'
-        ];
-        
-        let currentIndex = 0;
-        
-        function tryUrl(url) {
-            console.log('Trying URL:', url);
+      const urls = [
+        'http://192.168.1.253:5173/',
+        'http://127.0.0.1:5173/',
+        'http://localhost:5173/',
+        'http://0.0.0.0:5173/',
+      ];
+
+      let currentIndex = 0;
+
+      function tryUrl(url) {
+        console.log('Trying URL:', url);
+        window.location.href = url;
+      }
+
+      function tryNextUrl() {
+        if (currentIndex < urls.length) {
+          const url = urls[currentIndex];
+          console.log('Attempting to connect to:', url);
+
+          // Try to load an image from the server to test connectivity
+          const img = new Image();
+          img.onload = function () {
+            console.log('Success! Redirecting to:', url);
             window.location.href = url;
+          };
+          img.onerror = function () {
+            console.log('Failed to connect to:', url);
+            currentIndex++;
+            setTimeout(tryNextUrl, 1000);
+          };
+          img.src = url + 'favicon.ico?t=' + Date.now();
         }
-        
-        function tryNextUrl() {
-            if (currentIndex < urls.length) {
-                const url = urls[currentIndex];
-                console.log('Attempting to connect to:', url);
-                
-                // Try to load an image from the server to test connectivity
-                const img = new Image();
-                img.onload = function() {
-                    console.log('Success! Redirecting to:', url);
-                    window.location.href = url;
-                };
-                img.onerror = function() {
-                    console.log('Failed to connect to:', url);
-                    currentIndex++;
-                    setTimeout(tryNextUrl, 1000);
-                };
-                img.src = url + 'favicon.ico?t=' + Date.now();
-            }
-        }
-        
-        // Start trying URLs after a short delay
-        setTimeout(tryNextUrl, 1000);
+      }
+
+      // Start trying URLs after a short delay
+      setTimeout(tryNextUrl, 1000);
     </script>
-</body>
+  </body>
 </html>

@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Target, Calendar, Search, Play, Download, Send, ChevronDown, Clock, CheckCircle, AlertCircle, Zap, TrendingUp, Brain, Slack, Mail, Users } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../shared/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../../../../dashboard/src/components/professional/ProfessionalSidebarNavigation';
 interface OpportunityOption {
   id: string;
   score: number;
@@ -38,13 +39,12 @@ const BrandIntelligencePage: React.FC = () => {
   const handleSelectOpportunity = (opportunityId: string) => {
     setSelectedOpportunity(opportunityId);
   };
-  return <div className="flex h-screen w-full overflow-hidden">
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 flex relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="purple"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={() => {}} activePageId="brand-intelligence" />}
+    >
+
         {/* Main Content */}
         <div className="flex-1 px-8 pt-8 overflow-auto">
           <motion.div initial={{
@@ -383,7 +383,8 @@ const BrandIntelligencePage: React.FC = () => {
             </button>
           </div>
         </motion.div>
-      </main>
-    </div>;
+      
+    </ProfessionalLayout>
+  );
 };
 export default BrandIntelligencePage;

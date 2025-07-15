@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Calendar, ChevronLeft, ChevronRight, Settings, Play, CheckCircle, Clock, AlertCircle, MessageSquare, Send, X, Minimize2, Maximize2, Instagram, Twitter, Linkedin, Facebook, Youtube, Mic, Mail, Video, BookOpen, Download, Target, Zap, BarChart3 } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../../dashboard/src/components/professional/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../professional/ProfessionalSidebarNavigation';
 interface ContentFormat {
   id: string;
   title: string;
@@ -214,18 +215,11 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
       setChatMessage('');
     }
   };
-  return <div className="min-h-screen w-full flex bg-gradient-to-br from-green-600 via-green-700 to-emerald-800">
-      {/* Green gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 -z-10" />
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation />
-      
-      {/* Professional Services 24px Standard Gap */}
-      <div className="flex-shrink-0" style={{ width: "24px" }} />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="green"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={() => {}} activePageId="content-engine" />}
+    >
         {/* Main Content */}
         <div className="flex-1 pl-4 pr-4 md:pl-0 md:pr-6 lg:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8 overflow-auto">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-0">
@@ -260,7 +254,7 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
             duration: 0.6,
             delay: 0.1
           }} className="mb-8">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 shadow-xl">
+              <div className="glass-card">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center">
                     <div className="w-3 h-3 bg-purple-400 rounded-full mr-3"></div>
@@ -349,7 +343,7 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
             duration: 0.6,
             delay: 0.2
           }} className="mb-8">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 shadow-xl">
+              <div className="glass-card">
                 <h3 className="text-xl font-bold text-white mb-6 flex items-center">
                   <Settings className="w-5 h-5 mr-2" />
                   Content Format Grid
@@ -442,7 +436,7 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
             duration: 0.6,
             delay: 0.3
           }}>
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 shadow-xl">
+              <div className="glass-card">
                 <h3 className="text-xl font-bold text-white mb-4 flex items-center">
                   <Zap className="w-5 h-5 mr-2" />
                   Publishing Pipeline
@@ -532,7 +526,7 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
         }} animate={{
           opacity: 1,
           x: 0
-        }} className={`bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl ${chatMinimized ? 'w-80 h-12' : 'w-80 h-96'} transition-all duration-300`}>
+        }} className={`glass-card shadow-2xl ${chatMinimized ? 'w-80 h-12' : 'w-80 h-96'} transition-all duration-300`}>
               {/* Chat Header */}
               <div className="flex items-center justify-between p-4 border-b border-white/20">
                 <h4 className="text-white font-semibold flex items-center">
@@ -571,7 +565,7 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
                 </>}
             </motion.div>}
         </div>
-      </main>
-    </div>;
+    </ProfessionalLayout>
+  );
 };
 export default ContentEnginePage;

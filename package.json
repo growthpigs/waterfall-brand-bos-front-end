@@ -1,0 +1,13 @@
+{
+  "name": "brand-bos-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Brand BOS Professional Services Authority Platform",
+  "scripts": {
+    "prepare": "husky",
+    "health:all": "echo '🏥 Running health checks for all apps...' && for app in dashboard CIA 'Campaign Control' 'Content Calendar' 'Content Engine' Performance Settings; do echo \"\\n📦 Checking $app...\" && cd \"$app\" && npm run health:check && cd ..; done"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}

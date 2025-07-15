@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, Users, Eye, Heart, Share2, DollarSign, Target, ArrowUp, ArrowDown, Minus, Calendar, Filter, Download, RefreshCw, FileText, CheckCircle, Clock, AlertCircle } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../../dashboard/src/components/professional/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../professional/ProfessionalSidebarNavigation';
 import PersistentChatBar from './PersistentChatBar';
 interface MetricCard {
   id: string;
@@ -36,7 +37,11 @@ interface PlatformMetric {
   postsPublished: number;
   growth: number;
 }
-const PerformancePage: React.FC = () => {
+interface PerformancePageProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const PerformancePage: React.FC<PerformancePageProps> = ({ onNavigate }) => {
   const [selectedTimeRange, setSelectedTimeRange] = useState('7d');
   const [sortBy, setSortBy] = useState('engagement');
   const handleSendMessage = (message: string) => {
@@ -241,18 +246,11 @@ const PerformancePage: React.FC = () => {
         return 'text-gray-400';
     }
   };
-  return <div className="min-h-screen w-full flex bg-gradient-to-br from-cyan-600 via-cyan-700 to-blue-800">
-      {/* Cyan gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-cyan-600 via-cyan-700 to-blue-800 -z-10" />
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation />
-      
-      {/* Professional Services 24px Standard Gap */}
-      <div className="flex-shrink-0" style={{ width: "24px" }} />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="blue"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={() => {}} activePageId="performance" />}
+    >
         {/* Main Content Container */}
         <div className="flex-1 pl-4 pr-4 md:pl-0 md:pr-6 lg:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8 overflow-auto">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-0">
@@ -614,7 +612,7 @@ const PerformancePage: React.FC = () => {
           </motion.div>
           </div>
         </div>
-      </main>
-    </div>;
+    </ProfessionalLayout>
+  );
 };
 export default PerformancePage;

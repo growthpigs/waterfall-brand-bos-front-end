@@ -1,0 +1,58 @@
+#\!/bin/sh
+
+echo "🔍 Running pre-commit checks..."
+
+# Get the list of modified files
+modified_files=$(git diff --cached --name-only)
+
+# Check which apps have modified files
+apps_to_check=""
+for file in $modified_files; do
+  if [[ $file == dashboard/* ]]; then
+    apps_to_check="$apps_to_check dashboard"
+  elif [[ $file == CIA/* ]]; then
+    apps_to_check="$apps_to_check CIA"
+  elif [[ $file == "Campaign Control"/* ]]; then
+    apps_to_check="$apps_to_check Campaign_Control"
+  elif [[ $file == "Content Calendar"/* ]]; then
+    apps_to_check="$apps_to_check Content_Calendar"
+  elif [[ $file == "Content Engine"/* ]]; then
+    apps_to_check="$apps_to_check Content_Engine"
+  elif [[ $file == Performance/* ]]; then
+    apps_to_check="$apps_to_check Performance"
+  elif [[ $file == Settings/* ]]; then
+    apps_to_check="$apps_to_check Settings"
+  fi
+done
+
+# Remove duplicates
+apps_to_check=$(echo $apps_to_check | tr ' ' '\n' | sort -u | tr '\n' ' ')
+
+# If no app files modified, exit early
+if [ -z "$apps_to_check" ]; then
+  echo "✅ No app files modified"
+  exit 0
+fi
+
+# Run health checks for modified apps
+for app in $apps_to_check; do
+  # Convert underscore back to space for directory name
+  app_dir=$(echo $app | sed 's/_/ /g')
+  
+  echo "🏥 Running health check for $app_dir..."
+  
+  if [ -d "$app_dir" ]; then
+    cd "$app_dir" || exit 1
+    
+    # Run health check
+    npm run health:check || {
+      echo "❌ Health check failed in $app_dir"
+      exit 1
+    }
+    
+    cd ..
+  fi
+done
+
+echo "✅ All pre-commit checks passed\!"
+EOF < /dev/null

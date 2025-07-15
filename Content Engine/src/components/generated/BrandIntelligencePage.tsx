@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Target, Calendar, Search, Play, Download, Send, ChevronDown, Clock, CheckCircle, AlertCircle, Zap, TrendingUp, Brain, Slack, Mail, Users } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../../dashboard/src/components/professional/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../professional/ProfessionalSidebarNavigation';
 interface OpportunityOption {
   id: string;
   score: number;
@@ -11,7 +12,11 @@ interface OpportunityOption {
   description: string;
   selected?: boolean;
 }
-const BrandIntelligencePage: React.FC = () => {
+interface BrandIntelligencePageProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const BrandIntelligencePage: React.FC<BrandIntelligencePageProps> = ({ onNavigate }) => {
   const [selectedUrl, setSelectedUrl] = useState('');
   const [selectedCompany, setSelectedCompany] = useState('UAG Financial');
   const [selectedCountry, setSelectedCountry] = useState('United States');
@@ -38,13 +43,11 @@ const BrandIntelligencePage: React.FC = () => {
   const handleSelectOpportunity = (opportunityId: string) => {
     setSelectedOpportunity(opportunityId);
   };
-  return <div className="flex h-screen w-full overflow-hidden">
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 flex relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="blue"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={() => {}} activePageId="brand-intelligence" />}
+    >
         {/* Main Content */}
         <div className="flex-1 px-8 pt-8 overflow-auto">
           <motion.div initial={{
@@ -78,7 +81,7 @@ const BrandIntelligencePage: React.FC = () => {
             duration: 0.6,
             delay: 0.1
           }} className="mb-8">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 shadow-xl">
+              <div className="glass-card">
                 <div className="flex items-center mb-6">
                   <div className="w-3 h-3 bg-green-400 rounded-full mr-3"></div>
                   <h2 className="text-xl font-bold text-white flex items-center">
@@ -88,7 +91,7 @@ const BrandIntelligencePage: React.FC = () => {
                 </div>
 
                 {/* New Analysis Form */}
-                <div className="bg-white/5 rounded-xl p-4 mb-6 border border-green-400/30">
+                <div className="glass-small mb-6 border border-green-400/30">
                   <h3 className="text-white font-semibold mb-4 flex items-center">
                     <Zap className="w-4 h-4 mr-2 text-green-400" />
                     New Analysis
@@ -165,7 +168,7 @@ const BrandIntelligencePage: React.FC = () => {
             duration: 0.6,
             delay: 0.2
           }} className="mb-8">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 shadow-xl">
+              <div className="glass-card">
                 <div className="flex items-center mb-6">
                   <div className="w-3 h-3 bg-blue-400 rounded-full mr-3"></div>
                   <h2 className="text-xl font-bold text-white flex items-center">
@@ -175,7 +178,7 @@ const BrandIntelligencePage: React.FC = () => {
                 </div>
 
                 {/* Opportunities Selection */}
-                <div className="bg-white/5 rounded-xl p-4 mb-6 border border-blue-400/30">
+                <div className="glass-small mb-6 border border-blue-400/30">
                   <h3 className="text-white font-semibold mb-4 flex items-center">
                     <TrendingUp className="w-4 h-4 mr-2 text-blue-400" />
                     This Week's Opportunities (Choose by Tue 5PM)
@@ -240,7 +243,7 @@ const BrandIntelligencePage: React.FC = () => {
             duration: 0.6,
             delay: 0.3
           }} className="mb-8">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 shadow-xl">
+              <div className="glass-card">
                 <div className="flex items-center mb-6">
                   <div className="w-3 h-3 bg-orange-400 rounded-full mr-3"></div>
                   <h2 className="text-xl font-bold text-white flex items-center">
@@ -346,7 +349,7 @@ const BrandIntelligencePage: React.FC = () => {
         duration: 0.6,
         delay: 0.4
       }} className="w-80 p-6">
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-4 shadow-xl sticky top-8">
+          <div className="glass-card p-4 sticky top-8">
             <h3 className="text-white font-semibold mb-4 flex items-center">
               <Brain className="w-4 h-4 mr-2" />
               Latest Intelligence
@@ -383,7 +386,7 @@ const BrandIntelligencePage: React.FC = () => {
             </button>
           </div>
         </motion.div>
-      </main>
-    </div>;
+    </ProfessionalLayout>
+  );
 };
 export default BrandIntelligencePage;

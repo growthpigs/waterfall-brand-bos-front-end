@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, AlertTriangle, Circle, Settings as SettingsIcon, Clock, Users, Bell, CreditCard, Download, Upload, Key, Globe, Calendar, DollarSign, RefreshCw, Trash2, Plus, X, Save, TestTube, Shield, Zap, TrendingUp } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../../dashboard/src/components/professional/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../professional/ProfessionalSidebarNavigation';
 import PersistentChatBar from './PersistentChatBar';
 interface IntegrationStatus {
   id: string;
@@ -27,7 +28,11 @@ interface TeamMember {
   email: string;
   role: 'Admin' | 'Editor' | 'Viewer';
 }
-const SettingsPage: React.FC = () => {
+interface SettingsPageProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const SettingsPage: React.FC<SettingsPageProps> = ({ onNavigate }) => {
   // Integration Status Section
   const [integrations] = useState<IntegrationStatus[]>([{
     id: 'ghl-mcp',
@@ -202,18 +207,12 @@ const SettingsPage: React.FC = () => {
   const testSlackConnection = () => {
     console.log('Testing Slack connection...');
   };
-  return <div className="flex h-screen w-full overflow-hidden">
-      {/* Full-screen gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-b from-slate-500 to-slate-700 -z-10" />
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation />
-      
-      {/* Professional Services 24px Standard Gap */}
-      <div className="flex-shrink-0" style={{ width: "24px" }} />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="purple"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={() => {}} activePageId="settings" />}
+    >
+
         <div className="flex-1 pl-4 pr-4 md:pl-0 md:pr-6 lg:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8 overflow-auto">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-0">
             <motion.div initial={{
@@ -508,7 +507,8 @@ const SettingsPage: React.FC = () => {
             </motion.div>
           </div>
         </div>
-      </main>
-    </div>;
+      
+    </ProfessionalLayout>
+  );
 };
 export default SettingsPage;

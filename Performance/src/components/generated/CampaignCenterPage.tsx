@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Facebook, Globe, Mail, TrendingUp, Users, DollarSign, Eye, MousePointer, Play, Pause, Edit3, MoreHorizontal, Plus, Settings, AlertTriangle, CheckCircle, Clock, Target, BarChart3, Zap, ChevronDown } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../../dashboard/src/components/professional/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../professional/ProfessionalSidebarNavigation';
 import PersistentChatBar from './PersistentChatBar';
 interface CampaignMetrics {
   spend: number;
@@ -22,7 +23,11 @@ interface Campaign {
   thumbnail: string;
   metrics: CampaignMetrics;
 }
-const CampaignCenterPage: React.FC = () => {
+interface CampaignCenterPageProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const CampaignCenterPage: React.FC<CampaignCenterPageProps> = ({ onNavigate }) => {
   const [selectedCampaigns, setSelectedCampaigns] = useState<string[]>([]);
   const handleSendMessage = (message: string) => {
     console.log('Campaign Assistant message:', message);
@@ -135,13 +140,12 @@ const CampaignCenterPage: React.FC = () => {
     if (roi >= 150) return 'text-yellow-400';
     return 'text-red-400';
   };
-  return <div className="flex h-screen w-full overflow-hidden">
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="pink"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={() => {}} activePageId="campaign-center" />}
+    >
+
         {/* Main Content Container */}
         <div className="flex-1 px-8 pt-8 overflow-auto">
           <motion.div initial={{
@@ -487,7 +491,8 @@ const CampaignCenterPage: React.FC = () => {
             </div>
           </motion.div>
         </div>
-      </main>
-    </div>;
+      
+    </ProfessionalLayout>
+  );
 };
 export default CampaignCenterPage;

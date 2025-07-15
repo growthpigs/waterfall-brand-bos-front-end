@@ -2,12 +2,17 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../shared/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../../../../dashboard/src/components/professional/ProfessionalSidebarNavigation';
 import DashboardCardGrid from './DashboardCardGrid';
 import NotificationBubbles from './NotificationBubbles';
 import PersistentChatBar from './PersistentChatBar';
 import BrandLogo from './BrandLogo';
-const BrandBOSDashboard: React.FC = () => {
+interface BrandBOSDashboardProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const BrandBOSDashboard: React.FC<BrandBOSDashboardProps> = ({ onNavigate }) => {
   const handleSendMessage = (message: string) => {
     console.log('Message sent:', message);
     // Handle message sending logic here
@@ -16,16 +21,12 @@ const BrandBOSDashboard: React.FC = () => {
     console.log('Logo clicked - navigate to home');
     // Handle navigation to home/dashboard
   };
-  return <div className="flex h-screen w-full overflow-hidden">
-      
-      {/* Left Sidebar - transparent/glassmorphic on top of gradient */}
-      <SidebarNavigation />
-      
-      {/* Fixed 30px gap */}
-      <div className="w-[30px] flex-shrink-0" />
-      
-      {/* Main Content Area - no background, sits on gradient */}
-      <main className="flex-1 flex flex-col relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="blue"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={onNavigate} activePageId="dashboard" />}
+    >
+      {/* Main Content Area */}
         {/* Header with Logo and Notifications */}
         <header className="relative h-16 flex items-center justify-between px-8 bg-white/10 backdrop-blur-sm border-b border-white/20" style={{
         display: "none"
@@ -65,7 +66,7 @@ const BrandBOSDashboard: React.FC = () => {
             </div>
           </motion.div>
         </div>
-      </main>
-    </div>;
+    </ProfessionalLayout>
+  );
 };
 export default BrandBOSDashboard;

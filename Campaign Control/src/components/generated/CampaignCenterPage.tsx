@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Brain, DollarSign, FileText, Target, TrendingUp, Users, BarChart3, Zap, ChevronDown, Plus, Settings, AlertTriangle, CheckCircle, Clock, Play, Pause, Edit3, MoreHorizontal, Lightbulb, Megaphone, Calendar } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../shared/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../professional/ProfessionalSidebarNavigation';
 import PersistentChatBar from './PersistentChatBar';
 interface CampaignMetrics {
   budget: number;
@@ -22,7 +23,11 @@ interface Campaign {
   metrics: CampaignMetrics;
   description?: string;
 }
-const CampaignCenterPage: React.FC = () => {
+interface CampaignCenterPageProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const CampaignCenterPage: React.FC<CampaignCenterPageProps> = ({ onNavigate }) => {
   const [selectedCampaigns, setSelectedCampaigns] = useState<string[]>([]);
   const handleSendMessage = (message: string) => {
     console.log('Campaign Assistant message:', message);
@@ -177,18 +182,11 @@ const CampaignCenterPage: React.FC = () => {
         return <BarChart3 className="w-8 h-8 text-white" />;
     }
   };
-  return <div className="min-h-screen w-full flex bg-gradient-to-br from-pink-600 via-pink-700 to-pink-800">
-      {/* Pink gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-pink-600 via-pink-700 to-pink-800 -z-10" />
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation />
-      
-      {/* Professional Services 24px Standard Gap */}
-      <div className="flex-shrink-0" style={{ width: "24px" }} />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="green"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={() => {}} activePageId="campaign-center" />}
+    >
         {/* Main Content Container */}
         <div className="flex-1 pl-4 pr-4 md:pl-0 md:pr-6 lg:pr-8 pt-6 sm:pt-8 pb-6 sm:pb-8 overflow-auto">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-0">
@@ -640,7 +638,7 @@ const CampaignCenterPage: React.FC = () => {
             </motion.div>
           </div>
         </div>
-      </main>
-    </div>;
+    </ProfessionalLayout>
+  );
 };
 export default CampaignCenterPage;

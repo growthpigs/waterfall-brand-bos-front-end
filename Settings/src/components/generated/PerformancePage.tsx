@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, Minus, Eye, Heart, Share2, MousePointer, DollarSign, Users, Calendar, Filter, Download, ChevronDown, ArrowUpRight, Target, Zap, Globe, BarChart3 } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../../dashboard/src/components/professional/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../professional/ProfessionalSidebarNavigation';
 import PersistentChatBar from './PersistentChatBar';
 interface MetricCardProps {
   title: string;
@@ -167,7 +168,11 @@ const PlatformCard: React.FC<{
       </div>
     </div>
   </motion.div>;
-const PerformancePage: React.FC = () => {
+interface PerformancePageProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const PerformancePage: React.FC<PerformancePageProps> = ({ onNavigate }) => {
   const [selectedDateRange, setSelectedDateRange] = useState('30d');
   const [sortBy, setSortBy] = useState('performance');
   const handleSendMessage = (message: string) => {
@@ -299,18 +304,12 @@ const PerformancePage: React.FC = () => {
     impact: 'Medium',
     icon: Target
   }] as any[];
-  return <div className="flex h-screen w-full overflow-hidden">
-      {/* Full-screen gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-800 -z-10" />
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation />
-      
-      {/* Fixed 30px gap */}
-      <div className="w-[30px] flex-shrink-0" />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="blue"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={() => {}} activePageId="performance" />}
+    >
+
         {/* Main Content Container */}
         <motion.div initial={{
           opacity: 0,
@@ -514,7 +513,8 @@ const PerformancePage: React.FC = () => {
             </div>
           </motion.div>
         </div>
-      </main>
-    </div>;
+      
+    </ProfessionalLayout>
+  );
 };
 export default PerformancePage;

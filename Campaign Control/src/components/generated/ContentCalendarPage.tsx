@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, ChevronLeft, ChevronRight, Clock, CheckCircle, Edit3, Instagram, Twitter, Linkedin, Facebook, Youtube, MessageSquare, Send, X, Minimize2, Maximize2, BarChart3, Target, Zap, Settings, ArrowRight, TrendingUp, Users, Eye } from 'lucide-react';
-import SidebarNavigation from './SidebarNavigation';
+import ProfessionalLayout from '../shared/ProfessionalLayout';
+import ProfessionalSidebarNavigation from '../professional/ProfessionalSidebarNavigation';
 interface ContentCard {
   id: string;
   platform: 'instagram' | 'twitter' | 'linkedin' | 'facebook' | 'youtube';
@@ -129,7 +130,11 @@ const generateWeekData = (): DayColumn[] => {
     };
   });
 };
-const ContentCalendarPage: React.FC = () => {
+interface ContentCalendarPageProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const ContentCalendarPage: React.FC<ContentCalendarPageProps> = ({ onNavigate }) => {
   const [currentView, setCurrentView] = useState<'month' | 'week' | 'day'>('week');
   const [weekData] = useState<DayColumn[]>(generateWeekData());
   const [chatOpen, setChatOpen] = useState(false);
@@ -185,18 +190,11 @@ const ContentCalendarPage: React.FC = () => {
       setChatMessage('');
     }
   };
-  return <div className="flex h-screen w-full overflow-hidden">
-      {/* Full-screen gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-[#F97316] to-[#C2410C] -z-10" />
-      
-      {/* Left Sidebar */}
-      <SidebarNavigation />
-      
-      {/* Fixed 30px gap */}
-      <div className="w-[30px] flex-shrink-0" />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 flex relative min-h-screen">
+  return (
+    <ProfessionalLayout
+      theme="orange"
+      sidebar={<ProfessionalSidebarNavigation onNavigate={() => {}} activePageId="content-calendar" />}
+    >
         {/* Main Content */}
         <div className="flex-1 px-8 pt-8 overflow-auto pr-96" style={{
         width: "1400px",
@@ -539,7 +537,7 @@ const ContentCalendarPage: React.FC = () => {
                 </>}
             </motion.div>}
         </div>
-      </main>
-    </div>;
+    </ProfessionalLayout>
+  );
 };
 export default ContentCalendarPage;

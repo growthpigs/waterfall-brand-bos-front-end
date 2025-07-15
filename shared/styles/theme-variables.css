@@ -1,0 +1,211 @@
+/**
+ * Brand BOS Professional Services Theme Variables
+ * Theme-independent spacing and background system
+ */
+
+:root {
+  /* Professional Services Spacing System */
+  --sidebar-spacing: 24px;
+  --content-spacing: 32px;
+  --mobile-spacing: 16px;
+  
+  /* Professional Services Layout Heights */
+  --sidebar-width-expanded: 320px;
+  --sidebar-width-collapsed: 80px;
+  --sidebar-header-height: 185px;
+  --sidebar-nav-height: 690px;
+  
+  /* Professional Services Glassmorphic Background System */
+  --glass-bg-primary: rgba(255, 255, 255, 0.10);
+  --glass-bg-secondary: rgba(255, 255, 255, 0.05);
+  --glass-bg-hover: rgba(255, 255, 255, 0.15);
+  --glass-bg-active: rgba(255, 255, 255, 0.20);
+  
+  /* Professional Services Border System */
+  --glass-border-primary: rgba(255, 255, 255, 0.20);
+  --glass-border-secondary: rgba(255, 255, 255, 0.10);
+  --glass-border-hover: rgba(255, 255, 255, 0.30);
+  
+  /* Professional Services Blur System */
+  --glass-blur-primary: blur(12px);
+  --glass-blur-secondary: blur(8px);
+  --glass-blur-heavy: blur(24px);
+  
+  /* Professional Services Backdrop System */
+  --glass-backdrop-primary: blur(16px);
+  --glass-backdrop-secondary: blur(12px);
+  --glass-backdrop-light: blur(8px);
+  
+  /* Professional Services Radius System */
+  --glass-radius-small: 8px;
+  --glass-radius-medium: 12px;
+  --glass-radius-large: 16px;
+  --glass-radius-xl: 20px;
+  
+  /* Professional Services Shadow System */
+  --glass-shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --glass-shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --glass-shadow-heavy: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Theme-Independent Background Differentiation */
+.sidebar-container {
+  background: var(--glass-bg-secondary);
+  backdrop-filter: var(--glass-backdrop-secondary);
+  border-right: 1px solid var(--glass-border-primary);
+}
+
+.sidebar-content {
+  background: var(--glass-bg-primary);
+  backdrop-filter: var(--glass-backdrop-primary);
+  border: 1px solid var(--glass-border-secondary);
+  border-radius: var(--glass-radius-large);
+}
+
+.main-content-container {
+  background: transparent;
+  margin-left: var(--sidebar-spacing);
+}
+
+/* Professional Services Card System */
+.glass-card {
+  background: var(--glass-bg-primary);
+  backdrop-filter: var(--glass-backdrop-primary);
+  border: 1px solid var(--glass-border-secondary);
+  border-radius: var(--glass-radius-large);
+  box-shadow: var(--glass-shadow-medium);
+}
+
+.glass-card:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--glass-shadow-heavy);
+}
+
+.glass-card--active {
+  background: var(--glass-bg-active);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-heavy);
+}
+
+/* Professional Services Button System */
+.glass-button {
+  background: var(--glass-bg-primary);
+  backdrop-filter: var(--glass-backdrop-light);
+  border: 1px solid var(--glass-border-secondary);
+  border-radius: var(--glass-radius-medium);
+  transition: all 0.2s ease-in-out;
+}
+
+.glass-button:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  transform: scale(1.02);
+}
+
+.glass-button:active {
+  background: var(--glass-bg-active);
+  transform: scale(0.98);
+}
+
+/* Professional Services Navigation System */
+.glass-nav-item {
+  background: var(--glass-bg-secondary);
+  backdrop-filter: var(--glass-backdrop-light);
+  border: 1px solid var(--glass-border-secondary);
+  border-radius: var(--glass-radius-medium);
+  transition: all 0.2s ease-in-out;
+}
+
+.glass-nav-item:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+}
+
+.glass-nav-item--active {
+  background: var(--glass-bg-active);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-medium);
+}
+
+/* Professional Services Mobile Responsive */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-spacing: var(--mobile-spacing);
+  }
+  
+  .main-content-container {
+    margin-left: var(--mobile-spacing);
+  }
+}
+
+/* Professional Services Authority Building Layout */
+.authority-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.authority-sidebar {
+  flex-shrink: 0;
+  width: var(--sidebar-width-expanded);
+  background: var(--glass-bg-secondary);
+  backdrop-filter: var(--glass-backdrop-secondary);
+  border-right: 1px solid var(--glass-border-primary);
+}
+
+.authority-sidebar--collapsed {
+  width: var(--sidebar-width-collapsed);
+}
+
+.authority-content {
+  flex: 1;
+  margin-left: var(--sidebar-spacing);
+  background: transparent;
+  min-height: 100vh;
+}
+
+/* Professional Services Theme Consistency */
+.theme-orange .glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.theme-green .glass-card {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.20);
+}
+
+.theme-blue .glass-card {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* Professional Services Accessibility */
+.glass-card:focus-within {
+  outline: 2px solid rgba(255, 255, 255, 0.4);
+  outline-offset: 2px;
+}
+
+.glass-button:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.4);
+  outline-offset: 2px;
+}
+
+/* Professional Services Animation Standards */
+.glass-transition {
+  transition: all 0.2s ease-in-out;
+}
+
+.glass-hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+.glass-hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.glass-active-scale:active {
+  transform: scale(0.98);
+}
