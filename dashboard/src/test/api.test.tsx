@@ -48,7 +48,7 @@ describe("GHL Service", () => {
   describe("authenticateGHL", () => {
     it("should authenticate and store API key", async () => {
       const mockApiKey = "test-api-key";
-      
+
       const result = await ghlService.authenticateGHL(mockApiKey);
 
       expect(result).toEqual({ success: true });
@@ -59,7 +59,7 @@ describe("GHL Service", () => {
       await expect(ghlService.authenticateGHL("invalid-key")).rejects.toThrow(
         "Invalid API key",
       );
-      expect(localStorage.getItem("ghlApiKey")).toBeNull();
+      expect(localStorage.getItem("ghlApiKey")).toBe(null);
     });
   });
 
