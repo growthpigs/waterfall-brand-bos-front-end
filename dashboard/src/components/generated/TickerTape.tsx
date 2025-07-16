@@ -59,14 +59,14 @@ const TickerTape: React.FC = () => {
       case 'warning':
         return 'text-orange-400';
       case 'update':
-        return 'text-purple-400';
+        return 'text-white/70';
       default:
         return 'text-blue-400';
     }
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/20 backdrop-blur-lg border-t border-purple-500/30 overflow-hidden">
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/20 backdrop-blur-lg border-t border-white/20 overflow-hidden">
       <div className="h-8 flex items-center">
         <motion.div
           animate={{
@@ -92,7 +92,7 @@ const TickerTape: React.FC = () => {
                 {item.text}
               </span>
               {index < (tickerItems.length * 2) - 1 && (
-                <div className="w-1 h-1 bg-purple-400/50 rounded-full ml-8" />
+                <div className="w-1 h-1 bg-white/30 rounded-full ml-8" />
               )}
             </div>
           ))}

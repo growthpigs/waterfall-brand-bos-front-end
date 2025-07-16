@@ -282,7 +282,7 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
               onClick={toggleChatHistory}
               className={`p-2 rounded-xl transition-all duration-200 mr-3 ${
                 chatState === 'history'
-                  ? 'text-purple-300 bg-white/20'
+                  ? 'text-white bg-white/20'
                   : 'text-white hover:text-gray-200 hover:bg-white/20'
               }`}
             >
@@ -317,7 +317,7 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="w-2 h-2 bg-purple-500 rounded-full"
+                className="w-2 h-2 bg-white/60 rounded-full"
               />
             </div>
           </div>
@@ -359,7 +359,7 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
                 whileTap={{ scale: 0.95 }}
                 className={`p-2 rounded-xl transition-all duration-200 ${
                   message.trim()
-                    ? 'bg-gradient-to-r from-purple-500 to-orange-500 text-white shadow-lg hover:shadow-purple-500/25'
+                    ? 'bg-white/80 text-gray-800 shadow-lg hover:bg-white'
                     : 'bg-white/30 text-white cursor-not-allowed'
                 }`}
               >

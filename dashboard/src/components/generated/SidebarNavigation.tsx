@@ -126,7 +126,7 @@ const TopNavigation: React.FC = () => {
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 rounded-lg text-purple-700 hover:bg-purple-50 transition-all duration-200"
+                  className="p-2 rounded-lg text-white/70 hover:bg-white/10 transition-all duration-200"
                 >
                   <X className="w-6 h-6" />
                 </motion.button>
@@ -147,8 +147,8 @@ const TopNavigation: React.FC = () => {
                     }}
                     className={`w-full px-6 py-4 rounded-lg font-semibold transition-all duration-200 flex items-center space-x-3 ${
                       item.active
-                        ? 'bg-purple-100 text-purple-800 border-l-4 border-purple-600'
-                        : 'text-purple-700 hover:bg-purple-50'
+                        ? 'bg-white/20 text-white border-l-4 border-white/60'
+                        : 'text-white/80 hover:bg-white/10'
                     }`}
                   >
                     <item.icon className="w-5 h-5" />

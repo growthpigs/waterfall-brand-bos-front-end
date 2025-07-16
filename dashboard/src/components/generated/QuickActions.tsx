@@ -54,10 +54,10 @@ const QuickActions: React.FC = () => {
     {
       icon: Zap,
       label: 'Quick Campaign',
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-600/10',
-      borderColor: 'border-purple-600/30',
-      hoverBorderColor: 'hover:border-purple-500/50',
+      color: 'text-indigo-400',
+      bgColor: 'bg-indigo-600/10',
+      borderColor: 'border-indigo-600/30',
+      hoverBorderColor: 'hover:border-indigo-500/50',
       hoverShadowColor: ''
     },
     {

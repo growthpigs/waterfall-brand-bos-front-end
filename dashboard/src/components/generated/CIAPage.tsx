@@ -278,11 +278,21 @@ const CIAPage: React.FC = () => {
               </div>
             </div>
 
-            <motion.button onClick={handleLaunchAnalysis} disabled={!url || !country || isAnalyzing} whileHover={{
-              scale: url && country ? 1.02 : 1
-            }} whileTap={{
-              scale: url && country ? 0.98 : 1
-            }} className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 ${url && country && !isAnalyzing ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg hover:shadow-xl' : 'bg-white/20 text-white/60 cursor-not-allowed'}`}>
+            <motion.button 
+              onClick={handleLaunchAnalysis} 
+              disabled={!url || !country || isAnalyzing} 
+              whileHover={{
+                scale: url && country ? 1.02 : 1
+              }} 
+              whileTap={{
+                scale: url && country ? 0.98 : 1
+              }} 
+              className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 ${
+                url && country && !isAnalyzing 
+                  ? 'bg-blue-500/80 hover:bg-blue-500 text-white shadow-lg hover:shadow-xl' 
+                  : 'bg-white/20 text-white/60 cursor-not-allowed'
+              }`}
+            >
               {isAnalyzing ? <div className="flex items-center justify-center">
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2" />
                 Launching Analysis...
@@ -416,7 +426,7 @@ const CIAPage: React.FC = () => {
                 <p className="text-sm text-white/70">Download reports (PDF, CSV)</p>
               </button>
               <button className="p-4 bg-white/10 rounded-xl border border-white/20 hover:bg-white/20 transition-colors text-left">
-                <Send className="w-8 h-8 text-purple-400 mb-2" />
+                <Send className="w-8 h-8 text-blue-400 mb-2" />
                 <h3 className="font-semibold text-white mb-1">Send to Content Engine</h3>
                 <p className="text-sm text-white/70">Transfer insights for content creation</p>
               </button>

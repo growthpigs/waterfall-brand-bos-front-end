@@ -237,7 +237,7 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
       case 'scheduled':
         return <Calendar className="w-4 h-4 text-blue-400" />;
       case 'published':
-        return <CheckCircle className="w-4 h-4 text-purple-400" />;
+        return <CheckCircle className="w-4 h-4 text-emerald-400" />;
       default:
         return <AlertCircle className="w-4 h-4 text-gray-400" />;
     }
@@ -285,7 +285,7 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
         <div className={glassCardStyles + ' p-6'} style={{ boxShadow: perfectCardShadow }}>
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center">
-              <div className="w-3 h-3 bg-purple-400 rounded-full mr-3"></div>
+              <div className="w-3 h-3 bg-emerald-400 rounded-full mr-3"></div>
               <h2 className="text-xl font-bold text-white">
                 Content Cluster: {selectedCluster}
               </h2>

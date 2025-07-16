@@ -32,22 +32,18 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({ title, icon: Icon, ch
   );
 };
 
-const ToggleSwitch: React.FC<{ enabled: boolean; onChange: () => void }> = ({ enabled, onChange }) => {
-  return (
-    <button
-      onClick={onChange}
-      className={`relative w-12 h-6 rounded-full transition-all duration-300 ${
-        enabled ? 'bg-gradient-to-r from-purple-500 to-orange-500' : 'bg-black/30 border border-purple-400/20'
-      }`}
-    >
-      <motion.div
-        animate={{ x: enabled ? 24 : 0 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-lg"
-      />
-    </button>
-  );
-};
+const ToggleSwitch: React.FC<{ enabled: boolean; onChange: (enabled: boolean) => void }> = ({ enabled, onChange }) => (
+  <button
+    onClick={() => onChange(!enabled)}
+    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+      enabled ? 'bg-gray-500/80' : 'bg-black/30 border border-gray-400/20'
+    }`}
+  >
+    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+      enabled ? 'translate-x-6' : 'translate-x-1'
+    }`} />
+  </button>
+);
 
 const SettingsPage: React.FC = () => {
   console.log('Settings loaded successfully');
@@ -118,7 +114,7 @@ const SettingsPage: React.FC = () => {
                       <p className="text-sm text-white/60">Receive campaign updates via email</p>
                     </div>
                   </div>
-                  <ToggleSwitch enabled={emailNotifications} onChange={() => setEmailNotifications(!emailNotifications)} />
+                  <ToggleSwitch enabled={emailNotifications} onChange={setEmailNotifications} />
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -128,7 +124,7 @@ const SettingsPage: React.FC = () => {
                       <p className="text-sm text-white/60">Get instant alerts on your device</p>
                     </div>
                   </div>
-                  <ToggleSwitch enabled={pushNotifications} onChange={() => setPushNotifications(!pushNotifications)} />
+                  <ToggleSwitch enabled={pushNotifications} onChange={setPushNotifications} />
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -138,7 +134,7 @@ const SettingsPage: React.FC = () => {
                       <p className="text-sm text-white/60">Automatically publish scheduled content</p>
                     </div>
                   </div>
-                  <ToggleSwitch enabled={autoPublish} onChange={() => setAutoPublish(!autoPublish)} />
+                  <ToggleSwitch enabled={autoPublish} onChange={setAutoPublish} />
                 </div>
               </div>
             </SettingsSection>
@@ -159,7 +155,7 @@ const SettingsPage: React.FC = () => {
                     <p className="text-white/90 font-medium">Dark Mode</p>
                     <p className="text-sm text-white/60">Use dark theme across the platform</p>
                   </div>
-                  <ToggleSwitch enabled={darkMode} onChange={() => setDarkMode(!darkMode)} />
+                  <ToggleSwitch enabled={darkMode} onChange={setDarkMode} />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-white/75 mb-2">Language</label>
@@ -183,7 +179,7 @@ const SettingsPage: React.FC = () => {
                       <p className="text-sm text-white/60">Add an extra layer of security</p>
                     </div>
                   </div>
-                  <ToggleSwitch enabled={twoFactor} onChange={() => setTwoFactor(!twoFactor)} />
+                  <ToggleSwitch enabled={twoFactor} onChange={setTwoFactor} />
                 </div>
                 <div>
                   <button className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-purple-400/20 text-white/90 hover:border-orange-400/30 hover:bg-black/25 transition-all duration-300 text-left">
@@ -206,7 +202,7 @@ const SettingsPage: React.FC = () => {
                     <p className="text-white/90 font-medium">Data Sharing</p>
                     <p className="text-sm text-white/60">Share anonymized data for improvements</p>
                   </div>
-                  <ToggleSwitch enabled={dataSharing} onChange={() => setDataSharing(!dataSharing)} />
+                  <ToggleSwitch enabled={dataSharing} onChange={setDataSharing} />
                 </div>
                 <div>
                   <button className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-purple-400/20 text-white/90 hover:border-orange-400/30 hover:bg-black/25 transition-all duration-300 text-left">
@@ -228,16 +224,16 @@ const SettingsPage: React.FC = () => {
                   <label className="block text-sm font-medium text-white/75 mb-2">Timezone</label>
                   <select className="w-full bg-white/95 rounded-2xl px-4 py-3 border border-slate-200 text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400/20 transition-all duration-300 appearance-none cursor-pointer">
                     {timezones.map(tz => (
-                      <option key={tz} value={tz} className="bg-purple-900">{tz}</option>
+                      <option key={tz} value={tz} className="bg-gray-800">{tz}</option>
                     ))}
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-white/75 mb-2">Date Format</label>
                   <select className="w-full bg-white/95 rounded-2xl px-4 py-3 border border-slate-200 text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400/20 transition-all duration-300 appearance-none cursor-pointer">
-                    <option className="bg-purple-900">MM/DD/YYYY</option>
-                    <option className="bg-purple-900">DD/MM/YYYY</option>
-                    <option className="bg-purple-900">YYYY-MM-DD</option>
+                    <option className="bg-gray-800">MM/DD/YYYY</option>
+                    <option className="bg-gray-800">DD/MM/YYYY</option>
+                    <option className="bg-gray-800">YYYY-MM-DD</option>
                   </select>
                 </div>
               </div>
@@ -251,8 +247,8 @@ const SettingsPage: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.7 }}
             className="mt-8 flex justify-center"
           >
-            <button className="bg-gradient-to-r from-purple-500 to-orange-500 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300">
-              Save All Changes
+            <button className="bg-gray-600/80 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
+              Save Settings
             </button>
           </motion.div>
     </PageLayout>

@@ -210,7 +210,7 @@ const ContentCalendarPage: React.FC = () => {
               <div className="text-white/70 text-sm">
                 <span className="font-medium text-white">24</span> posts this week
               </div>
-              <button className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors">
+              <button className="px-4 py-2 bg-orange-500/80 hover:bg-orange-500 text-white rounded-lg transition-colors">
                 Add Content
               </button>
             </div>
@@ -238,7 +238,7 @@ const ContentCalendarPage: React.FC = () => {
             </div>
             <div className="bg-white/5 rounded-lg p-4">
               <div className="text-white/70 text-sm mb-1">Engagement</div>
-              <div className="text-2xl font-bold text-purple-400">89%</div>
+              <div className="text-2xl font-bold text-orange-300">89%</div>
               <div className="text-green-400 text-xs flex items-center mt-1">
                 <TrendingUp className="w-3 h-3 mr-1" />
                 +5% avg rate
@@ -275,11 +275,11 @@ const ContentCalendarPage: React.FC = () => {
                 {/* Day Header */}
                 <div className={`h-12 flex flex-col items-center justify-center rounded-lg ${
                   day.isToday 
-                    ? 'bg-purple-500/30 border border-purple-400/50' 
+                    ? 'bg-orange-500/20 border border-orange-400/40' 
                     : 'bg-white/5'
                 }`}>
                   <span className="text-white text-sm font-medium">{day.dayName}</span>
-                  <span className={`text-xs ${day.isToday ? 'text-purple-200' : 'text-white/60'}`}>
+                  <span className={`text-xs ${day.isToday ? 'text-orange-200' : 'text-white/60'}`}>
                     {day.dayNumber}
                   </span>
                 </div>
@@ -349,7 +349,7 @@ const ContentCalendarPage: React.FC = () => {
                     item.color === 'blue' ? 'bg-blue-400' :
                     item.color === 'yellow' ? 'bg-yellow-400' :
                     item.color === 'green' ? 'bg-green-400' :
-                    item.color === 'purple' ? 'bg-purple-400' : 'bg-pink-400'
+                    item.color === 'purple' ? 'bg-orange-400' : 'bg-pink-400'
                   }`} />
                   <span className="text-white font-medium">{item.stage}</span>
                 </div>
