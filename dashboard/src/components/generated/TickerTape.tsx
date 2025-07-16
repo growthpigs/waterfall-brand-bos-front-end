@@ -66,8 +66,8 @@ const TickerTape: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/30 backdrop-blur-lg border-t border-purple-500/30 overflow-hidden">
-      <div className="h-12 flex items-center">
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/20 backdrop-blur-lg border-t border-purple-500/30 overflow-hidden">
+      <div className="h-8 flex items-center">
         <motion.div
           animate={{
             x: [window.innerWidth, -window.innerWidth * 2]
@@ -82,13 +82,13 @@ const TickerTape: React.FC = () => {
           {/* Repeat items to ensure continuous scroll */}
           {[...tickerItems, ...tickerItems].map((item, index) => (
             <div
-              key={index}
+              key={`ticker-${index}`}
               className="flex items-center space-x-3 px-4"
             >
               <div className={`p-1.5 rounded-full bg-black/20 ${getTypeColor(item.type)}`}>
                 <item.icon className="w-3 h-3" />
               </div>
-              <span className="text-white/90 text-sm font-medium">
+              <span className="text-white/80 text-sm font-medium font-mono">
                 {item.text}
               </span>
               {index < (tickerItems.length * 2) - 1 && (

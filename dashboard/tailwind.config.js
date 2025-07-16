@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'mono': ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+      },
       colors: {
         purple: {
           50: '#faf5ff',

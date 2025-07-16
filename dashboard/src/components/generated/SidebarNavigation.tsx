@@ -25,8 +25,8 @@ const TopNavigation: React.FC = () => {
     { icon: Home, label: 'Dashboard', path: '/', active: location.pathname === '/' },
     { icon: Brain, label: 'CIA', path: '/cia', active: location.pathname === '/cia' },
     { icon: Target, label: 'Campaign', path: '/campaign', active: location.pathname === '/campaign' },
-    { icon: Calendar, label: 'Content Calendar', path: '/content-calendar', active: location.pathname === '/content-calendar' },
     { icon: Zap, label: 'Content Engine', path: '/content-engine', active: location.pathname === '/content-engine' },
+    { icon: Calendar, label: 'Content Calendar', path: '/content-calendar', active: location.pathname === '/content-calendar' },
     { icon: BarChart3, label: 'Performance', path: '/performance', active: location.pathname === '/performance' },
     { icon: Settings, label: 'Settings', path: '/settings', active: location.pathname === '/settings' },
   ];
@@ -44,25 +44,22 @@ const TopNavigation: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
         <div className="flex items-center justify-between h-16">
-          {/* Logo/Brand */}
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-orange-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">B</span>
-            </div>
+          {/* Logo/Brand - Remove icon, move text left */}
+          <div className="flex items-center">
             <span className="text-white/95 font-semibold text-lg">Brand BOS</span>
           </div>
 
-          {/* Navigation Items */}
-          <div className="hidden md:flex items-center space-x-0.5">
+          {/* Navigation Items - Increased spacing */}
+          <div className="hidden md:flex items-center space-x-2">
             {navItems.map((item, index) => (
               <motion.button
                 key={index}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleNavigation(item.path)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2 ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2 ${
                   item.active
-                    ? 'bg-purple-500/20 text-white border border-purple-400/30'
+                    ? 'bg-white/20 text-white border border-white/30'
                     : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
               >

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { AlertTriangle, Search, TrendingUp, Zap, Activity, Target } from 'lucide-react';
+import { perfectCardShadow } from '../../lib/utils';
 
 interface QuickAction {
   icon: React.ComponentType<{ className?: string }>;
@@ -21,7 +22,7 @@ const QuickActions: React.FC = () => {
       bgColor: 'bg-pink-600/10',
       borderColor: 'border-pink-600/30',
       hoverBorderColor: 'hover:border-pink-500/50',
-      hoverShadowColor: 'hover:shadow-pink-500/20'
+      hoverShadowColor: ''
     },
     {
       icon: Search,
@@ -30,7 +31,7 @@ const QuickActions: React.FC = () => {
       bgColor: 'bg-indigo-600/10',
       borderColor: 'border-indigo-600/30',
       hoverBorderColor: 'hover:border-indigo-500/50',
-      hoverShadowColor: 'hover:shadow-indigo-500/20'
+      hoverShadowColor: ''
     },
     {
       icon: TrendingUp,
@@ -39,7 +40,7 @@ const QuickActions: React.FC = () => {
       bgColor: 'bg-green-600/10',
       borderColor: 'border-green-600/30',
       hoverBorderColor: 'hover:border-green-500/50',
-      hoverShadowColor: 'hover:shadow-green-500/20'
+      hoverShadowColor: ''
     },
     {
       icon: Zap,
@@ -48,7 +49,7 @@ const QuickActions: React.FC = () => {
       bgColor: 'bg-amber-600/10',
       borderColor: 'border-amber-600/30',
       hoverBorderColor: 'hover:border-amber-500/50',
-      hoverShadowColor: 'hover:shadow-amber-500/20'
+      hoverShadowColor: ''
     },
     {
       icon: Activity,
@@ -57,7 +58,7 @@ const QuickActions: React.FC = () => {
       bgColor: 'bg-purple-600/10',
       borderColor: 'border-purple-600/30',
       hoverBorderColor: 'hover:border-purple-500/50',
-      hoverShadowColor: 'hover:shadow-purple-500/20'
+      hoverShadowColor: ''
     },
     {
       icon: Target,
@@ -66,7 +67,7 @@ const QuickActions: React.FC = () => {
       bgColor: 'bg-orange-600/10',
       borderColor: 'border-orange-600/30',
       hoverBorderColor: 'hover:border-orange-500/50',
-      hoverShadowColor: 'hover:shadow-orange-500/20'
+      hoverShadowColor: ''
     }
   ];
 
@@ -79,8 +80,8 @@ const QuickActions: React.FC = () => {
         y: -2,
         transition: { duration: 0.2 }
       }}
-      className="bg-black/15 backdrop-blur-lg rounded-2xl p-4 lg:p-6 border border-purple-500/30 shadow-2xl hover:bg-black/20 hover:border-orange-500/40 hover:shadow-purple-500/20 transition-all duration-300 group"
-      style={{ boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.12), 0 4px 6px -4px rgb(0 0 0 / 0.12)" }}
+      className="bg-black/15 backdrop-blur-lg rounded-2xl p-4 lg:p-6 border border-purple-500/30 hover:bg-black/20 hover:border-orange-500/40 transition-all duration-300 group"
+      style={{ boxShadow: perfectCardShadow }}
     >
       <div className="flex items-start justify-between mb-4 lg:mb-6">
         <div className="flex items-center space-x-3">

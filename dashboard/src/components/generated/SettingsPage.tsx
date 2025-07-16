@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Settings, User, Bell, Shield, Palette, Database, Key, Globe, Mail, Smartphone } from 'lucide-react';
-import TopNavigation from './SidebarNavigation';
-import TickerTape from './TickerTape';
-import FloatingChatBar from './FloatingChatBar';
+import { pageGradients, glassCardStyles, fireAccentOverlay, perfectCardShadow } from '../../lib/utils';
+import PageLayout from '../shared/PageLayout';
+import PageHeader from '../shared/PageHeader';
 
 interface SettingsSectionProps {
   title: string;
@@ -18,7 +18,8 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({ title, icon: Icon, ch
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
-      className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl hover:bg-black/20 hover:border-orange-500/40 transition-all duration-300"
+      className={glassCardStyles + ' p-6'}
+      style={{ boxShadow: perfectCardShadow }}
     >
       <div className="flex items-center space-x-3 mb-6">
         <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20">
@@ -49,6 +50,8 @@ const ToggleSwitch: React.FC<{ enabled: boolean; onChange: () => void }> = ({ en
 };
 
 const SettingsPage: React.FC = () => {
+  console.log('Settings loaded successfully');
+  console.log('[Settings] rendered successfully');
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [pushNotifications, setPushNotifications] = useState(false);
   const [autoPublish, setAutoPublish] = useState(true);
@@ -56,45 +59,21 @@ const SettingsPage: React.FC = () => {
   const [twoFactor, setTwoFactor] = useState(false);
   const [dataSharing, setDataSharing] = useState(true);
 
-  const handleSendMessage = (message: string) => {
-    console.log('Settings message sent:', message);
-  };
 
   const themes = ['Purple Fire', 'Ocean Blue', 'Forest Green', 'Sunset Orange', 'Midnight Black'];
   const languages = ['English', 'Spanish', 'French', 'German', 'Portuguese'];
   const timezones = ['EST', 'PST', 'CST', 'GMT', 'CET'];
 
   return (
-    <div className="min-h-screen w-full">
-      {/* Purple gradient background with fire accents */}
-      <div className="fixed inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-900 -z-10" />
-      <div className="fixed inset-0 bg-gradient-to-tr from-orange-500/20 via-transparent to-red-500/10 -z-10" />
-      
-      {/* Top Navigation */}
-      <TopNavigation />
-      
-      {/* Main Content */}
-      <div className="pt-20 px-4 lg:px-6 py-6 lg:py-8 pb-32">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20">
-                <Settings className="w-8 h-8 text-white/95" />
-              </div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-white/95 drop-shadow-lg">
-                Settings
-              </h1>
-            </div>
-            <p className="text-lg text-white/85">
-              Customize your Brand BOS experience and preferences
-            </p>
-          </motion.div>
+    <PageLayout pageTitle="Settings" placeholder="Ask about settings...">
+      {/* Slate/Gray gradient background with fire accents */}
+      <div className={`fixed inset-0 bg-gradient-to-br ${pageGradients.settings} -z-10`} />
+      <div className={`fixed inset-0 ${fireAccentOverlay} -z-10`} />
+          {/* Header - Global Standard */}
+          <PageHeader 
+            title="Settings"
+            subtitle="Customize your Brand BOS experience and preferences"
+          />
 
           {/* Settings Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -106,7 +85,7 @@ const SettingsPage: React.FC = () => {
                   <input
                     type="text"
                     defaultValue="John Smith"
-                    className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-purple-400/20 text-white/90 placeholder-white/50 focus:border-orange-400/40 focus:outline-none transition-all duration-300"
+                    className="w-full bg-white/95 rounded-2xl px-4 py-3 border border-slate-200 text-slate-800 placeholder-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400/20 transition-all duration-300"
                   />
                 </div>
                 <div>
@@ -114,7 +93,7 @@ const SettingsPage: React.FC = () => {
                   <input
                     type="email"
                     defaultValue="john@agency.com"
-                    className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-purple-400/20 text-white/90 placeholder-white/50 focus:border-orange-400/40 focus:outline-none transition-all duration-300"
+                    className="w-full bg-white/95 rounded-2xl px-4 py-3 border border-slate-200 text-slate-800 placeholder-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400/20 transition-all duration-300"
                   />
                 </div>
                 <div>
@@ -122,7 +101,7 @@ const SettingsPage: React.FC = () => {
                   <input
                     type="text"
                     defaultValue="Elite Marketing Agency"
-                    className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-purple-400/20 text-white/90 placeholder-white/50 focus:border-orange-400/40 focus:outline-none transition-all duration-300"
+                    className="w-full bg-white/95 rounded-2xl px-4 py-3 border border-slate-200 text-slate-800 placeholder-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400/20 transition-all duration-300"
                   />
                 </div>
               </div>
@@ -169,9 +148,9 @@ const SettingsPage: React.FC = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-white/75 mb-2">Theme</label>
-                  <select className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-purple-400/20 text-white/90 focus:border-orange-400/40 focus:outline-none transition-all duration-300">
+                  <select className="w-full bg-white/95 rounded-2xl px-4 py-3 border border-slate-200 text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400/20 transition-all duration-300 appearance-none cursor-pointer">
                     {themes.map(theme => (
-                      <option key={theme} value={theme} className="bg-purple-900">{theme}</option>
+                      <option key={theme} value={theme} className="bg-white text-slate-800">{theme}</option>
                     ))}
                   </select>
                 </div>
@@ -184,9 +163,9 @@ const SettingsPage: React.FC = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-white/75 mb-2">Language</label>
-                  <select className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-purple-400/20 text-white/90 focus:border-orange-400/40 focus:outline-none transition-all duration-300">
+                  <select className="w-full bg-white/95 rounded-2xl px-4 py-3 border border-slate-200 text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400/20 transition-all duration-300 appearance-none cursor-pointer">
                     {languages.map(lang => (
-                      <option key={lang} value={lang} className="bg-purple-900">{lang}</option>
+                      <option key={lang} value={lang} className="bg-white text-slate-800">{lang}</option>
                     ))}
                   </select>
                 </div>
@@ -247,7 +226,7 @@ const SettingsPage: React.FC = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-white/75 mb-2">Timezone</label>
-                  <select className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-purple-400/20 text-white/90 focus:border-orange-400/40 focus:outline-none transition-all duration-300">
+                  <select className="w-full bg-white/95 rounded-2xl px-4 py-3 border border-slate-200 text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400/20 transition-all duration-300 appearance-none cursor-pointer">
                     {timezones.map(tz => (
                       <option key={tz} value={tz} className="bg-purple-900">{tz}</option>
                     ))}
@@ -255,7 +234,7 @@ const SettingsPage: React.FC = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-white/75 mb-2">Date Format</label>
-                  <select className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-purple-400/20 text-white/90 focus:border-orange-400/40 focus:outline-none transition-all duration-300">
+                  <select className="w-full bg-white/95 rounded-2xl px-4 py-3 border border-slate-200 text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400/20 transition-all duration-300 appearance-none cursor-pointer">
                     <option className="bg-purple-900">MM/DD/YYYY</option>
                     <option className="bg-purple-900">DD/MM/YYYY</option>
                     <option className="bg-purple-900">YYYY-MM-DD</option>
@@ -276,20 +255,7 @@ const SettingsPage: React.FC = () => {
               Save All Changes
             </button>
           </motion.div>
-        </div>
-      </div>
-
-      {/* Floating Chat Bar */}
-      <div className="fixed bottom-20 left-0 right-0 z-50 px-4 lg:px-6">
-        <FloatingChatBar
-          onSendMessage={handleSendMessage}
-          placeholder="Ask about settings..."
-        />
-      </div>
-
-      {/* Ticker Tape */}
-      <TickerTape />
-    </div>
+    </PageLayout>
   );
 };
 

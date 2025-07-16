@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { BarChart3, TrendingUp, Users, Clock, Award, Target, Activity, Zap } from 'lucide-react';
-import TopNavigation from './SidebarNavigation';
-import TickerTape from './TickerTape';
-import FloatingChatBar from './FloatingChatBar';
+import HeroCard from '../shared/HeroCard';
+import PageLayout from '../shared/PageLayout';
+import PageHeader from '../shared/PageHeader';
 
 interface PerformanceMetricProps {
   title: string;
@@ -30,10 +30,10 @@ const PerformanceMetric: React.FC<PerformanceMetricProps> = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
       whileHover={{ y: -2, transition: { duration: 0.2 } }}
-      className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl hover:bg-black/20 hover:border-orange-500/40 hover:shadow-purple-500/20 transition-all duration-300 group"
     >
+      <HeroCard className="group hover:shadow-cyan-500/20 transition-all duration-300">
       <div className="flex items-start justify-between mb-4">
-        <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20 group-hover:border-orange-400/30 transition-all duration-300">
+        <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-cyan-400/20 group-hover:border-blue-400/30 transition-all duration-300">
           <Icon className="w-6 h-6 text-white/95" />
         </div>
         <span className={`text-sm font-medium ${trendColor}`}>{change}</span>
@@ -42,6 +42,7 @@ const PerformanceMetric: React.FC<PerformanceMetricProps> = ({
         <div className="text-3xl font-bold text-white/95">{value}</div>
         <h3 className="text-lg font-semibold text-white/90">{title}</h3>
       </div>
+      </HeroCard>
     </motion.div>
   );
 };
@@ -60,10 +61,10 @@ const ContentPerformanceChart: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.5 }}
-      className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
     >
+      <HeroCard>
       <div className="flex items-center space-x-3 mb-6">
-        <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20">
+        <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-cyan-400/20">
           <BarChart3 className="w-6 h-6 text-white/95" />
         </div>
         <h3 className="text-xl font-semibold text-white/95">Content Performance Breakdown</h3>
@@ -81,7 +82,7 @@ const ContentPerformanceChart: React.FC = () => {
                 initial={{ width: 0 }}
                 animate={{ width: `${item.performance}%` }}
                 transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
-                className="absolute inset-y-0 left-0 bg-gradient-to-r from-purple-500 to-orange-500 rounded-lg flex items-center justify-end pr-3"
+                className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg flex items-center justify-end pr-3"
               >
                 <span className="text-xs font-medium text-white">{item.performance}%</span>
               </motion.div>
@@ -89,6 +90,7 @@ const ContentPerformanceChart: React.FC = () => {
           </div>
         ))}
       </div>
+      </HeroCard>
     </motion.div>
   );
 };
@@ -106,10 +108,10 @@ const TopPerformingContent: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.6 }}
-      className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
     >
+      <HeroCard>
       <div className="flex items-center space-x-3 mb-6">
-        <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20">
+        <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-cyan-400/20">
           <Award className="w-6 h-6 text-white/95" />
         </div>
         <h3 className="text-xl font-semibold text-white/95">Top Performing Content</h3>
@@ -119,7 +121,7 @@ const TopPerformingContent: React.FC = () => {
         {topContent.map((item, index) => (
           <div
             key={index}
-            className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-purple-400/20 hover:border-orange-400/30 transition-all duration-300"
+            className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-cyan-400/20 hover:border-blue-400/30 transition-all duration-300"
           >
             <h4 className="font-medium text-white/90 mb-2">{item.title}</h4>
             <div className="grid grid-cols-3 gap-4 text-sm">
@@ -139,6 +141,7 @@ const TopPerformingContent: React.FC = () => {
           </div>
         ))}
       </div>
+      </HeroCard>
     </motion.div>
   );
 };
@@ -159,10 +162,10 @@ const EngagementTimeline: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.7 }}
-      className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
     >
+      <HeroCard>
       <div className="flex items-center space-x-3 mb-6">
-        <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20">
+        <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-cyan-400/20">
           <Activity className="w-6 h-6 text-white/95" />
         </div>
         <h3 className="text-xl font-semibold text-white/95">Weekly Engagement Pattern</h3>
@@ -177,53 +180,32 @@ const EngagementTimeline: React.FC = () => {
                 initial={{ height: 0 }}
                 animate={{ height: `${item.engagement}%` }}
                 transition={{ duration: 0.8, delay: 0.7 + index * 0.05 }}
-                className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-500 to-orange-500 rounded-lg"
+                className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-cyan-500 to-blue-500 rounded-lg"
               />
             </div>
             <div className="text-xs text-white/60 mt-2">{item.optimal}</div>
           </div>
         ))}
       </div>
+      </HeroCard>
     </motion.div>
   );
 };
 
 const PerformancePage: React.FC = () => {
-  const handleSendMessage = (message: string) => {
-    console.log('Performance message sent:', message);
-  };
+  console.log('[Performance] rendered successfully');
+  
 
   return (
-    <div className="min-h-screen w-full">
-      {/* Purple gradient background with fire accents */}
-      <div className="fixed inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-900 -z-10" />
-      <div className="fixed inset-0 bg-gradient-to-tr from-orange-500/20 via-transparent to-red-500/10 -z-10" />
-      
-      {/* Top Navigation */}
-      <TopNavigation />
-      
-      {/* Main Content */}
-      <div className="pt-20 px-4 lg:px-6 py-6 lg:py-8 pb-32">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20">
-                <TrendingUp className="w-8 h-8 text-white/95" />
-              </div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-white/95 drop-shadow-lg">
-                Performance Analytics
-              </h1>
-            </div>
-            <p className="text-lg text-white/85">
-              Real-time insights and metrics for your authority building campaigns
-            </p>
-          </motion.div>
+    <PageLayout pageTitle="Performance Analytics" placeholder="Ask about performance metrics...">
+      {/* Cyan gradient background with blue accents */}
+      <div className="fixed inset-0 bg-gradient-to-br from-cyan-600 via-cyan-700 to-blue-800 -z-10" />
+      <div className="fixed inset-0 bg-gradient-to-tr from-blue-500/20 via-transparent to-cyan-500/10 -z-10" />
+          {/* Header - Global Standard */}
+          <PageHeader 
+            title="Performance Analytics"
+            subtitle="Real-time insights and metrics for your authority building campaigns"
+          />
 
           {/* Key Metrics */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -275,53 +257,42 @@ const PerformancePage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            className="mt-8 bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
+            className="mt-8"
           >
+            <HeroCard>
             <div className="flex items-center space-x-3 mb-6">
-              <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20">
+              <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-cyan-400/20">
                 <Target className="w-6 h-6 text-white/95" />
               </div>
               <h3 className="text-xl font-semibold text-white/95">Q4 Goals Progress</h3>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-purple-400/20">
+              <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-cyan-400/20">
                 <h4 className="font-medium text-white/90 mb-2">Lead Generation</h4>
                 <div className="text-2xl font-bold text-white/95 mb-1">842/1000</div>
                 <div className="w-full bg-black/30 rounded-lg h-2 overflow-hidden">
-                  <div className="w-[84.2%] h-full bg-gradient-to-r from-purple-500 to-orange-500 rounded-lg" />
+                  <div className="w-[84.2%] h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg" />
                 </div>
               </div>
-              <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-purple-400/20">
+              <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-cyan-400/20">
                 <h4 className="font-medium text-white/90 mb-2">Content Published</h4>
                 <div className="text-2xl font-bold text-white/95 mb-1">127/150</div>
                 <div className="w-full bg-black/30 rounded-lg h-2 overflow-hidden">
-                  <div className="w-[84.7%] h-full bg-gradient-to-r from-purple-500 to-orange-500 rounded-lg" />
+                  <div className="w-[84.7%] h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg" />
                 </div>
               </div>
-              <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-purple-400/20">
+              <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-cyan-400/20">
                 <h4 className="font-medium text-white/90 mb-2">Client Satisfaction</h4>
                 <div className="text-2xl font-bold text-white/95 mb-1">94.3%</div>
                 <div className="w-full bg-black/30 rounded-lg h-2 overflow-hidden">
-                  <div className="w-[94.3%] h-full bg-gradient-to-r from-purple-500 to-orange-500 rounded-lg" />
+                  <div className="w-[94.3%] h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg" />
                 </div>
               </div>
             </div>
+            </HeroCard>
           </motion.div>
-        </div>
-      </div>
-
-      {/* Floating Chat Bar */}
-      <div className="fixed bottom-20 left-0 right-0 z-50 px-4 lg:px-6">
-        <FloatingChatBar
-          onSendMessage={handleSendMessage}
-          placeholder="Ask about performance metrics..."
-        />
-      </div>
-
-      {/* Ticker Tape */}
-      <TickerTape />
-    </div>
+    </PageLayout>
   );
 };
 

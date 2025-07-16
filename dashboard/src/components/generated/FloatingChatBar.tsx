@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Mic, Paperclip, Sparkles, MessageCircle, X } from 'lucide-react';
+import { perfectCardShadow } from '../../lib/utils';
 
 interface FloatingChatBarProps {
   onSendMessage: (message: string) => void;
@@ -118,7 +119,8 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="bg-black/20 backdrop-blur-xl rounded-2xl border border-purple-500/30 shadow-2xl"
+        className="bg-black/20 backdrop-blur-xl rounded-2xl border border-purple-500/30"
+        style={{ boxShadow: perfectCardShadow }}
       >
         <form onSubmit={handleSubmit} className="flex items-center p-3">
           {/* Expand Button */}

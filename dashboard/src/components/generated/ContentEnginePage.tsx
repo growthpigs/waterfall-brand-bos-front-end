@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, FileText, Video, Mail, Hash, Sparkles, Zap, RefreshCw, Settings, Play } from 'lucide-react';
-import TopNavigation from './SidebarNavigation';
-import TickerTape from './TickerTape';
-import FloatingChatBar from './FloatingChatBar';
+import { Cpu, FileText, Video, Mail, Hash, Sparkles, Zap, RefreshCw, Settings } from 'lucide-react';
+import HeroCard from '../shared/HeroCard';
+import PageLayout from '../shared/PageLayout';
+import PageHeader from '../shared/PageHeader';
+import { perfectCardShadow, glassCardStyles } from '../../lib/utils';
 
 interface ContentTemplate {
   id: string;
@@ -46,16 +47,17 @@ const ContentTemplateCard: React.FC<{
       transition={{ duration: 0.6, delay }}
       whileHover={{ y: -2, transition: { duration: 0.2 } }}
       onClick={onSelect}
-      className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl hover:bg-black/20 hover:border-orange-500/40 hover:shadow-purple-500/20 transition-all duration-300 cursor-pointer group"
+      className={`${glassCardStyles} p-6 border border-green-500/30 hover:bg-black/20 hover:border-emerald-500/40 transition-all duration-300 cursor-pointer group`}
+      style={{ boxShadow: perfectCardShadow }}
     >
       <div className="flex items-start justify-between mb-4">
-        <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20 group-hover:border-orange-400/30 transition-all duration-300">
+        <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-green-400/20 group-hover:border-emerald-400/30 transition-all duration-300">
           {getTemplateIcon(template.type)}
         </div>
         {template.aiPowered && (
-          <div className="flex items-center space-x-1 px-2 py-1 bg-purple-500/20 rounded-lg">
-            <Sparkles className="w-4 h-4 text-purple-400" />
-            <span className="text-xs text-purple-400 font-medium">AI-Powered</span>
+          <div className="flex items-center space-x-1 px-2 py-1 bg-green-500/20 rounded-lg">
+            <Sparkles className="w-4 h-4 text-green-400" />
+            <span className="text-xs text-green-400 font-medium">AI-Powered</span>
           </div>
         )}
       </div>
@@ -65,7 +67,7 @@ const ContentTemplateCard: React.FC<{
       
       <div className="flex items-center justify-between">
         <span className="text-xs text-white/60">Est. {template.estimatedTime}</span>
-        <button className="text-sm text-orange-400 hover:text-orange-300 transition-colors">
+        <button className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors">
           Use Template →
         </button>
       </div>
@@ -100,7 +102,8 @@ const GenerationPanel: React.FC<{
       <motion.div
         initial={{ y: 20 }}
         animate={{ y: 0 }}
-        className="relative bg-purple-900/90 backdrop-blur-xl rounded-2xl p-8 max-w-2xl w-full border border-purple-500/30 shadow-2xl"
+        className="relative bg-green-900/90 backdrop-blur-xl rounded-2xl p-8 max-w-2xl w-full border border-green-500/30"
+        style={{ boxShadow: perfectCardShadow }}
       >
         <button
           onClick={onClose}
@@ -110,7 +113,7 @@ const GenerationPanel: React.FC<{
         </button>
 
         <div className="flex items-center space-x-3 mb-6">
-          <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20">
+          <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-green-400/20">
             {getTemplateIcon(selectedTemplate.type)}
           </div>
           <div>
@@ -131,8 +134,8 @@ const GenerationPanel: React.FC<{
                   className={`
                     px-4 py-3 rounded-xl border capitalize transition-all duration-300
                     ${settings.tone === tone 
-                      ? 'bg-gradient-to-r from-purple-500 to-orange-500 text-white border-transparent' 
-                      : 'bg-black/20 backdrop-blur-sm border-purple-400/20 text-white/75 hover:border-orange-400/30'
+                      ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white border-transparent' 
+                      : 'bg-black/20 backdrop-blur-sm border-green-400/20 text-white/75 hover:border-emerald-400/30'
                     }
                   `}
                 >
@@ -153,8 +156,8 @@ const GenerationPanel: React.FC<{
                   className={`
                     px-4 py-3 rounded-xl border capitalize transition-all duration-300
                     ${settings.length === length 
-                      ? 'bg-gradient-to-r from-purple-500 to-orange-500 text-white border-transparent' 
-                      : 'bg-black/20 backdrop-blur-sm border-purple-400/20 text-white/75 hover:border-orange-400/30'
+                      ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white border-transparent' 
+                      : 'bg-black/20 backdrop-blur-sm border-green-400/20 text-white/75 hover:border-emerald-400/30'
                     }
                   `}
                 >
@@ -171,7 +174,7 @@ const GenerationPanel: React.FC<{
               type="text"
               value={settings.targetAudience}
               onChange={(e) => setSettings(prev => ({ ...prev, targetAudience: e.target.value }))}
-              className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-purple-400/20 text-white/90 placeholder-white/50 focus:border-orange-400/40 focus:outline-none transition-all duration-300"
+              className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-green-400/20 text-white/90 placeholder-white/50 focus:border-emerald-400/40 focus:outline-none transition-all duration-300"
               placeholder="Describe your target audience..."
             />
           </div>
@@ -182,7 +185,7 @@ const GenerationPanel: React.FC<{
             <textarea
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
-              className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-purple-400/20 text-white/90 placeholder-white/50 focus:border-orange-400/40 focus:outline-none transition-all duration-300 h-20 resize-none"
+              className="w-full bg-black/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-green-400/20 text-white/90 placeholder-white/50 focus:border-emerald-400/40 focus:outline-none transition-all duration-300 h-20 resize-none"
               placeholder="Enter keywords separated by commas..."
             />
           </div>
@@ -191,14 +194,14 @@ const GenerationPanel: React.FC<{
         <div className="mt-8 flex space-x-4">
           <button
             onClick={onClose}
-            className="flex-1 bg-gradient-to-r from-purple-500 to-orange-500 text-white py-3 rounded-xl font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 flex items-center justify-center space-x-2"
+            className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 rounded-xl font-medium hover:shadow-lg hover:shadow-green-500/30 transition-all duration-300 flex items-center justify-center space-x-2"
           >
             <Zap className="w-5 h-5" />
             <span>Generate Content</span>
           </button>
           <button
             onClick={onClose}
-            className="px-6 py-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20 text-white/75 hover:border-orange-400/30 hover:bg-black/25 transition-all duration-300"
+            className="px-6 py-3 bg-black/20 backdrop-blur-sm rounded-xl border border-green-400/20 text-white/75 hover:border-emerald-400/30 hover:bg-black/25 transition-all duration-300"
           >
             Cancel
           </button>
@@ -209,11 +212,10 @@ const GenerationPanel: React.FC<{
 };
 
 const ContentEnginePage: React.FC = () => {
+  console.log('[ContentEngine] rendered successfully');
+  
   const [selectedTemplate, setSelectedTemplate] = useState<ContentTemplate | null>(null);
 
-  const handleSendMessage = (message: string) => {
-    console.log('Content Engine message sent:', message);
-  };
 
   const templates: ContentTemplate[] = [
     {
@@ -274,36 +276,15 @@ const ContentEnginePage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen w-full">
-      {/* Purple gradient background with fire accents */}
-      <div className="fixed inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-900 -z-10" />
-      <div className="fixed inset-0 bg-gradient-to-tr from-orange-500/20 via-transparent to-red-500/10 -z-10" />
-      
-      {/* Top Navigation */}
-      <TopNavigation />
-      
-      {/* Main Content */}
-      <div className="pt-20 px-4 lg:px-6 py-6 lg:py-8 pb-32">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20">
-                <Cpu className="w-8 h-8 text-white/95" />
-              </div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-white/95 drop-shadow-lg">
-                Content Engine
-              </h1>
-            </div>
-            <p className="text-lg text-white/85">
-              AI-powered content generation for authority building at scale
-            </p>
-          </motion.div>
+    <PageLayout pageTitle="Content Engine" placeholder="Ask Content Engine to create something...">
+      {/* Green gradient background with emerald accents */}
+      <div className="fixed inset-0 bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 -z-10" />
+      <div className="fixed inset-0 bg-gradient-to-tr from-emerald-500/20 via-transparent to-green-500/10 -z-10" />
+          {/* Header - Global Standard */}
+          <PageHeader 
+            title="Content Engine"
+            subtitle="AI-powered content generation for authority building at scale"
+          />
 
           {/* Quick Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -311,37 +292,41 @@ const ContentEnginePage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
             >
-              <div className="text-3xl font-bold text-white/95 mb-1">2,847</div>
-              <p className="text-sm text-white/75">Content pieces generated</p>
+              <HeroCard>
+                <div className="text-3xl font-bold text-white mb-1">2,847</div>
+                <p className="text-sm text-white/75">Content pieces generated</p>
+              </HeroCard>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
             >
-              <div className="text-3xl font-bold text-white/95 mb-1">15 min</div>
-              <p className="text-sm text-white/75">Average creation time</p>
+              <HeroCard>
+                <div className="text-3xl font-bold text-white mb-1">15 min</div>
+                <p className="text-sm text-white/75">Average creation time</p>
+              </HeroCard>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
             >
-              <div className="text-3xl font-bold text-white/95 mb-1">94%</div>
-              <p className="text-sm text-white/75">AI accuracy rate</p>
+              <HeroCard>
+                <div className="text-3xl font-bold text-white mb-1">94%</div>
+                <p className="text-sm text-white/75">AI accuracy rate</p>
+              </HeroCard>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
             >
-              <div className="text-3xl font-bold text-white/95 mb-1">8.7/10</div>
-              <p className="text-sm text-white/75">Content quality score</p>
+              <HeroCard>
+                <div className="text-3xl font-bold text-white mb-1">8.7/10</div>
+                <p className="text-sm text-white/75">Content quality score</p>
+              </HeroCard>
             </motion.div>
           </div>
 
@@ -370,11 +355,11 @@ const ContentEnginePage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
           >
+            <HeroCard>
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-semibold text-white/95">Recent Generations</h3>
-              <button className="flex items-center space-x-2 text-orange-400 hover:text-orange-300 transition-colors">
+              <button className="flex items-center space-x-2 text-emerald-400 hover:text-emerald-300 transition-colors">
                 <RefreshCw className="w-4 h-4" />
                 <span className="text-sm">View All</span>
               </button>
@@ -384,7 +369,7 @@ const ContentEnginePage: React.FC = () => {
               {recentGenerations.map((item, index) => (
                 <div
                   key={index}
-                  className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-purple-400/20 hover:border-orange-400/30 transition-all duration-300 flex items-center justify-between"
+                  className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-green-400/20 hover:border-emerald-400/30 transition-all duration-300 flex items-center justify-between"
                 >
                   <div className="flex items-center space-x-3">
                     {getTemplateIcon(item.type as ContentTemplate['type'])}
@@ -406,13 +391,12 @@ const ContentEnginePage: React.FC = () => {
               ))}
             </div>
 
-            <button className="mt-6 w-full bg-black/20 backdrop-blur-sm rounded-xl py-3 border border-purple-400/20 text-white/75 hover:border-orange-400/30 hover:bg-black/25 transition-all duration-300 flex items-center justify-center space-x-2">
+            <button className="mt-6 w-full bg-black/20 backdrop-blur-sm rounded-xl py-3 border border-green-400/20 text-white/75 hover:border-emerald-400/30 hover:bg-black/25 transition-all duration-300 flex items-center justify-center space-x-2">
               <Settings className="w-5 h-5" />
               <span>Advanced Settings</span>
             </button>
+            </HeroCard>
           </motion.div>
-        </div>
-      </div>
 
       {/* Generation Panel */}
       {selectedTemplate && (
@@ -421,18 +405,7 @@ const ContentEnginePage: React.FC = () => {
           onClose={() => setSelectedTemplate(null)}
         />
       )}
-
-      {/* Floating Chat Bar */}
-      <div className="fixed bottom-20 left-0 right-0 z-40 px-4 lg:px-6">
-        <FloatingChatBar
-          onSendMessage={handleSendMessage}
-          placeholder="Ask Content Engine to create something..."
-        />
-      </div>
-
-      {/* Ticker Tape */}
-      <TickerTape />
-    </div>
+    </PageLayout>
   );
 };
 

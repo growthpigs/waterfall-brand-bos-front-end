@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, ChevronLeft, ChevronRight, Plus, Clock, Users, FileText, Video, Mail, Hash } from 'lucide-react';
-import TopNavigation from './SidebarNavigation';
-import TickerTape from './TickerTape';
-import FloatingChatBar from './FloatingChatBar';
+import PageLayout from '../shared/PageLayout';
+import PageHeader from '../shared/PageHeader';
+import { perfectCardShadow, glassCardStyles } from '../../lib/utils';
 
 interface ContentItem {
   id: string;
@@ -72,7 +72,7 @@ const CalendarDay: React.FC<{
       </div>
       
       <div className="space-y-1">
-        {content.slice(0, 3).map((item, index) => (
+        {content.slice(0, 3).map((item) => (
           <div
             key={item.id}
             className="flex items-center space-x-1 text-xs text-white/70"
@@ -99,7 +99,8 @@ const ContentDetailPanel: React.FC<{
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 20 }}
-      className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
+      className={glassCardStyles + ' p-6 border border-purple-500/30'}
+      style={{ boxShadow: perfectCardShadow }}
     >
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-semibold text-white/95">
@@ -157,12 +158,11 @@ const ContentDetailPanel: React.FC<{
 };
 
 const ContentCalendarPage: React.FC = () => {
+  console.log('[ContentCalendar] rendered successfully');
+  
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  const handleSendMessage = (message: string) => {
-    console.log('Calendar message sent:', message);
-  };
 
   // Sample content data
   const contentData: DayContent = {
@@ -258,36 +258,15 @@ const ContentCalendarPage: React.FC = () => {
   const today = new Date();
 
   return (
-    <div className="min-h-screen w-full">
-      {/* Purple gradient background with fire accents */}
-      <div className="fixed inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-900 -z-10" />
-      <div className="fixed inset-0 bg-gradient-to-tr from-orange-500/20 via-transparent to-red-500/10 -z-10" />
-      
-      {/* Top Navigation */}
-      <TopNavigation />
-      
-      {/* Main Content */}
-      <div className="pt-20 px-4 lg:px-6 py-6 lg:py-8 pb-32">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20">
-                <Calendar className="w-8 h-8 text-white/95" />
-              </div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-white/95 drop-shadow-lg">
-                Content Calendar
-              </h1>
-            </div>
-            <p className="text-lg text-white/85">
-              Plan and schedule your authority-building content across all channels
-            </p>
-          </motion.div>
+    <PageLayout pageTitle="Content Calendar" placeholder="Ask about content scheduling...">
+      {/* Orange gradient background with fire accents */}
+      <div className="fixed inset-0 bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 -z-10" />
+      <div className="fixed inset-0 bg-gradient-to-tr from-red-500/20 via-transparent to-orange-500/10 -z-10" />
+          {/* Header - Global Standard */}
+          <PageHeader 
+            title="Content Calendar"
+            subtitle="Plan and schedule your authority-building content across all channels"
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Calendar Grid */}
@@ -296,7 +275,8 @@ const ContentCalendarPage: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
+                className={glassCardStyles + ' p-6 border border-purple-500/30'}
+                style={{ boxShadow: perfectCardShadow }}
               >
                 {/* Calendar Header */}
                 <div className="flex items-center justify-between mb-6">
@@ -370,7 +350,8 @@ const ContentCalendarPage: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
+                  className={glassCardStyles + ' p-6 border border-purple-500/30'}
+                  style={{ boxShadow: perfectCardShadow }}
                 >
                   <h3 className="text-xl font-semibold text-white/95 mb-4">Quick Stats</h3>
                   <div className="space-y-4">
@@ -396,20 +377,7 @@ const ContentCalendarPage: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Floating Chat Bar */}
-      <div className="fixed bottom-20 left-0 right-0 z-50 px-4 lg:px-6">
-        <FloatingChatBar
-          onSendMessage={handleSendMessage}
-          placeholder="Ask about content scheduling..."
-        />
-      </div>
-
-      {/* Ticker Tape */}
-      <TickerTape />
-    </div>
+    </PageLayout>
   );
 };
 

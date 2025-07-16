@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Rocket, Calendar, Users, TrendingUp, Play, Pause, CheckCircle, AlertCircle } from 'lucide-react';
-import TopNavigation from './SidebarNavigation';
-import TickerTape from './TickerTape';
-import FloatingChatBar from './FloatingChatBar';
+import PageLayout from '../shared/PageLayout';
+import PageHeader from '../shared/PageHeader';
+import { perfectCardShadow, glassCardStyles } from '../../lib/utils';
 
 interface CampaignCardProps {
   name: string;
@@ -58,7 +58,8 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
       whileHover={{ y: -2, transition: { duration: 0.2 } }}
-      className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl hover:bg-black/20 hover:border-orange-500/40 hover:shadow-purple-500/20 transition-all duration-300"
+      className={`${glassCardStyles} p-6 border border-purple-500/30 hover:bg-black/20 hover:border-orange-500/40 transition-all duration-300`}
+      style={{ boxShadow: perfectCardShadow }}
     >
       <div className="flex items-start justify-between mb-4">
         <h3 className="text-lg font-semibold text-white/95">{name}</h3>
@@ -132,7 +133,8 @@ const CampaignMetrics: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: index * 0.1 }}
-          className="bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl hover:bg-black/20 hover:border-orange-500/40 transition-all duration-300"
+          className={glassCardStyles + ' p-6 border border-purple-500/30 hover:bg-black/20 hover:border-orange-500/40 transition-all duration-300'}
+      style={{ boxShadow: perfectCardShadow }}
         >
           <h3 className="text-sm font-medium text-white/75 mb-2">{metric.label}</h3>
           <div className="text-3xl font-bold text-white/95 mb-1">{metric.value}</div>
@@ -144,6 +146,8 @@ const CampaignMetrics: React.FC = () => {
 };
 
 const CampaignCenterPage: React.FC = () => {
+  console.log('[Campaign] rendered successfully');
+  
   const campaigns: CampaignCardProps[] = [
     {
       name: "Q4 Authority Building Series",
@@ -201,41 +205,17 @@ const CampaignCenterPage: React.FC = () => {
     }
   ];
 
-  const handleSendMessage = (message: string) => {
-    console.log('Campaign message sent:', message);
-  };
 
   return (
-    <div className="min-h-screen w-full">
-      {/* Purple gradient background with fire accents */}
-      <div className="fixed inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-900 -z-10" />
-      <div className="fixed inset-0 bg-gradient-to-tr from-orange-500/20 via-transparent to-red-500/10 -z-10" />
-      
-      {/* Top Navigation */}
-      <TopNavigation />
-      
-      {/* Main Content */}
-      <div className="pt-20 px-4 lg:px-6 py-6 lg:py-8 pb-32">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="p-3 bg-black/20 backdrop-blur-sm rounded-xl border border-purple-400/20">
-                <Rocket className="w-8 h-8 text-white/95" />
-              </div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-white/95 drop-shadow-lg">
-                Campaign Center
-              </h1>
-            </div>
-            <p className="text-lg text-white/85">
-              Launch and manage multi-channel authority building campaigns
-            </p>
-          </motion.div>
+    <PageLayout pageTitle="Campaign Center" placeholder="Ask about campaign management...">
+      {/* Pink gradient background with fire accents */}
+      <div className="fixed inset-0 bg-gradient-to-br from-pink-600 via-pink-700 to-pink-800 -z-10" />
+      <div className="fixed inset-0 bg-gradient-to-tr from-rose-500/20 via-transparent to-pink-500/10 -z-10" />
+          {/* Header - Global Standard */}
+          <PageHeader 
+            title="Campaign Center"
+            subtitle="Launch and manage multi-channel authority building campaigns"
+          />
 
           {/* Campaign Metrics */}
           <CampaignMetrics />
@@ -256,7 +236,8 @@ const CampaignCenterPage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
-            className="mt-8 bg-black/15 backdrop-blur-lg rounded-2xl p-6 border border-purple-500/30 shadow-2xl"
+            className={'mt-8 ' + glassCardStyles + ' p-6 border border-purple-500/30'}
+      style={{ boxShadow: perfectCardShadow }}
           >
             <h3 className="text-xl font-semibold text-white/95 mb-4">Quick Actions</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -278,20 +259,7 @@ const CampaignCenterPage: React.FC = () => {
               </button>
             </div>
           </motion.div>
-        </div>
-      </div>
-
-      {/* Floating Chat Bar */}
-      <div className="fixed bottom-20 left-0 right-0 z-50 px-4 lg:px-6">
-        <FloatingChatBar
-          onSendMessage={handleSendMessage}
-          placeholder="Ask about campaign performance..."
-        />
-      </div>
-
-      {/* Ticker Tape */}
-      <TickerTape />
-    </div>
+    </PageLayout>
   );
 };
 
