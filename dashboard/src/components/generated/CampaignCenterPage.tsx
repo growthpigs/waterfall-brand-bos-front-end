@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Rocket, Calendar, Users, TrendingUp, Play, Pause, CheckCircle, AlertCircle } from 'lucide-react';
+import { Brain, DollarSign, FileText, Target, TrendingUp, Users, BarChart3, Zap, ChevronDown, Settings, 
+         Rocket, Calendar, Play, Pause, CheckCircle, AlertCircle, Lightbulb, Megaphone, Edit3, MoreHorizontal } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import PageLayout from '../shared/PageLayout';
 import PageHeader from '../shared/PageHeader';
 import { perfectCardShadow, glassCardStyles } from '../../lib/utils';
@@ -13,8 +15,80 @@ interface CampaignCardProps {
   endDate: string;
   leads: number;
   engagement: string;
+  type: 'content-cluster' | 'social' | 'email' | 'authority' | 'case-study' | 'thought-leadership';
   delay?: number;
 }
+
+const getCampaignIcon = (type: CampaignCardProps['type']) => {
+  switch (type) {
+    case 'content-cluster':
+      return <Users className="w-8 h-8 text-white" />;
+    case 'social':
+      return <TrendingUp className="w-8 h-8 text-white" />;
+    case 'email':
+      return <Megaphone className="w-8 h-8 text-white" />;
+    case 'authority':
+      return <Target className="w-8 h-8 text-white" />;
+    case 'case-study':
+      return <FileText className="w-8 h-8 text-white" />;
+    case 'thought-leadership':
+      return <Brain className="w-8 h-8 text-white" />;
+    default:
+      return <Rocket className="w-8 h-8 text-white" />;
+  }
+};
+
+interface DashboardMetricCardProps {
+  title: string;
+  subtitle: string;
+  metrics: { label: string; value: string | number }[];
+  icon: React.ComponentType<{ className?: string }>;
+  delay?: number;
+  onClick?: () => void;
+}
+
+const DashboardMetricCard: React.FC<DashboardMetricCardProps> = ({
+  title,
+  subtitle,
+  metrics,
+  icon: Icon,
+  delay = 0,
+  onClick
+}) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay }}
+      whileHover={{ y: -2, scale: 1.02, transition: { duration: 0.2 } }}
+      whileTap={{ scale: 0.98, transition: { duration: 0.1 } }}
+      onClick={onClick}
+      className={`${glassCardStyles} p-5 cursor-pointer hover:border-white/40 hover:bg-white/10 transition-all duration-300`}
+      style={{ boxShadow: perfectCardShadow }}
+    >
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center">
+          <div className="w-12 h-12 bg-white/15 backdrop-blur-sm rounded-xl flex items-center justify-center mr-4 group-hover:bg-white/25 transition-all duration-300 border border-white/20">
+            <Icon className="w-6 h-6 text-white group-hover:text-orange-200 transition-colors duration-300" />
+          </div>
+          <div>
+            <h3 className="text-white font-semibold leading-tight">{title}</h3>
+            <p className="text-white/70 text-sm leading-tight">{subtitle}</p>
+          </div>
+        </div>
+        <TrendingUp className="w-5 h-5 text-white" />
+      </div>
+      <div className="space-y-1">
+        {metrics.map((metric, index) => (
+          <div key={index} className="flex justify-between leading-tight">
+            <span className="text-white/80">{metric.label}:</span>
+            <span className="text-white font-medium">{metric.value}</span>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+};
 
 const getStatusIcon = (status: CampaignCardProps['status']) => {
   switch (status) {
@@ -50,17 +124,34 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
   endDate,
   leads,
   engagement,
+  type,
   delay = 0
 }) => {
+  const navigate = useNavigate();
+
+  const handleCampaignClick = () => {
+    console.log(`🧭 Campaign clicked: ${name} - navigating to /content-engine`);
+    navigate('/content-engine');
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
-      whileHover={{ y: -2, transition: { duration: 0.2 } }}
-      className={`${glassCardStyles} p-6 border border-purple-500/30 hover:bg-black/20 hover:border-orange-500/40 transition-all duration-300`}
+      whileHover={{ y: -2, scale: 1.02, transition: { duration: 0.2 } }}
+      whileTap={{ scale: 0.98, transition: { duration: 0.1 } }}
+      onClick={handleCampaignClick}
+      className={`${glassCardStyles} p-6 cursor-pointer hover:bg-white/10 hover:border-white/40 transition-all duration-300`}
       style={{ boxShadow: perfectCardShadow }}
     >
+      {/* Campaign Icon Header */}
+      <div className="h-20 bg-gradient-to-r from-white/15 to-white/10 rounded-xl flex items-center justify-center mb-4 border border-white/20">
+        <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center">
+          {getCampaignIcon(type)}
+        </div>
+      </div>
+
       <div className="flex items-start justify-between mb-4">
         <h3 className="text-lg font-semibold text-white/95">{name}</h3>
         <div className={`flex items-center space-x-1 px-3 py-1 rounded-lg border ${getStatusColor(status)}`}>
@@ -75,79 +166,146 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
           <span>Progress</span>
           <span>{progress}%</span>
         </div>
-        <div className="w-full bg-black/30 rounded-lg h-2 overflow-hidden">
+        <div className="w-full bg-white/20 rounded-lg h-3 overflow-hidden border border-white/20">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 1, delay: delay + 0.3 }}
-            className="h-full bg-gradient-to-r from-purple-500 to-orange-500 rounded-lg"
+            className="h-full bg-gradient-to-r from-orange-400 to-yellow-400 rounded-lg shadow-sm"
           />
         </div>
       </div>
 
       {/* Campaign Details */}
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="bg-black/20 backdrop-blur-sm rounded-xl p-3 border border-purple-400/20">
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20">
           <div className="flex items-center space-x-2 mb-1">
-            <Calendar className="w-4 h-4 text-white/75" />
-            <span className="text-xs text-white/75">Duration</span>
+            <Calendar className="w-4 h-4 text-white/80" />
+            <span className="text-xs text-white/80">Duration</span>
           </div>
-          <p className="text-sm font-medium text-white/90">{startDate} - {endDate}</p>
+          <p className="text-sm font-medium text-white/95">{startDate} - {endDate}</p>
         </div>
-        <div className="bg-black/20 backdrop-blur-sm rounded-xl p-3 border border-purple-400/20">
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20">
           <div className="flex items-center space-x-2 mb-1">
-            <Users className="w-4 h-4 text-white/75" />
-            <span className="text-xs text-white/75">Leads Generated</span>
+            <Users className="w-4 h-4 text-white/80" />
+            <span className="text-xs text-white/80">Leads Generated</span>
           </div>
-          <p className="text-sm font-medium text-white/90">{leads.toLocaleString()}</p>
+          <p className="text-sm font-medium text-white/95">{leads.toLocaleString()}</p>
         </div>
       </div>
 
       {/* Engagement Metric */}
-      <div className="bg-black/20 backdrop-blur-sm rounded-xl p-3 border border-purple-400/20">
+      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <TrendingUp className="w-4 h-4 text-white/75" />
-            <span className="text-sm text-white/75">Engagement Rate</span>
+            <TrendingUp className="w-4 h-4 text-white/80" />
+            <span className="text-sm text-white/80">Engagement Rate</span>
           </div>
-          <span className="text-sm font-medium text-white/90">{engagement}</span>
+          <span className="text-sm font-medium text-white/95">{engagement}</span>
         </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex items-center gap-2 mt-4">
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log(`🔧 Edit campaign: ${name}`);
+          }}
+          className="flex-1 flex items-center justify-center px-3 py-2 bg-white/15 hover:bg-white/25 border border-white/20 hover:border-white/30 rounded-lg text-white text-xs transition-all duration-200"
+        >
+          <Edit3 className="w-3 h-3 mr-1 text-white" />
+          Edit
+        </button>
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log(`${status === 'active' ? '⏸️ Pause' : '▶️ Play'} campaign: ${name}`);
+          }}
+          className="flex items-center justify-center p-2 bg-white/15 hover:bg-white/25 border border-white/20 hover:border-white/30 rounded-lg text-white transition-all duration-200"
+        >
+          {status === 'active' ? <Pause className="w-3 h-3 text-white" /> : <Play className="w-3 h-3 text-white" />}
+        </button>
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log(`⚙️ More options for campaign: ${name}`);
+          }}
+          className="flex items-center justify-center p-2 bg-white/15 hover:bg-white/25 border border-white/20 hover:border-white/30 rounded-lg text-white transition-all duration-200"
+        >
+          <MoreHorizontal className="w-3 h-3 text-white" />
+        </button>
       </div>
     </motion.div>
   );
 };
 
-const CampaignMetrics: React.FC = () => {
-  const metrics = [
-    { label: 'Active Campaigns', value: '12', change: '+3 this month' },
-    { label: 'Total Reach', value: '248K', change: '+15% growth' },
-    { label: 'Conversion Rate', value: '8.4%', change: '+1.2% vs last month' },
-    { label: 'ROI', value: '342%', change: '+28% improvement' }
+const CampaignCenterPage: React.FC = () => {
+  console.log('[Campaign] Campaign Center rendered with burnt orange theme');
+  const navigate = useNavigate();
+  const [selectedCampaigns, setSelectedCampaigns] = useState<string[]>([]);
+
+  // Dashboard Metrics from Magic Path
+  const dashboardMetrics = [
+    {
+      title: "Active Content Clusters",
+      subtitle: "Weekly Campaigns",
+      icon: Users,
+      metrics: [
+        { label: "Running", value: 8 },
+        { label: "Weekly Reach", value: "125K" },
+        { label: "Engagement", value: "7.2%" }
+      ],
+      onClick: () => {
+        console.log('🧭 Content Clusters clicked - navigating to /content-engine');
+        navigate('/content-engine');
+      }
+    },
+    {
+      title: "Google Ad Grant",
+      subtitle: "Budget Allocation",
+      icon: DollarSign,
+      metrics: [
+        { label: "Total Budget", value: "$10,000" },
+        { label: "Allocated", value: "$10,000" },
+        { label: "Efficiency", value: "94%" }
+      ],
+      onClick: () => {
+        console.log('🧭 Google Ad Grant clicked - navigating to /performance');
+        navigate('/performance');
+      }
+    },
+    {
+      title: "Humbleboast Briefs",
+      subtitle: "Facebook Ad Concepts",
+      icon: FileText,
+      metrics: [
+        { label: "Generated", value: 23 },
+        { label: "Ready", value: 12 },
+        { label: "Est. Reach", value: "180K" }
+      ],
+      onClick: () => {
+        console.log('🧭 Humbleboast Briefs clicked - navigating to /content-engine');
+        navigate('/content-engine');
+      }
+    },
+    {
+      title: "Authority Impact",
+      subtitle: "Campaign Effectiveness",
+      icon: Target,
+      metrics: [
+        { label: "Score", value: "87/100" },
+        { label: "Weekly", value: "+12%" },
+        { label: "Ranking", value: "Top 15%" }
+      ],
+      onClick: () => {
+        console.log('🧭 Authority Impact clicked - navigating to /performance');
+        navigate('/performance');
+      }
+    }
   ];
 
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      {metrics.map((metric, index) => (
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: index * 0.1 }}
-          className={glassCardStyles + ' p-6 border border-purple-500/30 hover:bg-black/20 hover:border-orange-500/40 transition-all duration-300'}
-      style={{ boxShadow: perfectCardShadow }}
-        >
-          <h3 className="text-sm font-medium text-white/75 mb-2">{metric.label}</h3>
-          <div className="text-3xl font-bold text-white/95 mb-1">{metric.value}</div>
-          <p className="text-xs text-orange-400">{metric.change}</p>
-        </motion.div>
-      ))}
-    </div>
-  );
-};
-
-const CampaignCenterPage: React.FC = () => {
-  console.log('[Campaign] rendered successfully');
-  
+  // Campaign data (existing production campaigns)
   const campaigns: CampaignCardProps[] = [
     {
       name: "Q4 Authority Building Series",
@@ -156,7 +314,8 @@ const CampaignCenterPage: React.FC = () => {
       startDate: "Oct 1",
       endDate: "Dec 31",
       leads: 342,
-      engagement: "12.4%"
+      engagement: "12.4%",
+      type: "authority"
     },
     {
       name: "LinkedIn Thought Leadership",
@@ -165,7 +324,8 @@ const CampaignCenterPage: React.FC = () => {
       startDate: "Nov 15",
       endDate: "Jan 15",
       leads: 128,
-      engagement: "9.2%"
+      engagement: "9.2%",
+      type: "thought-leadership"
     },
     {
       name: "Email Nurture Sequence",
@@ -174,7 +334,8 @@ const CampaignCenterPage: React.FC = () => {
       startDate: "Nov 1",
       endDate: "Dec 15",
       leads: 87,
-      engagement: "24.6%"
+      engagement: "24.6%",
+      type: "email"
     },
     {
       name: "Holiday Content Blitz",
@@ -183,7 +344,8 @@ const CampaignCenterPage: React.FC = () => {
       startDate: "Dec 1",
       endDate: "Dec 25",
       leads: 523,
-      engagement: "18.7%"
+      engagement: "18.7%",
+      type: "content-cluster"
     },
     {
       name: "New Year Authority Launch",
@@ -192,7 +354,8 @@ const CampaignCenterPage: React.FC = () => {
       startDate: "Jan 1",
       endDate: "Feb 28",
       leads: 0,
-      engagement: "0%"
+      engagement: "0%",
+      type: "authority"
     },
     {
       name: "Case Study Showcase",
@@ -201,64 +364,169 @@ const CampaignCenterPage: React.FC = () => {
       startDate: "Dec 10",
       endDate: "Jan 10",
       leads: 256,
-      engagement: "15.3%"
+      engagement: "15.3%",
+      type: "case-study"
     }
   ];
 
+  const handleActionClick = (action: string) => {
+    console.log(`🎯 Action clicked: ${action}`);
+    switch (action) {
+      case 'Generate Campaign from CIA Intelligence':
+        navigate('/cia');
+        break;
+      case 'Create Humbleboast Brief':
+        navigate('/content-engine');
+        break;
+      case 'Launch Content Cluster Campaign':
+        navigate('/content-engine');
+        break;
+      default:
+        console.log(`Action: ${action}`);
+    }
+  };
+
+  const quickActions = [
+    { label: 'Launch Campaign', icon: Rocket, onClick: () => navigate('/content-engine') },
+    { label: 'Schedule Content', icon: Calendar, onClick: () => navigate('/content-calendar') },
+    { label: 'Import Leads', icon: Users, onClick: () => navigate('/cia') },
+    { label: 'View Analytics', icon: TrendingUp, onClick: () => navigate('/performance') }
+  ];
 
   return (
-    <PageLayout pageTitle="Campaign Center" placeholder="Ask about campaign management...">
-      {/* Pink gradient background with fire accents */}
-      <div className="fixed inset-0 bg-gradient-to-br from-pink-600 via-pink-700 to-pink-800 -z-10" />
-      <div className="fixed inset-0 bg-gradient-to-tr from-rose-500/20 via-transparent to-pink-500/10 -z-10" />
-          {/* Header - Global Standard */}
-          <PageHeader 
-            title="Campaign Center"
-            subtitle="Launch and manage multi-channel authority building campaigns"
+    <PageLayout pageTitle="Campaign Center" placeholder="Ask about campaign management and optimization...">
+      {/* Vibrant Orange gradient background - balanced between bright and burnt */}
+      <div className="fixed inset-0 bg-gradient-to-br from-orange-500 via-orange-600 to-red-700 -z-10" />
+      
+      {/* Header - Global Standard */}
+      <PageHeader 
+        title="Campaign Center"
+        subtitle="Manage Brand BOS campaigns powered by CIA intelligence and content clusters"
+      />
+
+      {/* Dashboard Metrics Cards - From Magic Path */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+        {dashboardMetrics.map((metric, index) => (
+          <DashboardMetricCard
+            key={index}
+            title={metric.title}
+            subtitle={metric.subtitle}
+            metrics={metric.metrics}
+            icon={metric.icon}
+            delay={0.1 * (index + 1)}
+            onClick={metric.onClick}
           />
+        ))}
+      </section>
 
-          {/* Campaign Metrics */}
-          <CampaignMetrics />
-
-          {/* Campaign Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {campaigns.map((campaign, index) => (
-              <CampaignCard
-                key={index}
-                {...campaign}
-                delay={index * 0.1}
-              />
-            ))}
+      {/* Action Buttons Bar - From Magic Path */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className={`${glassCardStyles} p-5 mb-6`}
+        style={{ boxShadow: perfectCardShadow }}
+      >
+        <div className="flex flex-wrap gap-4 items-center justify-between">
+          <div className="flex flex-wrap gap-3">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => handleActionClick('Generate Campaign from CIA Intelligence')}
+              className="flex items-center px-6 py-3 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-orange-800 font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              <Brain className="w-4 h-4 mr-2 text-orange-800" />
+              Generate Campaign from CIA Intelligence
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => handleActionClick('Create Humbleboast Brief')}
+              className="flex items-center px-6 py-3 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-orange-800 font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              <Megaphone className="w-4 h-4 mr-2 text-orange-800" />
+              Create Humbleboast Brief
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => handleActionClick('Launch Content Cluster Campaign')}
+              className="flex items-center px-6 py-3 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-orange-800 font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              <Users className="w-4 h-4 mr-2 text-orange-800" />
+              Launch Content Cluster Campaign
+            </motion.button>
           </div>
+          <div className="flex items-center gap-3">
+            <button className="flex items-center px-4 py-3 bg-white/15 hover:bg-white/25 border border-white/30 rounded-xl text-white font-medium transition-all duration-200">
+              Bulk Actions
+              <ChevronDown className="w-4 h-4 ml-2 text-white" />
+            </button>
+            <button className="p-3 bg-white/15 hover:bg-white/25 border border-white/30 rounded-xl text-white transition-all duration-200">
+              <Settings className="w-4 h-4 text-white" />
+            </button>
+          </div>
+        </div>
+      </motion.div>
 
-          {/* Quick Actions */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className={'mt-8 ' + glassCardStyles + ' p-6 border border-purple-500/30'}
-      style={{ boxShadow: perfectCardShadow }}
-          >
-            <h3 className="text-xl font-semibold text-white/95 mb-4">Quick Actions</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <button className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-purple-400/20 hover:border-orange-400/30 hover:bg-black/25 transition-all duration-300 text-center">
-                <Rocket className="w-6 h-6 text-white/95 mx-auto mb-2" />
-                <span className="text-sm font-medium text-white/90">Launch Campaign</span>
-              </button>
-              <button className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-purple-400/20 hover:border-orange-400/30 hover:bg-black/25 transition-all duration-300 text-center">
-                <Calendar className="w-6 h-6 text-white/95 mx-auto mb-2" />
-                <span className="text-sm font-medium text-white/90">Schedule Content</span>
-              </button>
-              <button className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-purple-400/20 hover:border-orange-400/30 hover:bg-black/25 transition-all duration-300 text-center">
-                <Users className="w-6 h-6 text-white/95 mx-auto mb-2" />
-                <span className="text-sm font-medium text-white/90">Import Leads</span>
-              </button>
-              <button className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-purple-400/20 hover:border-orange-400/30 hover:bg-black/25 transition-all duration-300 text-center">
-                <TrendingUp className="w-6 h-6 text-white/95 mx-auto mb-2" />
-                <span className="text-sm font-medium text-white/90">View Analytics</span>
-              </button>
-            </div>
-          </motion.div>
+      {/* Campaign Grid - Production Version with Improvements */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+        className="mb-8"
+      >
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold text-white leading-tight">Active Brand BOS Campaigns</h2>
+          <div className="flex items-center gap-3">
+            <span className="text-white/70 text-sm">{campaigns.length} campaigns</span>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => navigate('/content-engine')}
+              className="flex items-center px-4 py-2 bg-white/15 hover:bg-white/25 border border-white/30 rounded-lg text-white text-sm transition-all duration-200"
+            >
+              <Rocket className="w-4 h-4 mr-2 text-white" />
+              New Campaign
+            </motion.button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {campaigns.map((campaign, index) => (
+            <CampaignCard
+              key={index}
+              {...campaign}
+              delay={index * 0.1}
+            />
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Quick Actions - At Bottom */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.7 }}
+        className={glassCardStyles + ' p-6'}
+        style={{ boxShadow: perfectCardShadow }}
+      >
+        <h3 className="text-xl font-semibold text-white/95 mb-4">Quick Actions</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {quickActions.map((action, index) => (
+            <motion.button
+              key={index}
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={action.onClick}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:border-white/30 hover:bg-white/15 transition-all duration-300 text-center"
+            >
+              <action.icon className="w-6 h-6 text-white/95 mx-auto mb-2" />
+              <span className="text-sm font-medium text-white/90">{action.label}</span>
+            </motion.button>
+          ))}
+        </div>
+      </motion.div>
     </PageLayout>
   );
 };

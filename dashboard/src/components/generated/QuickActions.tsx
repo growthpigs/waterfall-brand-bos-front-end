@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { AlertTriangle, Search, TrendingUp, Zap, Activity, Target } from 'lucide-react';
+import { TrendingUp, Search, Activity, FileText, Zap, Share2 } from 'lucide-react';
 import { perfectCardShadow } from '../../lib/utils';
 
 interface QuickAction {
@@ -16,8 +16,8 @@ interface QuickAction {
 const QuickActions: React.FC = () => {
   const actions: QuickAction[] = [
     {
-      icon: AlertTriangle,
-      label: 'Brand Alert',
+      icon: TrendingUp,
+      label: 'Viral Opps',
       color: 'text-pink-600',
       bgColor: 'bg-pink-600/10',
       borderColor: 'border-pink-600/30',
@@ -26,7 +26,7 @@ const QuickActions: React.FC = () => {
     },
     {
       icon: Search,
-      label: 'Research Mode',
+      label: 'Trend Opps',
       color: 'text-indigo-600',
       bgColor: 'bg-indigo-600/10',
       borderColor: 'border-indigo-600/30',
@@ -34,8 +34,8 @@ const QuickActions: React.FC = () => {
       hoverShadowColor: ''
     },
     {
-      icon: TrendingUp,
-      label: 'Trend Analysis',
+      icon: Activity,
+      label: 'Live Monitor',
       color: 'text-green-600',
       bgColor: 'bg-green-600/10',
       borderColor: 'border-green-600/30',
@@ -43,8 +43,8 @@ const QuickActions: React.FC = () => {
       hoverShadowColor: ''
     },
     {
-      icon: Zap,
-      label: 'Quick Campaign',
+      icon: FileText,
+      label: 'Make Content',
       color: 'text-amber-600',
       bgColor: 'bg-amber-600/10',
       borderColor: 'border-amber-600/30',
@@ -52,8 +52,8 @@ const QuickActions: React.FC = () => {
       hoverShadowColor: ''
     },
     {
-      icon: Activity,
-      label: 'Live Monitor',
+      icon: Zap,
+      label: 'Quick Campaign',
       color: 'text-purple-600',
       bgColor: 'bg-purple-600/10',
       borderColor: 'border-purple-600/30',
@@ -61,8 +61,8 @@ const QuickActions: React.FC = () => {
       hoverShadowColor: ''
     },
     {
-      icon: Target,
-      label: 'Set Goals',
+      icon: Share2,
+      label: 'Social Media',
       color: 'text-orange-600',
       bgColor: 'bg-orange-600/10',
       borderColor: 'border-orange-600/30',

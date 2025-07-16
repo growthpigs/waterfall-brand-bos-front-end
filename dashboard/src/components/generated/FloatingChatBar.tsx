@@ -1,7 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Mic, Paperclip, Sparkles, MessageCircle, X } from 'lucide-react';
+import { Send, Mic, Paperclip, Sparkles, MessageCircle, X, Clock } from 'lucide-react';
 import { perfectCardShadow } from '../../lib/utils';
+
+interface ChatMessage {
+  id: string;
+  text: string;
+  isUser: boolean;
+  timestamp: Date;
+}
+
+interface ChatSession {
+  id: string;
+  title: string;
+  lastMessage: string;
+  timestamp: Date;
+  messages: ChatMessage[];
+}
 
 interface FloatingChatBarProps {
   onSendMessage: (message: string) => void;
@@ -15,17 +30,73 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
   const [message, setMessage] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [chatState, setChatState] = useState<'history' | 'chat' | 'closed'>('closed');
+  const [activeChat, setActiveChat] = useState<ChatSession | null>(null);
+  const [currentMessages, setCurrentMessages] = useState<ChatMessage[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const expandedRef = useRef<HTMLDivElement>(null);
+
+  // Mock chat history data
+  const [chatHistory] = useState<ChatSession[]>([
+    {
+      id: '1',
+      title: 'Campaign Performance Q4',
+      lastMessage: 'The Q4 campaigns showed 15% increase...',
+      timestamp: new Date(Date.now() - 86400000), // 1 day ago
+      messages: [
+        { id: '1-1', text: 'How did our Q4 campaigns perform?', isUser: true, timestamp: new Date(Date.now() - 86400000) },
+        { id: '1-2', text: 'The Q4 campaigns showed 15% increase in engagement with strong ROI across social channels.', isUser: false, timestamp: new Date(Date.now() - 86400000 + 60000) }
+      ]
+    },
+    {
+      id: '2',
+      title: 'Content Strategy Review',
+      lastMessage: 'I recommend focusing on video content...',
+      timestamp: new Date(Date.now() - 172800000), // 2 days ago
+      messages: [
+        { id: '2-1', text: 'What content strategy should we use for next quarter?', isUser: true, timestamp: new Date(Date.now() - 172800000) },
+        { id: '2-2', text: 'I recommend focusing on video content and interactive posts to boost engagement.', isUser: false, timestamp: new Date(Date.now() - 172800000 + 120000) }
+      ]
+    },
+    {
+      id: '3',
+      title: 'SEO Analysis',
+      lastMessage: 'Your organic traffic has improved by 23%...',
+      timestamp: new Date(Date.now() - 259200000), // 3 days ago
+      messages: [
+        { id: '3-1', text: 'Can you analyze our SEO performance?', isUser: true, timestamp: new Date(Date.now() - 259200000) },
+        { id: '3-2', text: 'Your organic traffic has improved by 23% this month with strong keyword rankings.', isUser: false, timestamp: new Date(Date.now() - 259200000 + 90000) }
+      ]
+    }
+  ]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim()) {
+      // Add user message
+      const userMessage: ChatMessage = {
+        id: Date.now().toString(),
+        text: message.trim(),
+        isUser: true,
+        timestamp: new Date()
+      };
+
+      setCurrentMessages(prev => [...prev, userMessage]);
+      setChatState('chat');
+      setIsExpanded(true);
+      setIsTyping(true);
       onSendMessage(message.trim());
       setMessage('');
-      setIsTyping(true);
       
-      // Simulate AI response delay
+      // Simulate AI response
       setTimeout(() => {
+        const aiMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          text: 'Thanks for your question! I\'m analyzing your request and will provide detailed insights based on your Brand BOS data.',
+          isUser: false,
+          timestamp: new Date()
+        };
+        setCurrentMessages(prev => [...prev, aiMessage]);
         setIsTyping(false);
       }, 2000);
     }
@@ -38,77 +109,158 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
     }
   };
 
-  const toggleExpanded = () => {
-    setIsExpanded(!isExpanded);
-    if (!isExpanded) {
-      setTimeout(() => inputRef.current?.focus(), 100);
+  const toggleChatHistory = () => {
+    if (chatState === 'history') {
+      setChatState('closed');
+      setIsExpanded(false);
+    } else {
+      setChatState('history');
+      setIsExpanded(true);
+      setActiveChat(null);
     }
   };
 
+  const openChat = (chat: ChatSession) => {
+    setActiveChat(chat);
+    setCurrentMessages(chat.messages);
+    setChatState('chat');
+  };
+
+  const formatTime = (date: Date) => {
+    const now = new Date();
+    const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (diffInDays === 0) return 'Today';
+    if (diffInDays === 1) return 'Yesterday';
+    if (diffInDays < 7) return `${diffInDays} days ago`;
+    return date.toLocaleDateString();
+  };
+
+  // Click outside to close
   useEffect(() => {
-    if (isExpanded) {
-      inputRef.current?.focus();
-    }
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isExpanded && expandedRef.current && !expandedRef.current.contains(event.target as Node)) {
+        setIsExpanded(false);
+        setChatState('closed');
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [isExpanded]);
+
+  useEffect(() => {
+    if (isExpanded && chatState === 'chat') {
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }, [isExpanded, chatState]);
 
   return (
     <div className="max-w-4xl mx-auto">
       <AnimatePresence>
         {isExpanded && (
           <motion.div
+            ref={expandedRef}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="mb-4 bg-black/20 backdrop-blur-xl rounded-2xl border border-purple-500/30 p-4"
+            className="mb-4 bg-white/20 backdrop-blur-xl rounded-2xl border border-white/40"
           >
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-orange-500 rounded-full flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-white/90 font-medium">Brand BOS AI Assistant</span>
-              </div>
-              <button
-                onClick={toggleExpanded}
-                className="p-1 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-all duration-200"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            
-            <div className="bg-black/20 rounded-lg p-3 mb-3 min-h-[120px] max-h-[300px] overflow-y-auto">
-              {isTyping ? (
-                <div className="flex items-center space-x-2">
-                  <div className="flex space-x-1">
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
-                      className="w-2 h-2 bg-purple-400 rounded-full"
-                    />
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
-                      className="w-2 h-2 bg-purple-400 rounded-full"
-                    />
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
-                      className="w-2 h-2 bg-purple-400 rounded-full"
-                    />
+            {/* Chat Window Content */}
+            <div className={`bg-white/90 rounded-2xl overflow-hidden ${
+              chatState === 'history' ? 'h-[300px]' : 'min-h-[300px] max-h-[50vh]'
+            }`}>
+              
+              {/* Chat History State */}
+              {chatState === 'history' && (
+                <div className="flex flex-col h-full">
+                  <div className="p-4 border-b border-gray-200/50">
+                    <h3 className="text-gray-800 font-medium flex items-center">
+                      <Clock className="w-4 h-4 mr-2" />
+                      Recent Conversations
+                    </h3>
                   </div>
-                  <span className="text-white/70 text-sm">AI is thinking...</span>
+                  <div className="flex-1 overflow-y-auto p-4">
+                    <div className="space-y-2">
+                      {chatHistory.map((chat) => (
+                        <motion.button
+                          key={chat.id}
+                          onClick={() => openChat(chat)}
+                          whileHover={{ scale: 1.02 }}
+                          className="w-full p-3 bg-white/60 hover:bg-white/80 rounded-xl border border-gray-200/50 hover:border-gray-300/50 transition-all duration-200 text-left"
+                        >
+                          <div className="flex justify-between items-start mb-1">
+                            <h4 className="text-gray-800 font-medium text-sm">{chat.title}</h4>
+                            <span className="text-gray-500 text-xs">{formatTime(chat.timestamp)}</span>
+                          </div>
+                          <p className="text-gray-600 text-xs line-clamp-2">{chat.lastMessage}</p>
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              ) : (
-                <p className="text-white/70 text-sm">
-                  Hello! I'm your Brand BOS AI assistant. I can help you with:
-                  <br />• Campaign performance analysis
-                  <br />• Content strategy recommendations
-                  <br />• SEO optimization insights
-                  <br />• Client account management
-                  <br />
-                  <br />What would you like to know?
-                </p>
+              )}
+
+              {/* Active Chat State */}
+              {chatState === 'chat' && (
+                <div className="flex flex-col h-full">
+                  {/* Chat Header */}
+                  {activeChat && (
+                    <div className="p-3 border-b border-gray-200/50 bg-white/50">
+                      <h3 className="text-gray-800 font-medium text-sm">{activeChat.title}</h3>
+                    </div>
+                  )}
+                  
+                  {/* Messages Area */}
+                  <div className="flex-1 p-4 overflow-y-auto">
+                    <div className="space-y-3">
+                                             {currentMessages.map((msg) => (
+                         <div
+                           key={msg.id}
+                           className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}
+                         >
+                           <div
+                             className={`max-w-[80%] p-3 rounded-lg text-sm ${
+                               msg.isUser
+                                 ? 'bg-gray-200 text-black'
+                                 : 'bg-gray-700 text-white'
+                             }`}
+                           >
+                             {msg.text}
+                           </div>
+                         </div>
+                       ))}
+                      
+                      {/* Typing Indicator */}
+                      {isTyping && (
+                        <div className="flex justify-start">
+                          <div className="bg-gray-100 p-3 rounded-lg">
+                            <div className="flex space-x-1">
+                              <motion.div
+                                animate={{ scale: [1, 1.2, 1] }}
+                                transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
+                                className="w-2 h-2 bg-gray-400 rounded-full"
+                              />
+                              <motion.div
+                                animate={{ scale: [1, 1.2, 1] }}
+                                transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+                                className="w-2 h-2 bg-gray-400 rounded-full"
+                              />
+                              <motion.div
+                                animate={{ scale: [1, 1.2, 1] }}
+                                transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
+                                className="w-2 h-2 bg-gray-400 rounded-full"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           </motion.div>
@@ -119,18 +271,27 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="bg-black/20 backdrop-blur-xl rounded-2xl border border-purple-500/30"
+        className="bg-white/20 backdrop-blur-xl rounded-2xl border border-white/40"
         style={{ boxShadow: perfectCardShadow }}
       >
         <form onSubmit={handleSubmit} className="flex items-center p-3">
-          {/* Expand Button */}
-          <button
-            type="button"
-            onClick={toggleExpanded}
-            className="p-2 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200 mr-3"
-          >
-            <MessageCircle className="w-5 h-5" />
-          </button>
+          {/* Chat History Button with Tooltip */}
+          <div className="relative group">
+            <button
+              type="button"
+              onClick={toggleChatHistory}
+              className={`p-2 rounded-xl transition-all duration-200 mr-3 ${
+                chatState === 'history'
+                  ? 'text-purple-300 bg-white/20'
+                  : 'text-white hover:text-gray-200 hover:bg-white/20'
+              }`}
+            >
+              <MessageCircle className="w-5 h-5" />
+            </button>
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/80 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+              Chat History
+            </div>
+          </div>
 
           {/* Input Field */}
           <div className="flex-1 relative">
@@ -141,7 +302,7 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder={placeholder}
-              className="w-full bg-black/20 text-white placeholder-white/50 rounded-xl px-4 py-3 pr-12 border border-purple-400/20 focus:border-purple-400/50 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200"
+              className="w-full bg-white/90 text-black placeholder-gray-500 rounded-xl px-4 py-3 pr-12 border border-white/50 focus:border-white/70 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
             />
             
             {/* AI Indicator */}
@@ -156,40 +317,58 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="w-2 h-2 bg-purple-400 rounded-full"
+                className="w-2 h-2 bg-purple-500 rounded-full"
               />
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Action Buttons with Tooltips */}
           <div className="flex items-center space-x-2 ml-3">
-            <button
-              type="button"
-              className="p-2 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200"
-            >
-              <Paperclip className="w-5 h-5" />
-            </button>
+            {/* Attachment Button */}
+            <div className="relative group">
+              <button
+                type="button"
+                className="p-2 rounded-xl text-white hover:text-gray-200 hover:bg-white/20 transition-all duration-200"
+              >
+                <Paperclip className="w-5 h-5" />
+              </button>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/80 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                Attach File
+              </div>
+            </div>
             
-            <button
-              type="button"
-              className="p-2 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200"
-            >
-              <Mic className="w-5 h-5" />
-            </button>
+            {/* Voice Button */}
+            <div className="relative group">
+              <button
+                type="button"
+                className="p-2 rounded-xl text-white hover:text-gray-200 hover:bg-white/20 transition-all duration-200"
+              >
+                <Mic className="w-5 h-5" />
+              </button>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/80 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                Voice Input
+              </div>
+            </div>
             
-            <motion.button
-              type="submit"
-              disabled={!message.trim()}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`p-2 rounded-xl transition-all duration-200 ${
-                message.trim()
-                  ? 'bg-gradient-to-r from-purple-500 to-orange-500 text-white shadow-lg hover:shadow-purple-500/25'
-                  : 'bg-white/10 text-white/40 cursor-not-allowed'
-              }`}
-            >
-              <Send className="w-5 h-5" />
-            </motion.button>
+            {/* Send Button */}
+            <div className="relative group">
+              <motion.button
+                type="submit"
+                disabled={!message.trim()}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`p-2 rounded-xl transition-all duration-200 ${
+                  message.trim()
+                    ? 'bg-gradient-to-r from-purple-500 to-orange-500 text-white shadow-lg hover:shadow-purple-500/25'
+                    : 'bg-white/30 text-white cursor-not-allowed'
+                }`}
+              >
+                <Send className="w-5 h-5" />
+              </motion.button>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/80 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                Send Message
+              </div>
+            </div>
           </div>
         </form>
       </motion.div>

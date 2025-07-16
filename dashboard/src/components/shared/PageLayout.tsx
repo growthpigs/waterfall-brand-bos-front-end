@@ -11,12 +11,18 @@ type PageLayoutProps = {
 };
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children, pageTitle, placeholder }) => {
+  console.log(`🔍 PageLayout rendering for: ${pageTitle}`);
+  
   const handleSendMessage = (message: string) => {
     console.log(`Message from ${pageTitle}:`, message);
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col">
+    <div className="min-h-screen w-full relative">
+      {/* Purple gradient background - MISSING IN CURRENT CODE */}
+      <div className="fixed inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 -z-10" />
+      
+      <div className="min-h-screen w-full flex flex-col relative z-10">
       {/* Fixed Top Nav */}
       <TopNavigation />
 
@@ -41,6 +47,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children, pageTitle, placeholde
         <FloatingChatBar onSendMessage={handleSendMessage} placeholder={placeholder} />
       </div>
       <TickerTape />
+      </div>
     </div>
   );
 };
