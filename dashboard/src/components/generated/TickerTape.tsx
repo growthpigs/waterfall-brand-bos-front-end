@@ -105,25 +105,27 @@ const TickerTape: React.FC = () => {
         `}</style>
         <div className="ticker-content flex items-center space-x-8 whitespace-nowrap">
           {/* Repeat items multiple times to ensure seamless loop */}
-          {[...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems].map((item, index) => (
-            <div
-              key={`ticker-${index}`}
-              className="flex items-center space-x-3 px-4 cursor-pointer hover:opacity-80 transition-opacity"
-              onClick={() => console.log(`Ticker item clicked: ${item.text}`)}
-            >
+          {[...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems].map(
+            (item, index) => (
               <div
-                className={`p-1.5 rounded-full bg-black/20 ${getTypeColor(item.type)}`}
+                key={`ticker-${index}`}
+                className="flex items-center space-x-3 px-4 cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => console.log(`Ticker item clicked: ${item.text}`)}
               >
-                <item.icon className="w-3 h-3" />
+                <div
+                  className={`p-1.5 rounded-full bg-black/20 ${getTypeColor(item.type)}`}
+                >
+                  <item.icon className="w-3 h-3" />
+                </div>
+                <span className="text-white/80 text-sm font-medium font-mono">
+                  {item.text}
+                </span>
+                {index < tickerItems.length * 4 - 1 && (
+                  <div className="w-1 h-1 bg-white/30 rounded-full ml-8" />
+                )}
               </div>
-              <span className="text-white/80 text-sm font-medium font-mono">
-                {item.text}
-              </span>
-              {index < tickerItems.length * 4 - 1 && (
-                <div className="w-1 h-1 bg-white/30 rounded-full ml-8" />
-              )}
-            </div>
-          ))}
+            ),
+          )}
         </div>
       </div>
     </div>

@@ -10,7 +10,19 @@ import {
 } from "../services/googleAdsService";
 
 // Mock axios
-vi.mock("axios");
+vi.mock("axios", () => ({
+  default: {
+    create: vi.fn(() => ({
+      get: vi.fn(),
+      post: vi.fn(),
+      interceptors: {
+        request: { use: vi.fn() },
+        response: { use: vi.fn() },
+      },
+    })),
+  },
+}));
+
 const mockedAxios = vi.mocked(axios);
 
 // Helper to create wrapper
@@ -36,17 +48,7 @@ describe("GHL Service", () => {
   describe("authenticateGHL", () => {
     it("should authenticate and store API key", async () => {
       const mockApiKey = "test-api-key";
-      mockedAxios.create = vi.fn(
-        () =>
-          ({
-            get: vi.fn().mockResolvedValue({ status: 200 }),
-            interceptors: {
-              request: { use: vi.fn() },
-              response: { use: vi.fn() },
-            },
-          }) as unknown as ReturnType<typeof axios.create>,
-      );
-
+      
       const result = await ghlService.authenticateGHL(mockApiKey);
 
       expect(result).toEqual({ success: true });
@@ -54,17 +56,6 @@ describe("GHL Service", () => {
     });
 
     it("should handle invalid API key", async () => {
-      mockedAxios.create = vi.fn(
-        () =>
-          ({
-            get: vi.fn().mockRejectedValue(new Error("Unauthorized")),
-            interceptors: {
-              request: { use: vi.fn() },
-              response: { use: vi.fn() },
-            },
-          }) as unknown as ReturnType<typeof axios.create>,
-      );
-
       await expect(ghlService.authenticateGHL("invalid-key")).rejects.toThrow(
         "Invalid API key",
       );
