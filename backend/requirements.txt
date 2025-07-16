@@ -1,0 +1,48 @@
+# Core Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-dotenv==1.0.0
+
+# Database
+supabase==2.3.0
+sqlalchemy==2.0.23
+asyncpg==0.29.0
+
+# API Integrations
+httpx==0.25.2
+requests==2.31.0
+
+# Data Validation & Serialization
+pydantic==2.5.2
+pydantic-settings==2.1.0
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+
+# Development Tools
+black==23.12.0
+isort==5.13.2
+flake8==6.1.0
+
+# Logging & Monitoring
+loguru==0.7.2
+
+# Date/Time Handling
+python-dateutil==2.8.2
+
+# AI/LLM Integration (for CIA system)
+openai==1.6.1
+anthropic==0.8.1
+
+# DataForSEO Integration
+# Note: DataForSEO uses REST API, no specific package needed
+
+# Additional Utilities
+aiofiles==23.2.1

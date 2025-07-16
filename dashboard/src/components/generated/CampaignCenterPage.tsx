@@ -1,40 +1,66 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Brain, DollarSign, FileText, Target, TrendingUp, Users, BarChart3, Zap, ChevronDown, Settings, 
-         Rocket, Calendar, Play, Pause, CheckCircle, AlertCircle, Lightbulb, Megaphone, Edit3, MoreHorizontal } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import PageLayout from '../shared/PageLayout';
-import PageHeader from '../shared/PageHeader';
-import { perfectCardShadow, glassCardStyles } from '../../lib/utils';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  Brain,
+  DollarSign,
+  FileText,
+  Target,
+  TrendingUp,
+  Users,
+  BarChart3,
+  Zap,
+  ChevronDown,
+  Settings,
+  Rocket,
+  Calendar,
+  Play,
+  Pause,
+  CheckCircle,
+  AlertCircle,
+  Lightbulb,
+  Megaphone,
+  Edit3,
+  MoreHorizontal,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import PageLayout from "../shared/PageLayout";
+import PageHeader from "../shared/PageHeader";
+import { perfectCardShadow, glassCardStyles } from "../../lib/utils";
 
 interface CampaignCardProps {
   name: string;
-  status: 'active' | 'paused' | 'completed' | 'draft';
+  status: "active" | "paused" | "completed" | "draft";
   progress: number;
   startDate: string;
   endDate: string;
   leads: number;
   engagement: string;
-  type: 'content-cluster' | 'social' | 'email' | 'authority' | 'case-study' | 'thought-leadership';
+  type:
+    | "content-cluster"
+    | "social"
+    | "email"
+    | "authority"
+    | "case-study"
+    | "thought-leadership";
   delay?: number;
 }
 
-const getCampaignIcon = (type: CampaignCardProps['type']) => {
+const getCampaignIcon = (type: CampaignCardProps["type"]) => {
   switch (type) {
-    case 'content-cluster':
-      return <Users className="w-8 h-8 text-white" />;
-    case 'social':
-      return <TrendingUp className="w-8 h-8 text-white" />;
-    case 'email':
-      return <Megaphone className="w-8 h-8 text-white" />;
-    case 'authority':
-      return <Target className="w-8 h-8 text-white" />;
-    case 'case-study':
-      return <FileText className="w-8 h-8 text-white" />;
-    case 'thought-leadership':
-      return <Brain className="w-8 h-8 text-white" />;
+    case "content-cluster":
+      return <Users className="w-5 h-5 text-white" />;
+    case "social":
+      return <TrendingUp className="w-5 h-5 text-white" />;
+    case "email":
+      return <Megaphone className="w-5 h-5 text-white" />;
+    case "authority":
+      return <Target className="w-5 h-5 text-white" />;
+    case "case-study":
+      return <FileText className="w-5 h-5 text-white" />;
+    case "thought-leadership":
+      return <Brain className="w-5 h-5 text-white" />;
     default:
-      return <Rocket className="w-8 h-8 text-white" />;
+      return <Rocket className="w-5 h-5 text-white" />;
   }
 };
 
@@ -53,7 +79,7 @@ const DashboardMetricCard: React.FC<DashboardMetricCardProps> = ({
   metrics,
   icon: Icon,
   delay = 0,
-  onClick
+  onClick,
 }) => {
   return (
     <motion.div
@@ -90,29 +116,29 @@ const DashboardMetricCard: React.FC<DashboardMetricCardProps> = ({
   );
 };
 
-const getStatusIcon = (status: CampaignCardProps['status']) => {
+const getStatusIcon = (status: CampaignCardProps["status"]) => {
   switch (status) {
-    case 'active':
+    case "active":
       return <Play className="w-4 h-4" />;
-    case 'paused':
+    case "paused":
       return <Pause className="w-4 h-4" />;
-    case 'completed':
+    case "completed":
       return <CheckCircle className="w-4 h-4" />;
-    case 'draft':
+    case "draft":
       return <AlertCircle className="w-4 h-4" />;
   }
 };
 
-const getStatusColor = (status: CampaignCardProps['status']) => {
+const getStatusColor = (status: CampaignCardProps["status"]) => {
   switch (status) {
-    case 'active':
-      return 'bg-green-500/20 text-green-400 border-green-400/30';
-    case 'paused':
-      return 'bg-yellow-500/20 text-yellow-400 border-yellow-400/30';
-    case 'completed':
-      return 'bg-blue-500/20 text-blue-400 border-blue-400/30';
-    case 'draft':
-      return 'bg-gray-500/20 text-gray-400 border-gray-400/30';
+    case "active":
+      return "bg-green-500/20 text-green-400 border-green-400/30";
+    case "paused":
+      return "bg-yellow-500/20 text-yellow-400 border-yellow-400/30";
+    case "completed":
+      return "bg-blue-500/20 text-blue-400 border-blue-400/30";
+    case "draft":
+      return "bg-gray-500/20 text-gray-400 border-gray-400/30";
   }
 };
 
@@ -125,13 +151,13 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
   leads,
   engagement,
   type,
-  delay = 0
+  delay = 0,
 }) => {
   const navigate = useNavigate();
 
   const handleCampaignClick = () => {
     console.log(`🧭 Campaign clicked: ${name} - navigating to /content-engine`);
-    navigate('/content-engine');
+    navigate("/content-engine");
   };
 
   return (
@@ -145,16 +171,17 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
       className={`${glassCardStyles} p-6 cursor-pointer hover:bg-white/10 hover:border-white/40 transition-all duration-300`}
       style={{ boxShadow: perfectCardShadow }}
     >
-      {/* Campaign Icon Header */}
-      <div className="h-20 bg-gradient-to-r from-white/15 to-white/10 rounded-xl flex items-center justify-center mb-4 border border-white/20">
-        <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center">
-          {getCampaignIcon(type)}
-        </div>
-      </div>
-
+      {/* Clean Header with inline icon */}
       <div className="flex items-start justify-between mb-4">
-        <h3 className="text-lg font-semibold text-white/95">{name}</h3>
-        <div className={`flex items-center space-x-1 px-3 py-1 rounded-lg border ${getStatusColor(status)}`}>
+        <div className="flex items-center space-x-3">
+          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+            {getCampaignIcon(type)}
+          </div>
+          <h3 className="text-lg font-semibold text-white/95">{name}</h3>
+        </div>
+        <div
+          className={`flex items-center space-x-1 px-3 py-1 rounded-lg border ${getStatusColor(status)}`}
+        >
           {getStatusIcon(status)}
           <span className="text-sm font-medium capitalize">{status}</span>
         </div>
@@ -183,14 +210,18 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
             <Calendar className="w-4 h-4 text-white/80" />
             <span className="text-xs text-white/80">Duration</span>
           </div>
-          <p className="text-sm font-medium text-white/95">{startDate} - {endDate}</p>
+          <p className="text-sm font-medium text-white/95">
+            {startDate} - {endDate}
+          </p>
         </div>
         <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20">
           <div className="flex items-center space-x-2 mb-1">
             <Users className="w-4 h-4 text-white/80" />
             <span className="text-xs text-white/80">Leads Generated</span>
           </div>
-          <p className="text-sm font-medium text-white/95">{leads.toLocaleString()}</p>
+          <p className="text-sm font-medium text-white/95">
+            {leads.toLocaleString()}
+          </p>
         </div>
       </div>
 
@@ -201,13 +232,15 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
             <TrendingUp className="w-4 h-4 text-white/80" />
             <span className="text-sm text-white/80">Engagement Rate</span>
           </div>
-          <span className="text-sm font-medium text-white/95">{engagement}</span>
+          <span className="text-sm font-medium text-white/95">
+            {engagement}
+          </span>
         </div>
       </div>
 
       {/* Action Buttons */}
       <div className="flex items-center gap-2 mt-4">
-        <button 
+        <button
           onClick={(e) => {
             e.stopPropagation();
             console.log(`🔧 Edit campaign: ${name}`);
@@ -217,16 +250,22 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
           <Edit3 className="w-3 h-3 mr-1 text-white" />
           Edit
         </button>
-        <button 
+        <button
           onClick={(e) => {
             e.stopPropagation();
-            console.log(`${status === 'active' ? '⏸️ Pause' : '▶️ Play'} campaign: ${name}`);
+            console.log(
+              `${status === "active" ? "⏸️ Pause" : "▶️ Play"} campaign: ${name}`,
+            );
           }}
           className="flex items-center justify-center p-2 bg-white/15 hover:bg-white/25 border border-white/20 hover:border-white/30 rounded-lg text-white transition-all duration-200"
         >
-          {status === 'active' ? <Pause className="w-3 h-3 text-white" /> : <Play className="w-3 h-3 text-white" />}
+          {status === "active" ? (
+            <Pause className="w-3 h-3 text-white" />
+          ) : (
+            <Play className="w-3 h-3 text-white" />
+          )}
         </button>
-        <button 
+        <button
           onClick={(e) => {
             e.stopPropagation();
             console.log(`⚙️ More options for campaign: ${name}`);
@@ -241,7 +280,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
 };
 
 const CampaignCenterPage: React.FC = () => {
-  console.log('[Campaign] Campaign Center rendered with burnt orange theme');
+  console.log("[Campaign] Campaign Center rendered with burnt orange theme");
   const navigate = useNavigate();
   const [selectedCampaigns, setSelectedCampaigns] = useState<string[]>([]);
 
@@ -254,12 +293,14 @@ const CampaignCenterPage: React.FC = () => {
       metrics: [
         { label: "Running", value: 8 },
         { label: "Weekly Reach", value: "125K" },
-        { label: "Engagement", value: "7.2%" }
+        { label: "Engagement", value: "7.2%" },
       ],
       onClick: () => {
-        console.log('🧭 Content Clusters clicked - navigating to /content-engine');
-        navigate('/content-engine');
-      }
+        console.log(
+          "🧭 Content Clusters clicked - navigating to /content-engine",
+        );
+        navigate("/content-engine");
+      },
     },
     {
       title: "Google Ad Grant",
@@ -268,12 +309,12 @@ const CampaignCenterPage: React.FC = () => {
       metrics: [
         { label: "Total Budget", value: "$10,000" },
         { label: "Allocated", value: "$10,000" },
-        { label: "Efficiency", value: "94%" }
+        { label: "Efficiency", value: "94%" },
       ],
       onClick: () => {
-        console.log('🧭 Google Ad Grant clicked - navigating to /performance');
-        navigate('/performance');
-      }
+        console.log("🧭 Google Ad Grant clicked - navigating to /performance");
+        navigate("/performance");
+      },
     },
     {
       title: "Humbleboast Briefs",
@@ -282,12 +323,14 @@ const CampaignCenterPage: React.FC = () => {
       metrics: [
         { label: "Generated", value: 23 },
         { label: "Ready", value: 12 },
-        { label: "Est. Reach", value: "180K" }
+        { label: "Est. Reach", value: "180K" },
       ],
       onClick: () => {
-        console.log('🧭 Humbleboast Briefs clicked - navigating to /content-engine');
-        navigate('/content-engine');
-      }
+        console.log(
+          "🧭 Humbleboast Briefs clicked - navigating to /content-engine",
+        );
+        navigate("/content-engine");
+      },
     },
     {
       title: "Authority Impact",
@@ -296,13 +339,13 @@ const CampaignCenterPage: React.FC = () => {
       metrics: [
         { label: "Score", value: "87/100" },
         { label: "Weekly", value: "+12%" },
-        { label: "Ranking", value: "Top 15%" }
+        { label: "Ranking", value: "Top 15%" },
       ],
       onClick: () => {
-        console.log('🧭 Authority Impact clicked - navigating to /performance');
-        navigate('/performance');
-      }
-    }
+        console.log("🧭 Authority Impact clicked - navigating to /performance");
+        navigate("/performance");
+      },
+    },
   ];
 
   // Campaign data (existing production campaigns)
@@ -315,7 +358,7 @@ const CampaignCenterPage: React.FC = () => {
       endDate: "Dec 31",
       leads: 342,
       engagement: "12.4%",
-      type: "authority"
+      type: "authority",
     },
     {
       name: "LinkedIn Thought Leadership",
@@ -325,7 +368,7 @@ const CampaignCenterPage: React.FC = () => {
       endDate: "Jan 15",
       leads: 128,
       engagement: "9.2%",
-      type: "thought-leadership"
+      type: "thought-leadership",
     },
     {
       name: "Email Nurture Sequence",
@@ -335,7 +378,7 @@ const CampaignCenterPage: React.FC = () => {
       endDate: "Dec 15",
       leads: 87,
       engagement: "24.6%",
-      type: "email"
+      type: "email",
     },
     {
       name: "Holiday Content Blitz",
@@ -345,7 +388,7 @@ const CampaignCenterPage: React.FC = () => {
       endDate: "Dec 25",
       leads: 523,
       engagement: "18.7%",
-      type: "content-cluster"
+      type: "content-cluster",
     },
     {
       name: "New Year Authority Launch",
@@ -355,7 +398,7 @@ const CampaignCenterPage: React.FC = () => {
       endDate: "Feb 28",
       leads: 0,
       engagement: "0%",
-      type: "authority"
+      type: "authority",
     },
     {
       name: "Case Study Showcase",
@@ -365,21 +408,21 @@ const CampaignCenterPage: React.FC = () => {
       endDate: "Jan 10",
       leads: 256,
       engagement: "15.3%",
-      type: "case-study"
-    }
+      type: "case-study",
+    },
   ];
 
   const handleActionClick = (action: string) => {
     console.log(`🎯 Action clicked: ${action}`);
     switch (action) {
-      case 'Generate Campaign from CIA Intelligence':
-        navigate('/cia');
+      case "Generate Campaign from CIA Intelligence":
+        navigate("/cia");
         break;
-      case 'Create Humbleboast Brief':
-        navigate('/content-engine');
+      case "Create Humbleboast Brief":
+        navigate("/content-engine");
         break;
-      case 'Launch Content Cluster Campaign':
-        navigate('/content-engine');
+      case "Launch Content Cluster Campaign":
+        navigate("/content-engine");
         break;
       default:
         console.log(`Action: ${action}`);
@@ -387,19 +430,34 @@ const CampaignCenterPage: React.FC = () => {
   };
 
   const quickActions = [
-    { label: 'Launch Campaign', icon: Rocket, onClick: () => navigate('/content-engine') },
-    { label: 'Schedule Content', icon: Calendar, onClick: () => navigate('/content-calendar') },
-    { label: 'Import Leads', icon: Users, onClick: () => navigate('/cia') },
-    { label: 'View Analytics', icon: TrendingUp, onClick: () => navigate('/performance') }
+    {
+      label: "Launch Campaign",
+      icon: Rocket,
+      onClick: () => navigate("/content-engine"),
+    },
+    {
+      label: "Schedule Content",
+      icon: Calendar,
+      onClick: () => navigate("/content-calendar"),
+    },
+    { label: "Import Leads", icon: Users, onClick: () => navigate("/cia") },
+    {
+      label: "View Analytics",
+      icon: TrendingUp,
+      onClick: () => navigate("/performance"),
+    },
   ];
 
   return (
-    <PageLayout pageTitle="Campaign Center" placeholder="Ask about campaign management and optimization...">
+    <PageLayout
+      pageTitle="Campaign Center"
+      placeholder="Ask about campaign management and optimization..."
+    >
       {/* Vibrant Orange gradient background - balanced between bright and burnt */}
       <div className="fixed inset-0 bg-gradient-to-br from-orange-500 via-orange-600 to-red-700 -z-10" />
-      
+
       {/* Header - Global Standard */}
-      <PageHeader 
+      <PageHeader
         title="Campaign Center"
         subtitle="Manage Brand BOS campaigns powered by CIA intelligence and content clusters"
       />
@@ -432,7 +490,9 @@ const CampaignCenterPage: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => handleActionClick('Generate Campaign from CIA Intelligence')}
+              onClick={() =>
+                handleActionClick("Generate Campaign from CIA Intelligence")
+              }
               className="flex items-center px-6 py-3 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-orange-800 font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
             >
               <Brain className="w-4 h-4 mr-2 text-orange-800" />
@@ -441,7 +501,7 @@ const CampaignCenterPage: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => handleActionClick('Create Humbleboast Brief')}
+              onClick={() => handleActionClick("Create Humbleboast Brief")}
               className="flex items-center px-6 py-3 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-orange-800 font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
             >
               <Megaphone className="w-4 h-4 mr-2 text-orange-800" />
@@ -450,7 +510,9 @@ const CampaignCenterPage: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => handleActionClick('Launch Content Cluster Campaign')}
+              onClick={() =>
+                handleActionClick("Launch Content Cluster Campaign")
+              }
               className="flex items-center px-6 py-3 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-orange-800 font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
             >
               <Users className="w-4 h-4 mr-2 text-orange-800" />
@@ -477,13 +539,17 @@ const CampaignCenterPage: React.FC = () => {
         className="mb-8"
       >
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-white leading-tight">Active Brand BOS Campaigns</h2>
+          <h2 className="text-xl font-semibold text-white leading-tight">
+            Active Brand BOS Campaigns
+          </h2>
           <div className="flex items-center gap-3">
-            <span className="text-white/70 text-sm">{campaigns.length} campaigns</span>
+            <span className="text-white/70 text-sm">
+              {campaigns.length} campaigns
+            </span>
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => navigate('/content-engine')}
+              onClick={() => navigate("/content-engine")}
               className="flex items-center px-4 py-2 bg-white/15 hover:bg-white/25 border border-white/30 rounded-lg text-white text-sm transition-all duration-200"
             >
               <Rocket className="w-4 h-4 mr-2 text-white" />
@@ -494,11 +560,7 @@ const CampaignCenterPage: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {campaigns.map((campaign, index) => (
-            <CampaignCard
-              key={index}
-              {...campaign}
-              delay={index * 0.1}
-            />
+            <CampaignCard key={index} {...campaign} delay={index * 0.1} />
           ))}
         </div>
       </motion.div>
@@ -508,10 +570,12 @@ const CampaignCenterPage: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.7 }}
-        className={glassCardStyles + ' p-6'}
+        className={glassCardStyles + " p-6"}
         style={{ boxShadow: perfectCardShadow }}
       >
-        <h3 className="text-xl font-semibold text-white/95 mb-4">Quick Actions</h3>
+        <h3 className="text-xl font-semibold text-white/95 mb-4">
+          Quick Actions
+        </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {quickActions.map((action, index) => (
             <motion.button
@@ -522,7 +586,9 @@ const CampaignCenterPage: React.FC = () => {
               className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:border-white/30 hover:bg-white/15 transition-all duration-300 text-center"
             >
               <action.icon className="w-6 h-6 text-white/95 mx-auto mb-2" />
-              <span className="text-sm font-medium text-white/90">{action.label}</span>
+              <span className="text-sm font-medium text-white/90">
+                {action.label}
+              </span>
             </motion.button>
           ))}
         </div>

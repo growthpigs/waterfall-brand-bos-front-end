@@ -1,7 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Mic, Paperclip, Sparkles, MessageCircle, X, Clock } from 'lucide-react';
-import { perfectCardShadow } from '../../lib/utils';
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Send,
+  Mic,
+  Paperclip,
+  Sparkles,
+  MessageCircle,
+  X,
+  Clock,
+} from "lucide-react";
+import { perfectCardShadow } from "../../lib/utils";
 
 interface ChatMessage {
   id: string;
@@ -23,14 +31,16 @@ interface FloatingChatBarProps {
   placeholder?: string;
 }
 
-const FloatingChatBar: React.FC<FloatingChatBarProps> = ({ 
-  onSendMessage, 
-  placeholder = "Ask me anything about your Brand BOS..." 
+const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
+  onSendMessage,
+  placeholder = "Ask me anything about your Brand BOS...",
 }) => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const [chatState, setChatState] = useState<'history' | 'chat' | 'closed'>('closed');
+  const [chatState, setChatState] = useState<"history" | "chat" | "closed">(
+    "closed",
+  );
   const [activeChat, setActiveChat] = useState<ChatSession | null>(null);
   const [currentMessages, setCurrentMessages] = useState<ChatMessage[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -39,35 +49,65 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
   // Mock chat history data
   const [chatHistory] = useState<ChatSession[]>([
     {
-      id: '1',
-      title: 'Campaign Performance Q4',
-      lastMessage: 'The Q4 campaigns showed 15% increase...',
+      id: "1",
+      title: "Campaign Performance Q4",
+      lastMessage: "The Q4 campaigns showed 15% increase...",
       timestamp: new Date(Date.now() - 86400000), // 1 day ago
       messages: [
-        { id: '1-1', text: 'How did our Q4 campaigns perform?', isUser: true, timestamp: new Date(Date.now() - 86400000) },
-        { id: '1-2', text: 'The Q4 campaigns showed 15% increase in engagement with strong ROI across social channels.', isUser: false, timestamp: new Date(Date.now() - 86400000 + 60000) }
-      ]
+        {
+          id: "1-1",
+          text: "How did our Q4 campaigns perform?",
+          isUser: true,
+          timestamp: new Date(Date.now() - 86400000),
+        },
+        {
+          id: "1-2",
+          text: "The Q4 campaigns showed 15% increase in engagement with strong ROI across social channels.",
+          isUser: false,
+          timestamp: new Date(Date.now() - 86400000 + 60000),
+        },
+      ],
     },
     {
-      id: '2',
-      title: 'Content Strategy Review',
-      lastMessage: 'I recommend focusing on video content...',
+      id: "2",
+      title: "Content Strategy Review",
+      lastMessage: "I recommend focusing on video content...",
       timestamp: new Date(Date.now() - 172800000), // 2 days ago
       messages: [
-        { id: '2-1', text: 'What content strategy should we use for next quarter?', isUser: true, timestamp: new Date(Date.now() - 172800000) },
-        { id: '2-2', text: 'I recommend focusing on video content and interactive posts to boost engagement.', isUser: false, timestamp: new Date(Date.now() - 172800000 + 120000) }
-      ]
+        {
+          id: "2-1",
+          text: "What content strategy should we use for next quarter?",
+          isUser: true,
+          timestamp: new Date(Date.now() - 172800000),
+        },
+        {
+          id: "2-2",
+          text: "I recommend focusing on video content and interactive posts to boost engagement.",
+          isUser: false,
+          timestamp: new Date(Date.now() - 172800000 + 120000),
+        },
+      ],
     },
     {
-      id: '3',
-      title: 'SEO Analysis',
-      lastMessage: 'Your organic traffic has improved by 23%...',
+      id: "3",
+      title: "SEO Analysis",
+      lastMessage: "Your organic traffic has improved by 23%...",
       timestamp: new Date(Date.now() - 259200000), // 3 days ago
       messages: [
-        { id: '3-1', text: 'Can you analyze our SEO performance?', isUser: true, timestamp: new Date(Date.now() - 259200000) },
-        { id: '3-2', text: 'Your organic traffic has improved by 23% this month with strong keyword rankings.', isUser: false, timestamp: new Date(Date.now() - 259200000 + 90000) }
-      ]
-    }
+        {
+          id: "3-1",
+          text: "Can you analyze our SEO performance?",
+          isUser: true,
+          timestamp: new Date(Date.now() - 259200000),
+        },
+        {
+          id: "3-2",
+          text: "Your organic traffic has improved by 23% this month with strong keyword rankings.",
+          isUser: false,
+          timestamp: new Date(Date.now() - 259200000 + 90000),
+        },
+      ],
+    },
   ]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -78,43 +118,43 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
         id: Date.now().toString(),
         text: message.trim(),
         isUser: true,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
-      setCurrentMessages(prev => [...prev, userMessage]);
-      setChatState('chat');
+      setCurrentMessages((prev) => [...prev, userMessage]);
+      setChatState("chat");
       setIsExpanded(true);
       setIsTyping(true);
       onSendMessage(message.trim());
-      setMessage('');
-      
+      setMessage("");
+
       // Simulate AI response
       setTimeout(() => {
         const aiMessage: ChatMessage = {
           id: (Date.now() + 1).toString(),
-          text: 'Thanks for your question! I\'m analyzing your request and will provide detailed insights based on your Brand BOS data.',
+          text: "Thanks for your question! I'm analyzing your request and will provide detailed insights based on your Brand BOS data.",
           isUser: false,
-          timestamp: new Date()
+          timestamp: new Date(),
         };
-        setCurrentMessages(prev => [...prev, aiMessage]);
+        setCurrentMessages((prev) => [...prev, aiMessage]);
         setIsTyping(false);
       }, 2000);
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit(e);
     }
   };
 
   const toggleChatHistory = () => {
-    if (chatState === 'history') {
-      setChatState('closed');
+    if (chatState === "history") {
+      setChatState("closed");
       setIsExpanded(false);
     } else {
-      setChatState('history');
+      setChatState("history");
       setIsExpanded(true);
       setActiveChat(null);
     }
@@ -123,15 +163,17 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
   const openChat = (chat: ChatSession) => {
     setActiveChat(chat);
     setCurrentMessages(chat.messages);
-    setChatState('chat');
+    setChatState("chat");
   };
 
   const formatTime = (date: Date) => {
     const now = new Date();
-    const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
-    
-    if (diffInDays === 0) return 'Today';
-    if (diffInDays === 1) return 'Yesterday';
+    const diffInDays = Math.floor(
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
+    );
+
+    if (diffInDays === 0) return "Today";
+    if (diffInDays === 1) return "Yesterday";
     if (diffInDays < 7) return `${diffInDays} days ago`;
     return date.toLocaleDateString();
   };
@@ -139,20 +181,24 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
   // Click outside to close
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (isExpanded && expandedRef.current && !expandedRef.current.contains(event.target as Node)) {
+      if (
+        isExpanded &&
+        expandedRef.current &&
+        !expandedRef.current.contains(event.target as Node)
+      ) {
         setIsExpanded(false);
-        setChatState('closed');
+        setChatState("closed");
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isExpanded]);
 
   useEffect(() => {
-    if (isExpanded && chatState === 'chat') {
+    if (isExpanded && chatState === "chat") {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [isExpanded, chatState]);
@@ -170,12 +216,15 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
             className="mb-4 bg-white/20 backdrop-blur-xl rounded-2xl border border-white/40"
           >
             {/* Chat Window Content */}
-            <div className={`bg-white/90 rounded-2xl overflow-hidden ${
-              chatState === 'history' ? 'h-[300px]' : 'min-h-[300px] max-h-[50vh]'
-            }`}>
-              
+            <div
+              className={`bg-white/90 rounded-2xl overflow-hidden ${
+                chatState === "history"
+                  ? "h-[300px]"
+                  : "min-h-[300px] max-h-[50vh]"
+              }`}
+            >
               {/* Chat History State */}
-              {chatState === 'history' && (
+              {chatState === "history" && (
                 <div className="flex flex-col h-full">
                   <div className="p-4 border-b border-gray-200/50">
                     <h3 className="text-gray-800 font-medium flex items-center">
@@ -193,10 +242,16 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
                           className="w-full p-3 bg-white/60 hover:bg-white/80 rounded-xl border border-gray-200/50 hover:border-gray-300/50 transition-all duration-200 text-left"
                         >
                           <div className="flex justify-between items-start mb-1">
-                            <h4 className="text-gray-800 font-medium text-sm">{chat.title}</h4>
-                            <span className="text-gray-500 text-xs">{formatTime(chat.timestamp)}</span>
+                            <h4 className="text-gray-800 font-medium text-sm">
+                              {chat.title}
+                            </h4>
+                            <span className="text-gray-500 text-xs">
+                              {formatTime(chat.timestamp)}
+                            </span>
                           </div>
-                          <p className="text-gray-600 text-xs line-clamp-2">{chat.lastMessage}</p>
+                          <p className="text-gray-600 text-xs line-clamp-2">
+                            {chat.lastMessage}
+                          </p>
                         </motion.button>
                       ))}
                     </div>
@@ -205,35 +260,37 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
               )}
 
               {/* Active Chat State */}
-              {chatState === 'chat' && (
+              {chatState === "chat" && (
                 <div className="flex flex-col h-full">
                   {/* Chat Header */}
                   {activeChat && (
                     <div className="p-3 border-b border-gray-200/50 bg-white/50">
-                      <h3 className="text-gray-800 font-medium text-sm">{activeChat.title}</h3>
+                      <h3 className="text-gray-800 font-medium text-sm">
+                        {activeChat.title}
+                      </h3>
                     </div>
                   )}
-                  
+
                   {/* Messages Area */}
                   <div className="flex-1 p-4 overflow-y-auto">
                     <div className="space-y-3">
-                                             {currentMessages.map((msg) => (
-                         <div
-                           key={msg.id}
-                           className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}
-                         >
-                           <div
-                             className={`max-w-[80%] p-3 rounded-lg text-sm ${
-                               msg.isUser
-                                 ? 'bg-gray-200 text-black'
-                                 : 'bg-gray-700 text-white'
-                             }`}
-                           >
-                             {msg.text}
-                           </div>
-                         </div>
-                       ))}
-                      
+                      {currentMessages.map((msg) => (
+                        <div
+                          key={msg.id}
+                          className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}
+                        >
+                          <div
+                            className={`max-w-[80%] p-3 rounded-lg text-sm ${
+                              msg.isUser
+                                ? "bg-gray-200 text-black"
+                                : "bg-gray-700 text-white"
+                            }`}
+                          >
+                            {msg.text}
+                          </div>
+                        </div>
+                      ))}
+
                       {/* Typing Indicator */}
                       {isTyping && (
                         <div className="flex justify-start">
@@ -241,17 +298,29 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
                             <div className="flex space-x-1">
                               <motion.div
                                 animate={{ scale: [1, 1.2, 1] }}
-                                transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
+                                transition={{
+                                  duration: 0.6,
+                                  repeat: Infinity,
+                                  delay: 0,
+                                }}
                                 className="w-2 h-2 bg-gray-400 rounded-full"
                               />
                               <motion.div
                                 animate={{ scale: [1, 1.2, 1] }}
-                                transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+                                transition={{
+                                  duration: 0.6,
+                                  repeat: Infinity,
+                                  delay: 0.2,
+                                }}
                                 className="w-2 h-2 bg-gray-400 rounded-full"
                               />
                               <motion.div
                                 animate={{ scale: [1, 1.2, 1] }}
-                                transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
+                                transition={{
+                                  duration: 0.6,
+                                  repeat: Infinity,
+                                  delay: 0.4,
+                                }}
                                 className="w-2 h-2 bg-gray-400 rounded-full"
                               />
                             </div>
@@ -281,9 +350,9 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
               type="button"
               onClick={toggleChatHistory}
               className={`p-2 rounded-xl transition-all duration-200 mr-3 ${
-                chatState === 'history'
-                  ? 'text-white bg-white/20'
-                  : 'text-white hover:text-gray-200 hover:bg-white/20'
+                chatState === "history"
+                  ? "text-white bg-white/20"
+                  : "text-white hover:text-gray-200 hover:bg-white/20"
               }`}
             >
               <MessageCircle className="w-5 h-5" />
@@ -304,18 +373,18 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
               placeholder={placeholder}
               className="w-full bg-white/90 text-black placeholder-gray-500 rounded-xl px-4 py-3 pr-12 border border-white/50 focus:border-white/70 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
             />
-            
+
             {/* AI Indicator */}
             <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
               <motion.div
-                animate={{ 
+                animate={{
                   scale: [1, 1.1, 1],
-                  opacity: [0.7, 1, 0.7]
+                  opacity: [0.7, 1, 0.7],
                 }}
-                transition={{ 
+                transition={{
                   duration: 2,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: "easeInOut",
                 }}
                 className="w-2 h-2 bg-white/60 rounded-full"
               />
@@ -336,7 +405,7 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
                 Attach File
               </div>
             </div>
-            
+
             {/* Voice Button */}
             <div className="relative group">
               <button
@@ -349,7 +418,7 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
                 Voice Input
               </div>
             </div>
-            
+
             {/* Send Button */}
             <div className="relative group">
               <motion.button
@@ -359,8 +428,8 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
                 whileTap={{ scale: 0.95 }}
                 className={`p-2 rounded-xl transition-all duration-200 ${
                   message.trim()
-                    ? 'bg-white/80 text-gray-800 shadow-lg hover:bg-white'
-                    : 'bg-white/30 text-white cursor-not-allowed'
+                    ? "bg-white/80 text-gray-800 shadow-lg hover:bg-white"
+                    : "bg-white/30 text-white cursor-not-allowed"
                 }`}
               >
                 <Send className="w-5 h-5" />
@@ -376,4 +445,4 @@ const FloatingChatBar: React.FC<FloatingChatBarProps> = ({
   );
 };
 
-export default FloatingChatBar; 
+export default FloatingChatBar;

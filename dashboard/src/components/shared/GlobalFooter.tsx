@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const GlobalFooter: React.FC = () => {
   return (
@@ -17,4 +17,4 @@ const GlobalFooter: React.FC = () => {
   );
 };
 
-export default GlobalFooter; 
+export default GlobalFooter;

@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { 
-  Home, 
-  Target, 
-  Calendar, 
-  Zap, 
-  BarChart3, 
-  Settings, 
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  Home,
+  Target,
+  Calendar,
+  Zap,
+  BarChart3,
+  Settings,
   Search,
   Bell,
   User,
   Brain,
   Menu,
   X,
-  TrendingUp
-} from 'lucide-react';
+  TrendingUp,
+} from "lucide-react";
 
 const TopNavigation: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -27,30 +27,68 @@ const TopNavigation: React.FC = () => {
   // Close notifications when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (notificationsRef.current && !notificationsRef.current.contains(event.target as Node)) {
+      if (
+        notificationsRef.current &&
+        !notificationsRef.current.contains(event.target as Node)
+      ) {
         setShowNotifications(false);
       }
     };
 
     if (showNotifications) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showNotifications]);
-  
+
   const navItems = [
-    { icon: Home, label: 'Dashboard', path: '/', active: location.pathname === '/' },
-    { icon: Brain, label: 'CIA', path: '/cia', active: location.pathname === '/cia' },
-    { icon: Target, label: 'Campaign', path: '/campaign', active: location.pathname === '/campaign' },
-    { icon: Zap, label: 'Content Engine', path: '/content-engine', active: location.pathname === '/content-engine' },
-    { icon: Calendar, label: 'Content Calendar', path: '/content-calendar', active: location.pathname === '/content-calendar' },
-    { icon: BarChart3, label: 'Performance', path: '/performance', active: location.pathname === '/performance' },
-    { icon: Settings, label: 'Settings', path: '/settings', active: location.pathname === '/settings' },
+    {
+      icon: Home,
+      label: "Dashboard",
+      path: "/",
+      active: location.pathname === "/",
+    },
+    {
+      icon: Brain,
+      label: "CIA",
+      path: "/cia",
+      active: location.pathname === "/cia",
+    },
+    {
+      icon: Target,
+      label: "Campaign",
+      path: "/campaign",
+      active: location.pathname === "/campaign",
+    },
+    {
+      icon: Zap,
+      label: "Content Engine",
+      path: "/content-engine",
+      active: location.pathname === "/content-engine",
+    },
+    {
+      icon: Calendar,
+      label: "Content Calendar",
+      path: "/content-calendar",
+      active: location.pathname === "/content-calendar",
+    },
+    {
+      icon: BarChart3,
+      label: "Performance",
+      path: "/performance",
+      active: location.pathname === "/performance",
+    },
+    {
+      icon: Settings,
+      label: "Settings",
+      path: "/settings",
+      active: location.pathname === "/settings",
+    },
   ];
-  
+
   const handleNavigation = (path: string) => {
     navigate(path);
   };
@@ -66,7 +104,9 @@ const TopNavigation: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand - Remove icon, move text left */}
           <div className="flex items-center">
-            <span className="text-white/95 font-semibold text-lg">Brand BOS</span>
+            <span className="text-white/95 font-semibold text-lg">
+              Brand BOS
+            </span>
           </div>
 
           {/* Navigation Items - Increased spacing */}
@@ -79,8 +119,8 @@ const TopNavigation: React.FC = () => {
                 onClick={() => handleNavigation(item.path)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2 ${
                   item.active
-                    ? 'bg-white/20 text-white border border-white/30'
-                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                    ? "bg-white/20 text-white border border-white/30"
+                    : "text-white/70 hover:text-white hover:bg-white/10"
                 }`}
               >
                 <item.icon className="w-4 h-4" />
@@ -113,15 +153,17 @@ const TopNavigation: React.FC = () => {
                 >
                   <div className="p-4">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-gray-800 font-semibold">Notifications</h3>
-                      <button 
+                      <h3 className="text-gray-800 font-semibold">
+                        Notifications
+                      </h3>
+                      <button
                         onClick={() => setShowNotifications(false)}
                         className="text-gray-600 hover:text-gray-800 transition-colors"
                       >
                         <X className="w-4 h-4" />
                       </button>
                     </div>
-                    
+
                     <div className="space-y-3 max-h-96 overflow-y-auto">
                       {[
                         {
@@ -130,23 +172,23 @@ const TopNavigation: React.FC = () => {
                           message: "New intelligence report ready for review",
                           time: "2 min ago",
                           type: "success",
-                          icon: Brain
+                          icon: Brain,
                         },
                         {
                           id: 2,
                           title: "Content Scheduled",
                           message: "5 posts scheduled for this week",
-                          time: "15 min ago", 
+                          time: "15 min ago",
                           type: "info",
-                          icon: Calendar
+                          icon: Calendar,
                         },
                         {
                           id: 3,
                           title: "Performance Alert",
                           message: "Engagement up 24% this week",
                           time: "1 hour ago",
-                          type: "success", 
-                          icon: TrendingUp
+                          type: "success",
+                          icon: TrendingUp,
                         },
                         {
                           id: 4,
@@ -154,20 +196,33 @@ const TopNavigation: React.FC = () => {
                           message: "Q4 Authority Building at 68% progress",
                           time: "3 hours ago",
                           type: "info",
-                          icon: Target
-                        }
+                          icon: Target,
+                        },
                       ].map((notification) => (
-                        <div key={notification.id} className="p-3 bg-gray-100/50 rounded-lg border border-gray-200/30 hover:bg-gray-200/50 transition-colors cursor-pointer">
+                        <div
+                          key={notification.id}
+                          className="p-3 bg-gray-100/50 rounded-lg border border-gray-200/30 hover:bg-gray-200/50 transition-colors cursor-pointer"
+                        >
                           <div className="flex items-start space-x-3">
-                            <div className={`p-2 rounded-lg ${
-                              notification.type === 'success' ? 'bg-green-500/20 text-green-600' : 'bg-blue-500/20 text-blue-600'
-                            }`}>
+                            <div
+                              className={`p-2 rounded-lg ${
+                                notification.type === "success"
+                                  ? "bg-green-500/20 text-green-600"
+                                  : "bg-blue-500/20 text-blue-600"
+                              }`}
+                            >
                               <notification.icon className="w-4 h-4" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="text-gray-800 font-medium text-sm">{notification.title}</div>
-                              <div className="text-gray-600 text-xs mt-1">{notification.message}</div>
-                              <div className="text-gray-500 text-xs mt-1">{notification.time}</div>
+                              <div className="text-gray-800 font-medium text-sm">
+                                {notification.title}
+                              </div>
+                              <div className="text-gray-600 text-xs mt-1">
+                                {notification.message}
+                              </div>
+                              <div className="text-gray-500 text-xs mt-1">
+                                {notification.time}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -182,12 +237,12 @@ const TopNavigation: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/settings')}
+              onClick={() => navigate("/settings")}
               className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200"
             >
               <User className="w-5 h-5" />
             </motion.button>
-            
+
             {/* Mobile Menu Button - Far Right */}
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -199,15 +254,15 @@ const TopNavigation: React.FC = () => {
             </motion.button>
           </div>
         </div>
-        
+
         {/* Mobile Menu Full Screen Overlay */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, x: '100%' }}
+              initial={{ opacity: 0, x: "100%" }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '100%' }}
-              transition={{ type: 'tween', duration: 0.3 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "tween", duration: 0.3 }}
               className="md:hidden fixed inset-0 bg-white z-50"
             >
               {/* Close Button */}
@@ -220,7 +275,7 @@ const TopNavigation: React.FC = () => {
                   <X className="w-6 h-6" />
                 </motion.button>
               </div>
-              
+
               {/* Menu Items */}
               <div className="px-6 py-4 space-y-4">
                 {navItems.map((item, index) => (
@@ -236,8 +291,8 @@ const TopNavigation: React.FC = () => {
                     }}
                     className={`w-full px-6 py-4 rounded-lg font-semibold transition-all duration-200 flex items-center space-x-3 ${
                       item.active
-                        ? 'bg-white/20 text-white border-l-4 border-white/60'
-                        : 'text-white/80 hover:bg-white/10'
+                        ? "bg-white/20 text-white border-l-4 border-white/60"
+                        : "text-white/80 hover:bg-white/10"
                     }`}
                   >
                     <item.icon className="w-5 h-5" />
@@ -253,4 +308,4 @@ const TopNavigation: React.FC = () => {
   );
 };
 
-export default TopNavigation; 
+export default TopNavigation;

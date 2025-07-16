@@ -1,75 +1,64 @@
-# 🚀 Health Check System Quick Setup
+# 🚀 Health Check System Setup
 
-## **Execute the Complete Setup**
+## Quick Start
 
-Run this single command to install and configure the entire enterprise-grade health check system:
+Run this command to set up the entire health check system:
 
 ```bash
-npm run setup:health
+npm run setup:health-system
 ```
 
-## **What This Does**
+## What This Sets Up
 
-✅ **Installs Husky** for Git hooks  
-✅ **Sets up pre-commit hooks** that automatically validate code quality  
-✅ **Installs testing dependencies** (Vitest, React Testing Library, Coverage tools)  
-✅ **Configures Prettier** for consistent code formatting  
-✅ **Creates Vitest configuration** with proper React and jsdom setup  
-✅ **Updates Vite configuration** for bundle analysis  
-✅ **Adds comprehensive health check scripts** to dashboard app  
-✅ **Creates test infrastructure** with proper mocking  
+1. **Root Dependencies**: Installs monorepo management tools
+2. **App Dependencies**: Installs testing and development dependencies
+3. **Husky Hooks**: Sets up pre-commit health checks
+4. **Configuration Files**: Creates vitest, prettier, and other configs
+5. **Sample Tests**: Creates basic test infrastructure
+6. **Documentation**: Generates comprehensive docs
 
-## **After Setup - Available Commands**
+## Manual Setup Steps
 
-### **Root Level (Monorepo)**
+If you need to set up manually:
+
+### 1. Install Root Dependencies
 ```bash
-npm run health:all          # Check all apps
+npm install --legacy-peer-deps
 ```
 
-### **App Level (in dashboard/)**
+### 2. Install App Dependencies
 ```bash
-npm run health:check        # Quick validation (silent)
-npm run health:full         # Complete check with coverage
-npm run health:ci           # CI/CD optimized (verbose)
-npm run test:ui             # Interactive test interface
-npm run test:coverage       # Run tests with coverage report
-npm run build:analyze       # Bundle size analysis
-npm run format:write        # Fix code formatting
+cd dashboard
+npm install --legacy-peer-deps
 ```
 
-## **Git Integration**
+### 3. Setup Husky
+```bash
+npx husky install
+chmod +x .husky/pre-commit
+```
 
-After setup, **every commit** will automatically:
-1. ✅ Detect which apps have changes
-2. ✅ Run health checks only on modified apps  
-3. ✅ Block commit if any checks fail
-4. ✅ Provide clear feedback on issues
+### 4. Run Initial Health Check
+```bash
+npm run health:all
+```
 
-## **Enterprise Features**
+## Verification
 
-🔒 **Pre-commit Quality Gates**: Prevents broken code from entering repository  
-📊 **Coverage Reporting**: HTML, JSON, and text coverage reports  
-📦 **Bundle Analysis**: Visual dependency and size analysis  
-🎯 **Smart Detection**: Only checks modified apps for performance  
-🏥 **Health Status**: Clear emoji-based status indicators  
-🔧 **Zero Configuration**: Automatic setup with sensible defaults  
+After setup, verify everything works:
 
-## **Testing Infrastructure**
+```bash
+# Test the health check system
+npm run health:all
 
-- **Vitest**: Modern, fast test runner
-- **React Testing Library**: Component testing best practices  
-- **jsdom**: Browser environment simulation
-- **Coverage v8**: Native V8 coverage (faster than babel)
-- **Proper Mocking**: matchMedia, IntersectionObserver, ResizeObserver
+# Test pre-commit hooks
+git add .
+git commit -m "test commit"
+```
 
-## **Next Steps**
+## Next Steps
 
-1. **Run the setup**: `npm run setup:health`
-2. **Test the system**: `cd dashboard && npm run health:check`
-3. **Try the test UI**: `cd dashboard && npm run test:ui`
-4. **Analyze bundle**: `cd dashboard && npm run build:analyze`
-5. **Make a commit**: Git hooks will automatically validate
-
----
-
-**🎉 Enterprise-grade quality control in one command!** 
+1. Review the generated documentation
+2. Run your first health check
+3. Make a test commit to verify pre-commit hooks
+4. Start developing with confidence!

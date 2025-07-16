@@ -1,25 +1,39 @@
 {
-  "name": "brand-bos-monorepo",
+  "name": "brand-bos-waterfall-monorepo",
   "version": "1.0.0",
-  "type": "module",
+  "description": "Brand BOS Waterfall Frontend Monorepo with Health Check System",
   "private": true,
-  "workspaces": [
-    "dashboard"
-  ],
+  "type": "module",
   "scripts": {
     "health:all": "node scripts/health-check-all.js",
-    "setup:health": "node scripts/setup-health-system.js",
-    "postinstall": "husky install"
+    "health:modified": "node scripts/health-check-modified.js",
+    "setup:health-system": "node scripts/setup-health-system.js",
+    "prepare": "husky install",
+    "dev:dashboard": "cd dashboard && npm run dev",
+    "build:all": "node scripts/build-all.js",
+    "test:all": "node scripts/test-all.js",
+    "format:all": "node scripts/format-all.js",
+    "lint:all": "node scripts/lint-all.js"
   },
   "devDependencies": {
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "chalk": "^5.3.0",
+    "execa": "^8.0.1",
+    "glob": "^10.3.10",
+    "ora": "^7.0.1"
   },
-  "keywords": [
-    "monorepo",
-    "brand-bos",
-    "health-checks"
+  "workspaces": [
+    "dashboard",
+    "scripts"
   ],
-  "author": "Roderic Andrews",
-  "license": "ISC",
-  "description": "Brand BOS Monorepo - Multi-app health check and quality control system"
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/growthpigs/waterfall-brand-bos-front-end.git"
+  },
+  "author": "Brand BOS Team",
+  "license": "MIT"
 } 

@@ -1,27 +1,27 @@
-import { Component, ErrorInfo, ReactNode } from 'react'
+import { Component, ErrorInfo, ReactNode } from "react";
 
 interface Props {
-  children: ReactNode
+  children: ReactNode;
 }
 
 interface State {
-  hasError: boolean
-  error?: Error
+  hasError: boolean;
+  error?: Error;
 }
 
 class ErrorBoundary extends Component<Props, State> {
   public state: State = {
-    hasError: false
-  }
+    hasError: false,
+  };
 
   public static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error }
+    return { hasError: true, error };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Uncaught error:', error, errorInfo)
-    console.error('Error stack:', error.stack)
-    console.error('Component stack:', errorInfo.componentStack)
+    console.error("Uncaught error:", error, errorInfo);
+    console.error("Error stack:", error.stack);
+    console.error("Component stack:", errorInfo.componentStack);
   }
 
   public render() {
@@ -33,18 +33,24 @@ class ErrorBoundary extends Component<Props, State> {
             <p className="text-xl mb-4">Please try refreshing the page</p>
             {this.state.error && (
               <details className="mt-4 text-left bg-black/20 p-4 rounded-lg">
-                <summary className="cursor-pointer text-orange-400">Show error details</summary>
-                <pre className="mt-2 text-sm text-white/80 overflow-auto">{this.state.error.toString()}</pre>
-                <pre className="mt-2 text-sm text-white/60 overflow-auto">{this.state.error.stack}</pre>
+                <summary className="cursor-pointer text-orange-400">
+                  Show error details
+                </summary>
+                <pre className="mt-2 text-sm text-white/80 overflow-auto">
+                  {this.state.error.toString()}
+                </pre>
+                <pre className="mt-2 text-sm text-white/60 overflow-auto">
+                  {this.state.error.stack}
+                </pre>
               </details>
             )}
           </div>
         </div>
-      )
+      );
     }
 
-    return this.props.children
+    return this.props.children;
   }
 }
 
-export default ErrorBoundary 
+export default ErrorBoundary;

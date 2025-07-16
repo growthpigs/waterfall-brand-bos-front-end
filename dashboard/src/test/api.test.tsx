@@ -11,9 +11,7 @@ import {
 
 // Mock axios
 vi.mock("axios");
-const mockedAxios = axios as unknown as {
-  create: ReturnType<typeof vi.fn>
-};
+const mockedAxios = vi.mocked(axios);
 
 // Helper to create wrapper
 const createWrapper = () => {
