@@ -162,20 +162,11 @@ const CIAPage: React.FC = () => {
       {/* Full-screen gradient background */}
       <div className="fixed inset-0 bg-gradient-to-br from-blue-400 via-blue-600 to-blue-900 -z-10" />
       
-      <motion.div initial={{
-        opacity: 0,
-        y: 20
-      }} animate={{
-        opacity: 1,
-        y: 0
-      }} transition={{
-        duration: 0.6
-      }} className="max-w-7xl mx-auto h-full flex flex-col">
-        {/* Header Section - Global Standard */}
-        <PageHeader 
-          title="Central Intelligence Arsenal"
-          subtitle="Comprehensive brand analysis and intelligence gathering system"
-        />
+      {/* Header Section - Global Standard */}
+      <PageHeader 
+        title="Central Intelligence Arsenal"
+        subtitle="Comprehensive brand analysis and intelligence gathering system"
+      />
 
         {/* Phase Progress Bar - Reduced margin */}
         <motion.div initial={{
@@ -433,7 +424,6 @@ const CIAPage: React.FC = () => {
             </div>
           </div>
         </motion.div>
-      </motion.div>
     </PageLayout>
   );
 };

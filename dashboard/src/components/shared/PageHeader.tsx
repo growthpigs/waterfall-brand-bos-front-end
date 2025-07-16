@@ -8,7 +8,7 @@ interface PageHeaderProps {
 
 const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
   return (
-    <div className="mb-4 pl-4 -mt-2">
+    <div className="mb-6 -mt-4">
       <motion.h1 
         initial={{
           opacity: 0,
