@@ -1,0 +1,25 @@
+{
+  "name": "brand-bos-monorepo",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "dashboard"
+  ],
+  "scripts": {
+    "health:all": "node scripts/health-check-all.js",
+    "setup:health": "node scripts/setup-health-system.js",
+    "postinstall": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3"
+  },
+  "keywords": [
+    "monorepo",
+    "brand-bos",
+    "health-checks"
+  ],
+  "author": "Roderic Andrews",
+  "license": "ISC",
+  "description": "Brand BOS Monorepo - Multi-app health check and quality control system"
+} 

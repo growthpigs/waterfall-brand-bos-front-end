@@ -22,7 +22,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
           duration: 0.7,
           delay: 0.2
         }} 
-        className="text-3xl font-bold text-white mb-2 drop-shadow-lg leading-tight"
+        className="text-3xl font-bold text-white mb-2 drop-shadow-lg leading-tight pl-4"
       >
         {title}
       </motion.h1>
@@ -39,7 +39,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
           duration: 0.7,
           delay: 0.3
         }} 
-        className="text-base text-white/90 drop-shadow-sm font-light"
+        className="text-base text-white/90 drop-shadow-sm font-light pl-4"
       >
         {subtitle}
       </motion.p>

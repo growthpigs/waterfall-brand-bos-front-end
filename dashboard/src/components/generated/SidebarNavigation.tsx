@@ -91,15 +91,6 @@ const TopNavigation: React.FC = () => {
 
           {/* Right Side Actions */}
           <div className="flex items-center space-x-3">
-            {/* Search */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200"
-            >
-              <Search className="w-5 h-5" />
-            </motion.button>
-
             {/* Notifications */}
             <div className="relative" ref={notificationsRef}>
               <motion.button
@@ -118,14 +109,14 @@ const TopNavigation: React.FC = () => {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="absolute right-0 top-full mt-2 w-80 bg-orange-900/95 backdrop-blur-xl rounded-2xl border border-orange-500/30 shadow-2xl z-50"
+                  className="absolute right-0 top-full mt-2 w-80 bg-white/90 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl z-50"
                 >
                   <div className="p-4">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-white font-semibold">Notifications</h3>
+                      <h3 className="text-gray-800 font-semibold">Notifications</h3>
                       <button 
                         onClick={() => setShowNotifications(false)}
-                        className="text-white/70 hover:text-white transition-colors"
+                        className="text-gray-600 hover:text-gray-800 transition-colors"
                       >
                         <X className="w-4 h-4" />
                       </button>
@@ -166,27 +157,21 @@ const TopNavigation: React.FC = () => {
                           icon: Target
                         }
                       ].map((notification) => (
-                        <div key={notification.id} className="p-3 bg-orange-800/50 rounded-lg border border-orange-600/30 hover:bg-orange-700/50 transition-colors cursor-pointer">
+                        <div key={notification.id} className="p-3 bg-gray-100/50 rounded-lg border border-gray-200/30 hover:bg-gray-200/50 transition-colors cursor-pointer">
                           <div className="flex items-start space-x-3">
                             <div className={`p-2 rounded-lg ${
-                              notification.type === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-blue-500/20 text-blue-400'
+                              notification.type === 'success' ? 'bg-green-500/20 text-green-600' : 'bg-blue-500/20 text-blue-600'
                             }`}>
                               <notification.icon className="w-4 h-4" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="text-white font-medium text-sm">{notification.title}</div>
-                              <div className="text-orange-200 text-xs mt-1">{notification.message}</div>
-                              <div className="text-orange-300/70 text-xs mt-1">{notification.time}</div>
+                              <div className="text-gray-800 font-medium text-sm">{notification.title}</div>
+                              <div className="text-gray-600 text-xs mt-1">{notification.message}</div>
+                              <div className="text-gray-500 text-xs mt-1">{notification.time}</div>
                             </div>
                           </div>
                         </div>
                       ))}
-                    </div>
-                    
-                    <div className="mt-4 pt-3 border-t border-orange-600/30">
-                      <button className="w-full text-center text-orange-200 text-sm hover:text-white transition-colors">
-                        View All Notifications
-                      </button>
                     </div>
                   </div>
                 </motion.div>

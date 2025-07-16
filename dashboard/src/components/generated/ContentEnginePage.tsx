@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Calendar, ChevronLeft, ChevronRight, Settings, Play, CheckCircle, Clock, AlertCircle, Instagram, Twitter, Linkedin, Facebook, Youtube, Mic, Mail, Video, BookOpen, Download, Target, Zap, BarChart3, TrendingUp } from 'lucide-react';
 import PageLayout from '../shared/PageLayout';
+import PageHeader from '../shared/PageHeader';
 import { useNavigate } from 'react-router-dom';
 import { perfectCardShadow, glassCardStyles } from '../../lib/utils';
 
@@ -270,6 +271,11 @@ const ContentEnginePage: React.FC<ContentEnginePageProps> = ({
     <PageLayout pageTitle="Content Engine" placeholder="Ask Content Engine to transform viral opportunities...">
       {/* Green gradient background with emerald accents */}
       <div className="fixed inset-0 bg-gradient-to-br from-emerald-500 to-emerald-900 -z-10" />
+      
+      <PageHeader 
+        title="Content Engine" 
+        subtitle="Transform viral opportunities into authority-building content across all platforms"
+      />
 
       {/* Enhanced Content Cluster Overview */}
       <motion.div initial={{
