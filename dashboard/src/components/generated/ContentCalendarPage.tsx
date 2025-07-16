@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, ChevronLeft, ChevronRight, Clock, CheckCircle, Edit3, Instagram, Twitter, Linkedin, Facebook, Youtube, MessageSquare, Send, X, Minimize2, Maximize2, BarChart3, Target, Zap, Settings, ArrowRight, TrendingUp, Users, Eye, Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import PageLayout from '../shared/PageLayout';
 import PageHeader from '../shared/PageHeader';
 import { perfectCardShadow, glassCardStyles } from '../../lib/utils';
@@ -107,6 +108,7 @@ const generateWeekData = (): DayColumn[] => {
 };
 
 const ContentCalendarPage: React.FC = () => {
+  const navigate = useNavigate();
   const [currentView, setCurrentView] = useState<'month' | 'week' | 'day'>('week');
   const [weekData] = useState<DayColumn[]>(generateWeekData());
 
@@ -128,21 +130,21 @@ const ContentCalendarPage: React.FC = () => {
   };
 
   const getPlatformColor = (platform: string) => {
-    switch (platform) {
-      case 'instagram':
-        return 'from-pink-500 to-purple-500';
-      case 'twitter':
-        return 'from-black to-gray-800';
-      case 'linkedin':
-        return 'from-blue-600 to-blue-700';
-      case 'facebook':
-        return 'from-blue-500 to-blue-600';
-      case 'youtube':
-        return 'from-red-500 to-red-600';
-      default:
-        return 'from-gray-500 to-gray-600';
-    }
-  };
+  switch (platform) {
+    case 'instagram':
+      return 'bg-orange-400';
+    case 'twitter':
+      return 'bg-orange-600';
+    case 'linkedin':
+      return 'bg-orange-500';
+    case 'facebook':
+      return 'bg-orange-300';
+    case 'youtube':
+      return 'bg-orange-700';
+    default:
+      return 'bg-orange-400';
+  }
+};
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -198,7 +200,9 @@ const ContentCalendarPage: React.FC = () => {
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <span className="text-white font-medium px-4">
-                  December 2024
+                  {currentView === 'month' && 'December 2024'}
+                  {currentView === 'week' && 'Week of Dec 16-22, 2024'}
+                  {currentView === 'day' && new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                 </span>
                 <button className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors">
                   <ChevronRight className="w-4 h-4" />
@@ -208,9 +212,14 @@ const ContentCalendarPage: React.FC = () => {
             
             <div className="flex items-center space-x-4">
               <div className="text-white/70 text-sm">
-                <span className="font-medium text-white">24</span> posts this week
+                {currentView === 'month' && <><span className="font-medium text-white">96</span> posts this month</>}
+                {currentView === 'week' && <><span className="font-medium text-white">24</span> posts this week</>}
+                {currentView === 'day' && <><span className="font-medium text-white">6</span> posts today</>}
               </div>
-              <button className="px-4 py-2 bg-orange-500/80 hover:bg-orange-500 text-white rounded-lg transition-colors">
+              <button 
+                onClick={() => navigate('/content-engine')}
+                className="px-4 py-2 bg-orange-500/80 hover:bg-orange-500 text-white rounded-lg transition-colors"
+              >
                 Add Content
               </button>
             </div>
@@ -256,7 +265,8 @@ const ContentCalendarPage: React.FC = () => {
         className="mb-8"
       >
         <div className={glassCardStyles + ' p-6'} style={{ boxShadow: perfectCardShadow }}>
-          <div className="grid grid-cols-8 gap-4">
+          {currentView === 'week' && (
+            <div className="grid grid-cols-8 gap-4">
             {/* Time Column */}
             <div className="space-y-4">
               <div className="h-12 flex items-center justify-center">
@@ -296,7 +306,7 @@ const ContentCalendarPage: React.FC = () => {
                         <motion.div
                           initial={{ opacity: 0, scale: 0.9 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          className={`absolute inset-1 bg-gradient-to-r ${getPlatformColor(contentForSlot.platform)} rounded-md p-2 cursor-pointer`}
+                          className={`absolute inset-1 ${getPlatformColor(contentForSlot.platform)} rounded-md p-2 cursor-pointer`}
                         >
                           <div className="flex items-center justify-between mb-1">
                             {React.createElement(getPlatformIcon(contentForSlot.platform), {
@@ -318,6 +328,130 @@ const ContentCalendarPage: React.FC = () => {
               </div>
             ))}
           </div>
+          )}
+
+          {currentView === 'day' && (
+            <div className="space-y-4">
+              {/* Day View Header */}
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-2xl font-bold text-white">Today - {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</h3>
+                <div className="text-white/70 text-sm">
+                  <span className="font-medium text-white">6</span> posts scheduled
+                </div>
+              </div>
+
+              {/* Hourly Schedule */}
+              <div className="grid grid-cols-1 gap-2">
+                {timeSlots.map(slot => {
+                  const todayContent = weekData.find(day => day.isToday)?.content.find(c => 
+                    parseInt(c.time.split(':')[0]) === slot.hour
+                  );
+
+                  return (
+                    <div key={slot.hour} className="flex items-center bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors p-4">
+                      <div className="w-20 text-white/60 text-sm font-medium">
+                        {slot.label}
+                      </div>
+                      
+                      <div className="flex-1 ml-6">
+                        {todayContent ? (
+                          <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className={`${getPlatformColor(todayContent.platform)} rounded-lg p-4 flex items-center justify-between`}
+                          >
+                            <div className="flex items-center space-x-3">
+                              {React.createElement(getPlatformIcon(todayContent.platform), {
+                                className: "w-5 h-5 text-white"
+                              })}
+                              <div>
+                                <div className="text-white font-medium">{todayContent.content}</div>
+                                <div className="text-white/70 text-sm">{todayContent.time} • {todayContent.type}</div>
+                              </div>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              {getStatusIcon(todayContent.status)}
+                              <button className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
+                                <Edit3 className="w-4 h-4 text-white" />
+                              </button>
+                            </div>
+                          </motion.div>
+                        ) : (
+                          <div className="text-white/40 text-sm italic">No content scheduled</div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {currentView === 'month' && (
+            <div className="space-y-4">
+              {/* Month View Header */}
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-2xl font-bold text-white">December 2024</h3>
+                <div className="text-white/70 text-sm">
+                  <span className="font-medium text-white">96</span> posts this month
+                </div>
+              </div>
+
+              {/* Month Calendar Grid */}
+              <div className="grid grid-cols-7 gap-2">
+                {/* Weekday Headers */}
+                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                  <div key={day} className="h-12 flex items-center justify-center bg-white/5 rounded-lg">
+                    <span className="text-white/70 text-sm font-medium">{day}</span>
+                  </div>
+                ))}
+
+                {/* Calendar Days */}
+                {Array.from({ length: 35 }, (_, index) => {
+                  const dayNumber = index - 6; // Start from previous month's last days
+                  const isCurrentMonth = dayNumber > 0 && dayNumber <= 31;
+                  const isToday = dayNumber === new Date().getDate() && isCurrentMonth;
+                  const hasContent = isCurrentMonth && Math.random() > 0.6; // Random content for demo
+                  
+                  return (
+                    <div 
+                      key={index} 
+                      className={`h-24 rounded-lg border transition-colors ${
+                        isCurrentMonth 
+                          ? isToday 
+                            ? 'bg-orange-500/20 border-orange-400/40' 
+                            : 'bg-white/5 border-white/10 hover:bg-white/10'
+                          : 'bg-white/5 border-white/5'
+                      }`}
+                    >
+                      <div className="p-2 h-full flex flex-col">
+                        <span className={`text-xs ${
+                          isCurrentMonth 
+                            ? isToday ? 'text-orange-200 font-bold' : 'text-white' 
+                            : 'text-white/30'
+                        }`}>
+                          {isCurrentMonth ? dayNumber : ''}
+                        </span>
+                        
+                        {hasContent && isCurrentMonth && (
+                          <div className="flex-1 mt-1 space-y-1">
+                            <div className="bg-orange-400 rounded text-xs px-1 py-0.5 text-white truncate">
+                              Post
+                            </div>
+                            {Math.random() > 0.7 && (
+                              <div className="bg-orange-600 rounded text-xs px-1 py-0.5 text-white truncate">
+                                Story
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </motion.div>
 
@@ -385,33 +519,33 @@ const ContentCalendarPage: React.FC = () => {
                 optimal: '9:00 AM',
                 engagement: '89%',
                 icon: Instagram,
-                color: 'from-pink-500 to-purple-500'
+                color: 'bg-orange-400'
               },
               {
                 platform: 'LinkedIn',
                 optimal: '8:00 AM',
                 engagement: '76%',
                 icon: Linkedin,
-                color: 'from-blue-600 to-blue-700'
+                color: 'bg-orange-500'
               },
               {
                 platform: 'Twitter',
                 optimal: '2:30 PM',
                 engagement: '82%',
                 icon: Twitter,
-                color: 'from-black to-gray-800'
+                color: 'bg-orange-600'
               },
               {
                 platform: 'YouTube',
                 optimal: '7:00 PM',
                 engagement: '91%',
                 icon: Youtube,
-                color: 'from-red-500 to-red-600'
+                color: 'bg-orange-700'
               }
             ].map(platform => (
               <div key={platform.platform} className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
                 <div className="flex items-center">
-                  <div className={`w-8 h-8 rounded-lg bg-gradient-to-r ${platform.color} flex items-center justify-center mr-3`}>
+                  <div className={`w-8 h-8 rounded-lg ${platform.color} flex items-center justify-center mr-3`}>
                     {React.createElement(platform.icon, {
                       className: "w-4 h-4 text-white"
                     })}

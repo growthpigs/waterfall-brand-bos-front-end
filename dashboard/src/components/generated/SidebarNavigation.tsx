@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
@@ -13,13 +13,33 @@ import {
   User,
   Brain,
   Menu,
-  X
+  X,
+  TrendingUp
 } from 'lucide-react';
 
 const TopNavigation: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const notificationsRef = useRef<HTMLDivElement>(null);
+
+  // Close notifications when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target as Node)) {
+        setShowNotifications(false);
+      }
+    };
+
+    if (showNotifications) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showNotifications]);
   
   const navItems = [
     { icon: Home, label: 'Dashboard', path: '/', active: location.pathname === '/' },
@@ -81,19 +101,103 @@ const TopNavigation: React.FC = () => {
             </motion.button>
 
             {/* Notifications */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200 relative"
-            >
-              <Bell className="w-5 h-5" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full border-2 border-black/20" />
-            </motion.button>
+            <div className="relative" ref={notificationsRef}>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowNotifications(!showNotifications)}
+                className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200 relative"
+              >
+                <Bell className="w-5 h-5" />
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full border-2 border-black/20" />
+              </motion.button>
+
+              {/* Notifications Dropdown */}
+              {showNotifications && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute right-0 top-full mt-2 w-80 bg-orange-900/95 backdrop-blur-xl rounded-2xl border border-orange-500/30 shadow-2xl z-50"
+                >
+                  <div className="p-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-white font-semibold">Notifications</h3>
+                      <button 
+                        onClick={() => setShowNotifications(false)}
+                        className="text-white/70 hover:text-white transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                    
+                    <div className="space-y-3 max-h-96 overflow-y-auto">
+                      {[
+                        {
+                          id: 1,
+                          title: "CIA Analysis Complete",
+                          message: "New intelligence report ready for review",
+                          time: "2 min ago",
+                          type: "success",
+                          icon: Brain
+                        },
+                        {
+                          id: 2,
+                          title: "Content Scheduled",
+                          message: "5 posts scheduled for this week",
+                          time: "15 min ago", 
+                          type: "info",
+                          icon: Calendar
+                        },
+                        {
+                          id: 3,
+                          title: "Performance Alert",
+                          message: "Engagement up 24% this week",
+                          time: "1 hour ago",
+                          type: "success", 
+                          icon: TrendingUp
+                        },
+                        {
+                          id: 4,
+                          title: "Campaign Status",
+                          message: "Q4 Authority Building at 68% progress",
+                          time: "3 hours ago",
+                          type: "info",
+                          icon: Target
+                        }
+                      ].map((notification) => (
+                        <div key={notification.id} className="p-3 bg-orange-800/50 rounded-lg border border-orange-600/30 hover:bg-orange-700/50 transition-colors cursor-pointer">
+                          <div className="flex items-start space-x-3">
+                            <div className={`p-2 rounded-lg ${
+                              notification.type === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-blue-500/20 text-blue-400'
+                            }`}>
+                              <notification.icon className="w-4 h-4" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="text-white font-medium text-sm">{notification.title}</div>
+                              <div className="text-orange-200 text-xs mt-1">{notification.message}</div>
+                              <div className="text-orange-300/70 text-xs mt-1">{notification.time}</div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <div className="mt-4 pt-3 border-t border-orange-600/30">
+                      <button className="w-full text-center text-orange-200 text-sm hover:text-white transition-colors">
+                        View All Notifications
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
 
             {/* User Profile */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/settings')}
               className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200"
             >
               <User className="w-5 h-5" />
